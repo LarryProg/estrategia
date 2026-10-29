@@ -1,0 +1,400 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Tu Estrategia de Lanzamiento</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0a; --bg2: #121212; --card: #161616; --line: #262626;
+    --tx: #f4f4f4; --tx2: #b4b4b4; --tx3: #7a7a7a; --hi: #ffffff;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; scroll-padding-top: 76px; }
+  body { background: var(--bg); color: var(--tx); font-family: Inter, system-ui, sans-serif; line-height: 1.55; font-size: 17px; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; }
+  button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 24px; }
+
+  nav { position: sticky; top: 0; z-index: 10; background: rgba(10,10,10,.88); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+  nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; gap: 16px; }
+  .brand { font-weight: 900; letter-spacing: .02em; font-size: 18px; }
+  .brand span { color: var(--tx3); font-weight: 600; }
+  .tabs { display: flex; gap: 6px; }
+  .tabs a { text-decoration: none; font-size: 14px; font-weight: 700; padding: 8px 14px; border-radius: 999px; border: 1px solid var(--line); color: var(--tx2); white-space: nowrap; }
+  .tabs a:hover { color: var(--hi); border-color: #444; }
+  .tabs a.off { opacity: .45; }
+
+  header { padding: 72px 0 48px; border-bottom: 1px solid var(--line); }
+  .kicker { font-size: 13px; font-weight: 700; letter-spacing: .28em; text-transform: uppercase; color: var(--tx3); }
+  h1 { font-size: clamp(38px, 7vw, 72px); font-weight: 900; letter-spacing: -.035em; line-height: .98; margin: 18px 0 22px; }
+  .lead { font-size: clamp(18px, 2.2vw, 21px); color: var(--tx2); max-width: 720px; }
+  .lead b { color: var(--hi); }
+
+  /* las dos etapas */
+  .stages { margin-top: 36px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; max-width: 760px; }
+  .stage { display: flex; gap: 14px; align-items: center; background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 16px 18px; text-decoration: none; }
+  .stage .n { flex: none; width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; font-weight: 900; background: #fff; color: #0a0a0a; }
+  .stage.locked .n { background: transparent; color: var(--tx3); border: 1px solid #444; }
+  .stage b { display: block; font-weight: 800; }
+  .stage small { color: var(--tx2); font-size: 14px; }
+
+  section { padding: 72px 0; border-bottom: 1px solid var(--line); }
+  .shead { margin-bottom: 32px; }
+  h2 { font-size: clamp(30px, 5vw, 50px); font-weight: 900; letter-spacing: -.03em; line-height: 1.02; margin-top: 12px; }
+  .intro { color: var(--tx2); max-width: 760px; margin-top: 16px; font-size: 18px; }
+  .intro b { color: var(--hi); }
+
+  /* video */
+  .player { display: grid; grid-template-columns: 1.7fr 1fr; gap: 16px; margin-bottom: 40px; }
+  .screen { position: relative; aspect-ratio: 16/9; background: #000; border: 1px solid var(--line); border-radius: 18px; overflow: hidden; }
+  .screen video, .screen iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; background: #000; }
+  .screen .soon { position: absolute; inset: 0; display: grid; place-items: center; color: var(--tx3); font-weight: 700; text-align: center; padding: 20px; }
+  .chapters { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 10px; max-height: 0; min-height: 100%; overflow-y: auto; }
+  .chapters .lbl { padding: 8px 10px 6px; margin: 0; }
+  .chap { display: grid; grid-template-columns: 48px 1fr; gap: 8px; width: 100%; text-align: left; padding: 9px 10px; border-radius: 10px; font-size: 15px; }
+  .chap:hover { background: var(--bg2); }
+  .chap.on { background: #fff; color: #0a0a0a; }
+  .chap.on .tm, .chap.on em { color: #555; }
+  .chap .tm { color: var(--tx3); font-variant-numeric: tabular-nums; font-weight: 700; }
+  .chap em { display: block; font-style: normal; font-size: 12.5px; color: var(--tx3); margin-top: 2px; }
+
+  /* checklist */
+  .todo { background: var(--bg2); border: 1px solid var(--line); border-radius: 18px; padding: 22px 24px; margin-bottom: 56px; }
+  .todo h3 { font-size: 20px; font-weight: 800; margin-bottom: 12px; }
+  .todo label { display: flex; gap: 12px; align-items: flex-start; padding: 8px 0; cursor: pointer; color: var(--tx2); }
+  .todo input { flex: none; width: 20px; height: 20px; margin-top: 2px; accent-color: #fff; }
+  .todo input:checked + span { text-decoration: line-through; color: var(--tx3); }
+  .todo span b { color: var(--hi); }
+
+  /* recursos (tus apps) */
+  .res { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-bottom: 56px; }
+  .res a { display: grid; gap: 10px; align-content: start; text-decoration: none; background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 26px 26px 22px; transition: border-color .15s, transform .15s; }
+  .res a:hover { border-color: #555; transform: translateY(-2px); }
+  .res .lbl { margin: 0; }
+  .res h3 { font-size: 26px; font-weight: 900; letter-spacing: -.02em; line-height: 1.1; }
+  .res p { color: var(--tx2); }
+  .res .go { margin-top: 8px; justify-self: start; display: inline-flex; gap: 8px; align-items: center; font-weight: 800; font-size: 15px; padding: 11px 18px; border-radius: 999px; background: #fff; color: #0a0a0a; }
+
+  /* candado */
+  .lock { display: grid; gap: 18px; justify-items: start; background: var(--card); border: 1px solid var(--line); border-radius: 22px; padding: 36px 32px; }
+  .lock svg { width: 40px; height: 40px; }
+  .lock h3 { font-size: clamp(24px, 4vw, 34px); font-weight: 900; letter-spacing: -.02em; line-height: 1.1; }
+  .lock p { color: var(--tx2); max-width: 620px; }
+  .lock p b { color: var(--hi); }
+  .bar { width: 100%; max-width: 520px; height: 8px; background: var(--line); border-radius: 99px; overflow: hidden; }
+  .bar i { display: block; height: 100%; background: #fff; border-radius: 99px; }
+  .btn { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; font-weight: 800; font-size: 15px; padding: 13px 20px; border-radius: 999px; background: #fff; color: #0a0a0a; }
+  .btn.ghost { background: transparent; color: var(--tx); border: 1px solid #555; }
+  .btn svg { width: 18px; height: 18px; }
+
+  /* pestañas internas del plan */
+  .tabsbar { position: sticky; top: 60px; z-index: 5; display: flex; gap: 6px; overflow-x: auto; padding: 14px 0; margin: 48px 0 32px; background: var(--bg); border-bottom: 1px solid var(--line); scrollbar-width: none; }
+  .tabsbar::-webkit-scrollbar { display: none; }
+  .tabsbar button { flex: none; font-size: 15px; font-weight: 700; padding: 10px 16px; border-radius: 999px; border: 1px solid var(--line); color: var(--tx2); }
+  .tabsbar button.on { background: #fff; color: #0a0a0a; border-color: #fff; }
+  [data-panel] { display: none; } [data-panel].on { display: block; }
+
+  /* bloques del contenido (mismas clases que estrategia-reels-historias) */
+  .funnel { margin-top: 8px; display: grid; gap: 8px; max-width: 760px; }
+  .fstep { display: grid; grid-template-columns: 54px 1fr auto; align-items: center; gap: 16px; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 14px 18px; }
+  .fstep:nth-child(2) { margin: 0 5%; } .fstep:nth-child(3) { margin: 0 10%; } .fstep:nth-child(4) { margin: 0 15%; }
+  .fnum { font-size: 26px; font-weight: 900; color: var(--tx3); }
+  .fname { font-weight: 800; }
+  .fname small { display: block; font-weight: 500; color: var(--tx2); font-size: 14px; }
+  .ftag { font-size: 12px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; padding: 6px 10px; border-radius: 999px; background: #fff; color: #0a0a0a; white-space: nowrap; }
+  .ftag.alt { background: transparent; color: var(--tx); border: 1px solid #555; }
+  .rule { background: var(--bg2); border: 1px solid var(--line); border-radius: 18px; padding: 24px 26px; display: grid; gap: 10px; margin-bottom: 28px; }
+  .rule h3 { font-size: 20px; font-weight: 800; }
+  .rule p { color: var(--tx2); } .rule p b { color: var(--hi); }
+  .cards { display: grid; gap: 20px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 30px 30px 26px; }
+  .chead { display: flex; align-items: flex-start; gap: 18px; margin-bottom: 18px; }
+  .cnum { flex: none; width: 54px; height: 54px; border-radius: 14px; background: #fff; color: #0a0a0a; display: grid; place-items: center; font-weight: 900; font-size: 24px; }
+  .card h3 { font-size: 26px; font-weight: 900; letter-spacing: -.02em; line-height: 1.1; }
+  .card h3 small { display: block; font-size: 15px; font-weight: 600; color: var(--tx3); letter-spacing: 0; margin-top: 4px; }
+  .meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; margin-bottom: 18px; }
+  .meta div { background: var(--bg2); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; }
+  .meta dt { font-size: 12px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--tx3); margin-bottom: 4px; }
+  .struct { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 4px 0 20px; }
+  .struct span { font-size: 14px; font-weight: 700; padding: 7px 12px; border-radius: 999px; border: 1px solid #444; }
+  .struct i { color: var(--tx3); font-style: normal; }
+  .lbl { font-size: 12px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--tx3); margin: 6px 0 10px; }
+  ul.ideas { list-style: none; display: grid; gap: 10px; }
+  ul.ideas li { position: relative; padding-left: 22px; color: var(--tx2); }
+  ul.ideas li::before { content: ""; position: absolute; left: 2px; top: 10px; width: 8px; height: 8px; border-radius: 50%; background: #fff; }
+  ul.ideas li b { color: var(--hi); }
+  .why { margin-top: 20px; padding: 16px 18px; border-left: 3px solid #fff; background: var(--bg2); border-radius: 0 12px 12px 0; color: var(--tx2); }
+  .why b { color: var(--hi); }
+  .tablewrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 16px; margin-top: 8px; }
+  table { width: 100%; border-collapse: collapse; min-width: 520px; }
+  th, td { text-align: left; padding: 14px 18px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--tx3); background: var(--bg2); }
+  tr:last-child td { border-bottom: none; }
+  td:first-child { font-weight: 800; white-space: nowrap; }
+  td { color: var(--tx2); } td b { color: var(--hi); }
+  h3.sub { font-size: 24px; font-weight: 900; margin: 48px 0 12px; letter-spacing: -.02em; }
+  h3.sub + .intro { margin: 0 0 16px; }
+  ul.notes { list-style: none; display: grid; gap: 10px; margin-top: 18px; }
+  ul.notes li { padding: 14px 18px; background: var(--card); border: 1px solid var(--line); border-radius: 12px; color: var(--tx2); }
+  ul.notes li b { color: var(--hi); }
+
+  /* preguntas */
+  details { border-bottom: 1px solid var(--line); }
+  summary { list-style: none; cursor: pointer; padding: 20px 0; font-weight: 800; font-size: 18px; display: flex; justify-content: space-between; gap: 16px; }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: "+"; color: var(--tx3); font-weight: 600; }
+  details[open] summary::after { content: "–"; }
+  details p { color: var(--tx2); padding: 0 0 20px; max-width: 760px; }
+  details p b { color: var(--hi); }
+  .contact { margin-top: 36px; display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+
+  /* estados */
+  .state { min-height: 70vh; display: grid; place-items: center; text-align: center; padding: 40px 0; }
+  .state .box { display: grid; gap: 18px; justify-items: center; max-width: 520px; }
+  .state h1 { font-size: clamp(32px, 6vw, 52px); margin: 0; }
+  .state p { color: var(--tx2); }
+  .spin { width: 28px; height: 28px; border: 3px solid var(--line); border-top-color: #fff; border-radius: 50%; animation: s .8s linear infinite; }
+  @keyframes s { to { transform: rotate(360deg); } }
+
+  footer { padding: 48px 0 64px; color: var(--tx3); font-size: 14px; }
+
+  @media (max-width: 760px) {
+    .player { grid-template-columns: 1fr; }
+    .chapters { max-height: 300px; min-height: 0; }
+    .stages { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 640px) {
+    body { font-size: 16px; }
+    .wrap { padding: 0 16px; }
+    .brand span { display: none; }
+    .tabs a { padding: 7px 11px; font-size: 13px; }
+    header { padding: 48px 0 36px; }
+    section { padding: 52px 0; }
+    .card { padding: 22px 18px 20px; }
+    .chead { gap: 14px; }
+    .cnum { width: 44px; height: 44px; font-size: 20px; }
+    .card h3 { font-size: 22px; }
+    .fstep { grid-template-columns: 36px 1fr; }
+    .fstep .ftag { grid-column: 2; justify-self: start; }
+    .fstep:nth-child(n) { margin: 0; }
+    th, td { padding: 12px 14px; }
+    .lock { padding: 26px 20px; }
+    .tabsbar { margin: 36px 0 24px; }
+  }
+</style>
+</head>
+<body>
+<div id="app"><div class="wrap state"><div class="box"><div class="spin"></div><p>Cargando tu estrategia…</p></div></div></div>
+
+<script>
+/* ─────────── CONFIGURACIÓN ───────────
+   SCRIPT_URL: la URL de la implementación web del Apps Script (termina en /exec). */
+const SCRIPT_URL = '';
+/* ─────────────────────────────────── */
+
+const $ = (s, r = document) => r.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const params = new URLSearchParams(location.search);
+const token = (params.get('t') || '').trim();
+const MESES = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+const fecha = iso => { const [y, m, d] = iso.split('-').map(Number); return d + ' de ' + MESES[m - 1]; };
+const mmss = t => Math.floor(t / 60) + ':' + String(Math.floor(t % 60)).padStart(2, '0');
+const ICON = {
+  wa: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2c0 1.3 1 2.6 1.1 2.8.1.2 1.9 2.9 4.6 4 1.7.7 2.4.8 3.2.7.5-.1 1.5-.6 1.8-1.2.2-.6.2-1.1.1-1.2l-.5-.2Z"/></svg>',
+  lock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="4.5" y="10.5" width="15" height="10" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg>',
+};
+
+/* ─────────── DEMO (abrí index.html?demo=1, ?demo=2 o ?demo=off) ─────────── */
+async function demo(modo) {
+  const lanz = await fetch('../apps-script/Lanzamiento.html').then(r => r.text());
+  const R1 = [{ titulo: 'Manual de marca', desc: 'Definí tu universo artístico, tu oyente ideal y tu perfil. Al final enviás tus respuestas y me llegan a mí.', url: 'https://larryprog.github.io/manualdemarcav2/' }];
+  const R2 = [
+    { titulo: 'Guía de lanzamiento', desc: 'Tu plan personalizado: el paso a paso para subir tu canción.', url: 'https://larryprog.github.io/planlanzamiento/' },
+    { titulo: 'Arsenal creativo', desc: 'Cómo escuchar y reversionar tus canciones para que tus reels tengan el máximo nivel.', url: 'https://larryprog.github.io/Arsenal-Creativo/' },
+  ];
+  const hoy = new Date(); const ap = new Date(hoy.getFullYear(), hoy.getMonth(), hoy.getDate() + 12);
+  const r = {
+    status: modo === 'off' ? 'inactive' : 'ok', whatsapp: '34628034355', cliente: 'Artista Demo',
+    etapa: modo === '2' ? 2 : 1, faltan: modo === '2' ? 0 : 12, dias: 20,
+    apertura: ap.getFullYear() + '-' + String(ap.getMonth() + 1).padStart(2, '0') + '-' + String(ap.getDate()).padStart(2, '0'),
+    etapa1: { video: { src: '../media/bienvenida.mp4', capitulos: [{ t: 0, titulo: 'Bienvenida' }, { t: 13, titulo: 'Tu universo artístico: 3 pilares' }, { t: 67, titulo: 'Tu oyente ideal' }, { t: 101, titulo: 'Optimizá tu Instagram' }] }, recursos: R1 },
+  };
+  if (modo === '2') r.etapa2 = { video: { src: '../media/completo-demo.mp4', capitulos: [
+    { t: 0, titulo: 'Qué vas a aprender' }, { t: 26, titulo: 'Requisitos para pegarla' }, { t: 79, titulo: 'Por qué orgánico' },
+    { t: 153, titulo: 'Tu universo artístico' }, { t: 208, titulo: 'Tu oyente ideal' }, { t: 242, titulo: 'Optimizá tu Instagram' },
+    { t: 340, titulo: 'El embudo de contenido', nota: 'Versión actualizada abajo, en la pestaña Reels' },
+    { t: 495, titulo: 'Cómo armar un reel', nota: 'Cada tipo de reel tiene su estructura: mirá la pestaña Reels' },
+    { t: 569, titulo: 'Las 4 plataformas' }, { t: 604, titulo: '¿Videoclip o reels?' },
+    { t: 638, titulo: 'Romper la barrera del algoritmo', nota: 'Son 3 reels por semana, uno de cada tipo' },
+    { t: 755, titulo: 'Escalar, optimizar, repetir' }, { t: 795, titulo: 'Catálogo y oportunidades' }, { t: 832, titulo: 'La guía y a empezar' },
+  ] }, recursos: R2, html: lanz };
+  return r;
+}
+
+/* ─────────── CARGA ─────────── */
+async function cargar() {
+  const modo = params.get('demo');
+  if (modo) return demo(modo);
+  if (!token) return { status: 'notfound' };
+  if (!SCRIPT_URL) throw new Error('Falta SCRIPT_URL');
+  const res = await fetch(SCRIPT_URL + '?t=' + encodeURIComponent(token));
+  return res.json();
+}
+
+function waLink(num, txt) { return 'https://wa.me/' + num + (txt ? '?text=' + encodeURIComponent(txt) : ''); }
+
+function estado(titulo, texto, num, txt) {
+  $('#app').innerHTML = `<div class="wrap state"><div class="box">
+    <div class="kicker">Larry · Prod · Mix · Master</div><h1>${titulo}</h1><p>${texto}</p>
+    ${num ? `<a class="btn" href="${waLink(num, txt)}" target="_blank" rel="noopener">${ICON.wa}Escribime por WhatsApp</a>` : ''}
+  </div></div>`;
+}
+
+function videoHTML(v, id) {
+  let pantalla;
+  if (v.src) pantalla = `<video id="${id}" controls playsinline preload="metadata" src="${esc(v.src)}"></video>`;
+  else if (v.yt) pantalla = `<iframe id="${id}" src="https://www.youtube-nocookie.com/embed/${esc(v.yt)}?enablejsapi=1&rel=0&playsinline=1&modestbranding=1" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen title="Video"></iframe>`;
+  else pantalla = `<div class="soon">El video está en camino</div>`;
+  const caps = (v.capitulos || []).map((c, i) => `<button class="chap${i ? '' : ' on'}" data-v="${id}" data-t="${c.t}"><span class="tm">${mmss(c.t)}</span><span>${esc(c.titulo)}${c.nota ? `<em>${esc(c.nota)}</em>` : ''}</span></button>`).join('');
+  return `<div class="player"><div class="screen">${pantalla}</div>${caps ? `<div class="chapters"><div class="lbl">Capítulos</div>${caps}</div>` : ''}</div>`;
+}
+
+function recursosHTML(lista) {
+  if (!lista || !lista.length) return '';
+  return `<div class="res">${lista.map(r => {
+    const url = r.url + (r.url.includes('?') ? '&' : '?') + 't=' + encodeURIComponent(token || 'demo');
+    return `<a href="${esc(url)}" target="_blank" rel="noopener"><div class="lbl">Recurso</div><h3>${esc(r.titulo)}</h3><p>${esc(r.desc)}</p><span class="go">Abrir →</span></a>`;
+  }).join('')}</div>`;
+}
+
+function saltar(id, t) {
+  const el = document.getElementById(id); if (!el) return;
+  if (el.tagName === 'VIDEO') { el.currentTime = t; el.play().catch(() => {}); }
+  else {
+    const cmd = (func, args) => el.contentWindow.postMessage(JSON.stringify({ event: 'command', func, args }), '*');
+    cmd('seekTo', [t, true]); cmd('playVideo', []);
+  }
+  el.closest('.player').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function marcarCapitulo(video) {
+  const caps = [...document.querySelectorAll(`.chap[data-v="${video.id}"]`)];
+  let on = caps[0];
+  for (const c of caps) if (Number(c.dataset.t) <= video.currentTime + .5) on = c;
+  caps.forEach(c => c.classList.toggle('on', c === on));
+}
+
+const KEY = 'portal:' + (token || params.get('demo') || 'x');
+function leerTodo() { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch { return {}; } }
+function guardarTodo(o) { try { localStorage.setItem(KEY, JSON.stringify(o)); } catch {} }
+
+function render(d) {
+  if (d.status === 'notfound') return estado('Este link no es válido', 'Revisá que lo hayas copiado completo. Si el problema sigue, escribime y te mando uno nuevo.', d.whatsapp || '34628034355', 'Hola Larry! Mi link de la estrategia no funciona');
+  if (d.status === 'inactive') return estado('Tu acceso terminó', 'Tu estrategia de lanzamiento ya no está activa. Si querés seguir con el material o lanzar otra canción, escribime y lo vemos.', d.whatsapp, 'Hola Larry! Quiero renovar el acceso a mi estrategia');
+
+  const nombre = (d.cliente || '').split(' ')[0];
+  const abierto = d.etapa === 2;
+  const wa = d.whatsapp;
+  const avance = Math.min(100, Math.max(4, Math.round((1 - d.faltan / (d.dias || 20)) * 100)));
+  const todo = leerTodo();
+  const tareas = [
+    ['video', '<b>Mirá el video de bienvenida</b> (3 minutos).'],
+    ['manual', '<b>Completá el manual de marca</b> con calma: es la base de todo lo que vas a subir.'],
+    ['enviar', '<b>Enviá tus respuestas</b> desde el último paso del manual.'],
+    ['ig', '<b>Dejá listo tu Instagram</b>: bio en 3 partes, link y 3 fijados.'],
+  ];
+
+  $('#app').innerHTML = `
+  <nav><div class="wrap">
+    <div class="brand">LARRY <span>· Tu estrategia</span></div>
+    <div class="tabs"><a href="#marca">1 · Tu marca</a><a href="#lanzamiento" class="${abierto ? '' : 'off'}">2 · Lanzamiento</a></div>
+  </div></nav>
+
+  <header><div class="wrap">
+    <div class="kicker">${nombre ? 'Hola, ' + esc(nombre) : 'Bienvenido'}</div>
+    <h1>Tu estrategia<br>de lanzamiento</h1>
+    <p class="lead">Todo lo que necesitás para que tu canción <b>llegue a la gente</b>, en un solo lugar y en orden. Primero construimos tu marca mientras trabajamos la canción; después se abre el plan para lanzarla.</p>
+    <div class="stages">
+      <a class="stage" href="#marca"><div class="n">1</div><div><b>Tu marca</b><small>Disponible ahora</small></div></a>
+      <a class="stage ${abierto ? '' : 'locked'}" href="#lanzamiento"><div class="n">${abierto ? '2' : ICON.lock.replace('<svg', '<svg width="20" height="20"')}</div><div><b>Tu lanzamiento</b><small>${abierto ? 'Disponible ahora' : 'Se abre el ' + fecha(d.apertura)}</small></div></a>
+    </div>
+  </div></header>
+
+  <section id="marca"><div class="wrap">
+    <div class="shead"><div class="kicker">Etapa 1</div><h2>Empezá por tu marca</h2>
+      <p class="intro">Mientras producimos tu canción, tu tarea es <b>definir quién sos como artista</b>. Sin esto, el contenido no sabe a quién hablarle.</p></div>
+    ${videoHTML(d.etapa1.video, 'v1')}
+    ${recursosHTML(d.etapa1.recursos)}
+    <div class="todo"><h3>Qué hacer ahora</h3>
+      ${tareas.map(([k, t]) => `<label><input type="checkbox" data-k="${k}" ${todo[k] ? 'checked' : ''}><span>${t}</span></label>`).join('')}
+    </div>
+  </div></section>
+
+  <section id="lanzamiento"><div class="wrap">
+    ${abierto ? `
+      <div class="shead"><div class="kicker">Etapa 2</div><h2>Tu plan de lanzamiento</h2>
+        <p class="intro">Ya tenés tu marca. Ahora, <b>cómo hacer que tu canción llegue</b>: mirá el video completo y después seguí el plan, pestaña por pestaña.</p></div>
+      ${videoHTML(d.etapa2.video, 'v2')}
+      ${recursosHTML(d.etapa2.recursos)}
+      ${d.etapa2.html || ''}
+    ` : `
+      <div class="lock">
+        ${ICON.lock}
+        <div class="kicker">Etapa 2 · Tu lanzamiento</div>
+        <h3>Se abre el ${fecha(d.apertura)}</h3>
+        <div class="bar"><i style="width:${avance}%"></i></div>
+        <p>Faltan <b>${d.faltan} ${d.faltan === 1 ? 'día' : 'días'}</b>. Acá vas a encontrar el video completo de la estrategia, la guía de lanzamiento paso a paso y el arsenal creativo.</p>
+        <p>Está cerrado a propósito: mientras trabajamos tu canción, lo más valioso que podés hacer es <b>terminar tu manual de marca</b>. Si la canción está lista antes, te lo abro.</p>
+        <a class="btn ghost" href="${waLink(wa, 'Hola Larry! Ya terminé mi manual de marca')}" target="_blank" rel="noopener">${ICON.wa}Ya terminé mi manual</a>
+      </div>
+    `}
+  </div></section>
+
+  <section id="preguntas"><div class="wrap">
+    <div class="shead"><div class="kicker">Dudas</div><h2>Preguntas frecuentes</h2></div>
+    <details><summary>¿Por qué no puedo ver todo desde el principio?</summary>
+      <p>Porque el orden importa. El plan de lanzamiento se apoya en tu manual de marca: si no sabés quién es tu oyente, no le podés hablar. Además, mientras trabajamos la canción, conviene que tu energía esté en tu marca y no en planear reels de un tema que todavía no está terminado.</p></details>
+    <details><summary>¿Tengo que grabar todo por separado?</summary>
+      <p>No. Los 3 reels de la semana usan <b>el mismo fragmento de 15–20 segundos</b> de la canción, así que se pueden grabar juntos en un día.</p></details>
+    <details><summary>No me gusta salir en cámara, ¿igual funciona?</summary>
+      <p>Sí. Hay reels que no dependen de que hables a cámara (la reacción de otra persona, un playback en un lugar, la nota de voz contra el tema terminado) y las historias pueden ser foto, texto o encuesta. Lo que importa es que sea coherente con cómo definiste que te mostrás en tu manual.</p></details>
+    <details><summary>¿Qué hago si un video no funciona?</summary>
+      <p>Los primeros 1–2 meses es normal que rindan poco: el algoritmo todavía está aprendiendo quién sos. Seguí con la frecuencia y, cuando un formato rinda más, doblá la apuesta con ese.</p></details>
+    <details><summary>Tengo una duda puntual</summary>
+      <p>Escribime por WhatsApp y lo vemos.</p></details>
+    <div class="contact"><a class="btn" href="${waLink(wa, 'Hola Larry! Tengo una duda sobre mi estrategia')}" target="_blank" rel="noopener">${ICON.wa}Escribime por WhatsApp</a></div>
+  </div></section>
+
+  <footer><div class="wrap">Larry · Prod · Mix · Master — Estrategia de lanzamiento</div></footer>`;
+
+  // checklist
+  document.querySelectorAll('.todo input').forEach(i => i.addEventListener('change', () => { const o = leerTodo(); o[i.dataset.k] = i.checked; guardarTodo(o); }));
+  // capítulos
+  document.querySelectorAll('.chap').forEach(b => b.addEventListener('click', () => {
+    saltar(b.dataset.v, Number(b.dataset.t));
+    document.querySelectorAll(`.chap[data-v="${b.dataset.v}"]`).forEach(c => c.classList.toggle('on', c === b));
+  }));
+  document.querySelectorAll('video').forEach(v => v.addEventListener('timeupdate', () => marcarCapitulo(v)));
+  // pestañas del plan
+  document.querySelectorAll('[data-tabs]').forEach(bar => {
+    const panels = [...bar.parentElement.querySelectorAll(':scope > [data-panel]')];
+    const btns = [...bar.querySelectorAll('[data-tab]')];
+    const abrir = n => { btns.forEach(b => b.classList.toggle('on', b.dataset.tab === n)); panels.forEach(p => p.classList.toggle('on', p.dataset.panel === n)); };
+    btns.forEach(b => b.addEventListener('click', () => { abrir(b.dataset.tab); bar.scrollIntoView({ behavior: 'smooth', block: 'start' }); }));
+    abrir(btns[0].dataset.tab);
+  });
+  // links internos tipo "ver Parte 2"
+  if (location.hash) document.querySelector(location.hash)?.scrollIntoView();
+}
+
+cargar().then(render).catch(e => {
+  console.error(e);
+  estado('No se pudo cargar', 'Revisá tu conexión y recargá la página. Si sigue sin andar, escribime.', '34628034355', 'Hola Larry! No me carga la página de la estrategia');
+});
+</script>
+</body>
+</html>

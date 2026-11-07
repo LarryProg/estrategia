@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Spotify for Artists · @larry.prod</title>
+<meta name="theme-color" content="#070b1e">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Barlow:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#f4efe4;--card:#fffdf8;--ink:#15141c;--tx2:#4c4857;--line:#e2d9c6;--moon:#ffd86b;--night:#0d1430;--ok:#2f9e5b;--warn:#c4581a}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);font-family:'Barlow',system-ui,sans-serif;font-size:17px;line-height:1.55}
+  .px{font-family:'Press Start 2P',monospace;font-weight:400;letter-spacing:.02em}
+  a{color:#1f4fbf}
+  .wrap{max-width:860px;margin:0 auto;padding:0 18px}
+  header{background:var(--night);color:#fff;padding:34px 0 30px;border-bottom:4px solid #000}
+  header .k{font-size:9px;color:var(--moon);margin-bottom:14px}
+  header h1{font-family:'Press Start 2P';font-weight:400;font-size:clamp(18px,3.4vw,28px);line-height:1.45;text-shadow:3px 3px 0 #000}
+  header p{color:#cdd5ea;margin-top:12px;max-width:640px}
+  .toc{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+  .toc a{color:#fff;text-decoration:none;font-size:14px;font-weight:700;padding:6px 10px;border:2px solid #fff;background:rgba(255,255,255,.06)}
+  .toc a:hover{background:var(--moon);color:#000;border-color:#000}
+  section{padding:34px 0 8px}
+  h2{font-family:'Press Start 2P';font-weight:400;font-size:14px;line-height:1.6;margin-bottom:14px}
+  h2 .n{display:inline-block;background:#000;color:var(--moon);padding:4px 8px;margin-right:8px}
+  .lead{font-size:17.5px;color:var(--tx2);margin-bottom:16px}
+  .box{background:var(--card);border:3px solid #000;box-shadow:5px 5px 0 #000;padding:18px 18px;margin:16px 0}
+  .promo{background:var(--moon)}
+  .promo b.big{display:block;font-size:22px;line-height:1.2;margin-bottom:6px}
+  .btn{display:inline-flex;align-items:center;gap:8px;margin-top:12px;padding:12px 16px;background:#000;color:#fff;text-decoration:none;font-weight:800;border:3px solid #000;box-shadow:4px 4px 0 rgba(0,0,0,.35)}
+  .btn:hover{transform:translate(-1px,-1px)}
+  .btn.w{background:#fff;color:#000}
+  .chk{list-style:none}
+  .chk li{position:relative;padding:7px 0 7px 32px;border-top:1px dashed var(--line)}
+  .chk li:first-child{border-top:0}
+  .chk li::before{content:'';position:absolute;left:0;top:10px;width:18px;height:18px;border:2px solid #000;background:#fff}
+  .step{background:var(--card);border:3px solid #000;box-shadow:5px 5px 0 #000;margin:18px 0;overflow:hidden}
+  .step .hd{display:flex;gap:12px;align-items:center;padding:12px 16px;border-bottom:3px solid #000;background:#fff6d8}
+  .step .hd .n{flex:none;width:34px;height:34px;display:flex;align-items:center;justify-content:center;background:#000;color:var(--moon);font-family:'Press Start 2P';font-size:11px}
+  .step .hd h3{font-size:19px;line-height:1.25}
+  .step .bd{padding:14px 16px}
+  .step .bd p+p{margin-top:8px}
+  .step figure{margin:12px 0 2px;border:2px solid #000;background:#f7f7f7;cursor:zoom-in}
+  .step figure img{display:block;width:100%;height:auto}
+  .step figcaption{font-size:13px;color:var(--tx2);padding:6px 10px;border-top:2px solid #000;background:#fff;cursor:default}
+  .tip{margin-top:10px;padding:10px 12px;background:#eaf6ee;border-left:5px solid var(--ok);font-size:15.5px}
+  .ojo{margin-top:10px;padding:10px 12px;background:#fff0e6;border-left:5px solid var(--warn);font-size:15.5px}
+  .pick{display:inline-block;background:#000;color:#fff;font-weight:700;padding:1px 7px;font-size:15px}
+  table{width:100%;border-collapse:collapse;font-size:15px;background:var(--card)}
+  .tw{overflow-x:auto;border:3px solid #000;box-shadow:5px 5px 0 #000;margin:14px 0}
+  th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{background:#000;color:#fff;font-size:13.5px;white-space:nowrap}
+  tr.me td{background:#fff6d8}
+  td b{white-space:nowrap}
+  .small{font-size:13.5px;color:var(--tx2)}
+  .after{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+  .after .box{margin:0}
+  .after h4{font-size:17px;margin-bottom:4px}
+  footer{padding:30px 0 50px;color:var(--tx2);font-size:14px;text-align:center}
+  #zoom{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;align-items:center;justify-content:center;padding:16px;z-index:9;cursor:zoom-out}
+  #zoom img{max-width:100%;max-height:100%;border:3px solid #fff}
+  #zoom.on{display:flex}
+  @media (max-width:560px){ body{font-size:16px} .step .hd h3{font-size:17px} th,td{padding:8px} }
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <div class="k px">ARTIST OS · PARTE 2</div>
+  <h1>Reclamá tu perfil de Spotify</h1>
+  <p>Con <b>Spotify for Artists</b> tu perfil pasa a ser tuyo: ponés tu foto y tu bio, ves quién te escucha y desde dónde, y elegís qué tema destacar. Es gratis y se hace una sola vez.</p>
+  <nav class="toc"><a href="#cuando">Cuándo</a><a href="#pasos">Paso a paso</a><a href="#perfil">Armá tu perfil</a><a href="#numeros">Qué mirar</a></nav>
+</div></header>
+
+<main class="wrap">
+
+<section id="cuando">
+  <h2><span class="n">1</span>Cuándo hacerlo</h2>
+  <p class="lead">Apenas <b>DistroKid entregó tu tema a Spotify</b>. No hace falta esperar a que salga: alcanza con que ya figure como "entregado" en <b>Mi música</b> de DistroKid.</p>
+  <div class="box"><ul class="chk">
+    <li>Tu canción ya está subida y entregada desde DistroKid.</li>
+    <li>Tenés una cuenta de Spotify (la de escuchar música sirve, la gratis también).</li>
+    <li>Tenés a mano tu Instagram, para verificar que sos vos.</li>
+  </ul></div>
+  <div class="tip"><b>¿Ya sacaste música antes?</b> Fijate si ya tenés acceso: entrá a <a href="https://artists.spotify.com" target="_blank" rel="noopener">artists.spotify.com</a> con tu cuenta. Si ves tu perfil, ya está: saltá a <a href="#perfil">Armá tu perfil</a>.</div>
+</section>
+
+<section id="pasos">
+  <h2><span class="n">2</span>Paso a paso</h2>
+
+  <div class="step"><div class="hd"><span class="n">1</span><h3>Pedilo desde DistroKid (lo más rápido)</h3></div><div class="bd">
+    <p>Todos los planes de DistroKid incluyen el <b>perfil de artista registrado en Spotify</b>. Entrá a DistroKid, buscá la opción de <b>Spotify for Artists</b> (está en el menú de tu cuenta y en la página de tu lanzamiento) y seguí los pasos: DistroKid le confirma a Spotify que el perfil es tuyo y el acceso llega mucho más rápido.</p>
+    <div class="tip">Si no encontrás la opción en DistroKid, seguí con el paso 2: llegás al mismo lugar desde Spotify.</div>
+  </div></div>
+
+  <div class="step"><div class="hd"><span class="n">2</span><h3>Entrá a Spotify for Artists</h3></div><div class="bd">
+    <p>Abrí <a href="https://artists.spotify.com" target="_blank" rel="noopener"><b>artists.spotify.com</b></a> en la compu (o bajate la app <b>Spotify for Artists</b>) y tocá <b>Comenzar</b> / <b>Obtener acceso</b>. Iniciá sesión con tu cuenta de Spotify.</p>
+  </div></div>
+
+  <div class="step"><div class="hd"><span class="n">3</span><h3>Elegí "Artista" y buscá tu perfil</h3></div><div class="bd">
+    <p>Cuando te pregunte qué sos, elegí <b>Artista o mánager</b>. Buscá tu nombre de artista y elegí <b>tu perfil</b>.</p>
+    <div class="ojo"><b>Ojo con los nombres repetidos:</b> si hay otros artistas que se llaman igual, abrí cada uno y fijate que tenga <b>tu canción</b>. Si tu tema todavía no salió, buscalo por el link de tu perfil que aparece en DistroKid.</div>
+  </div></div>
+
+  <div class="step"><div class="hd"><span class="n">4</span><h3>Verificá que sos vos</h3></div><div class="bd">
+    <p>Spotify te pide confirmar que el perfil es tuyo. Elegí verificar <b>con tu distribuidora (DistroKid)</b> si te lo ofrece; si no, con tu <b>Instagram</b> o con tus datos. Completá lo que pide y enviá.</p>
+    <div class="tip">Usá el mismo nombre de artista que pusiste en DistroKid, con las mismas mayúsculas.</div>
+  </div></div>
+
+  <div class="step"><div class="hd"><span class="n">5</span><h3>Esperá el mail de aprobación</h3></div><div class="bd">
+    <p>Por DistroKid suele ser rápido; por la otra vía puede tardar unos días. Te llega un mail cuando ya tenés acceso. Si pasa una semana y nada, escribime.</p>
+  </div></div>
+</section>
+
+<section id="perfil">
+  <h2><span class="n">3</span>Armá tu perfil (con tu Manual de Marca)</h2>
+  <p class="lead">Ya es tuyo: ahora que <b>se vea igual que tu Instagram</b>. Todo esto sale de tu Manual de Marca.</p>
+  <div class="after">
+    <div class="box"><h4>📸 Foto de perfil y portada</h4><p>Una foto tuya clara, con la misma estética que tu Instagram. La de portada, horizontal y sin texto.</p></div>
+    <div class="box"><h4>✍️ Tu bio</h4><p>Usá la bio de Spotify de tu Manual de Marca: quién sos, qué hacés y para quién. Corta y en tu idioma.</p></div>
+    <div class="box"><h4>🔗 Tus redes</h4><p>Agregá Instagram, TikTok y YouTube, así el que te descubre en Spotify te encuentra en las redes.</p></div>
+    <div class="box"><h4>📌 Artist Pick</h4><p>Es lo que aparece arriba de todo en tu perfil. Poné <b>tu tema nuevo</b> el día que sale.</p></div>
+    <div class="box"><h4>🎞️ Canvas</h4><p>Un video corto en loop que se ve mientras suena tu tema. Usá un pedacito de tus reels: sin texto y vertical.</p></div>
+    <div class="box"><h4>🎧 Pitch a playlists</h4><p>Si un tema queda programado con anticipación, desde <b>Música → Próximos</b> podés mandarlo a los editores de Spotify. Con el plan Músico de DistroKid sale enseguida, así que esto queda para cuando subas un tema con fecha.</p></div>
+  </div>
+</section>
+
+<section id="numeros">
+  <h2><span class="n">4</span>Qué mirar después</h2>
+  <p class="lead">Entrá <b>una vez por semana</b>, el mismo día que mirás los números de tus reels.</p>
+  <div class="box"><ul class="chk">
+    <li><b>Oyentes</b>: cuánta gente distinta te escuchó. Compará semana contra semana.</li>
+    <li><b>De dónde vienen</b> (fuentes): si sube "tu perfil y catálogo" o "biblioteca de oyentes", es gente que te busca por los reels.</li>
+    <li><b>Guardados</b>: gente que guardó tu tema. Es lo que más mira el algoritmo de Spotify.</li>
+    <li><b>Ciudades</b>: dónde te escuchan más. Sirve para elegir dónde tocar y a quién hablarle.</li>
+  </ul></div>
+  <div class="tip">Si un reel funcionó bien, en los días siguientes deberías ver más oyentes y guardados. Así sabés qué formato repetir.</div>
+  <p style="margin-top:16px"><a class="btn w" href="https://larryprog.github.io/Plan-de-Lanzamiento/" target="_blank" rel="noopener">Seguir con mi Plan de Lanzamiento ↗</a></p>
+</section>
+
+</main>
+<footer>Larry · Prod · Mix · Master — Spotify for Artists, noviembre de 2026.</footer>
+</body>
+</html>

@@ -2,6 +2,18 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
+<!-- og -->
+<meta name="description" content="Tu espacio de artista: tu marca, tu lanzamiento y tu llamada con Larry, en un solo lugar.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="@larry.prod">
+<meta property="og:title" content="Artist OS · by @larry.prod">
+<meta property="og:description" content="Tu espacio de artista: tu marca, tu lanzamiento y tu llamada con Larry, en un solo lugar.">
+<meta property="og:url" content="https://larryprog.github.io/estrategia/">
+<meta property="og:image" content="https://larryprog.github.io/estrategia/og/os.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<!-- /og -->
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Artist OS · by @larry.prod</title>
 <meta name="theme-color" content="#070b1e">
@@ -614,7 +626,7 @@ function demo(modo) {
     { id: 'monetizacion', tipo: 'web', titulo: 'Monetización', sub: 'Cómo se gana plata', url: 'monetizacion/index.html' },
   ];
   return {
-    status: modo === 'off' ? 'inactive' : 'ok', whatsapp: '34628034355', cliente: 'Artista Demo', parte2: p2,
+    status: modo === 'off' ? 'inactive' : 'ok', whatsapp: '34628034355', cliente: 'Artista Demo', parte2: p2, manualOk: p2,
     carpeta: 'https://drive.google.com/drive/folders/demo', llamadaUrl: 'https://zcal.co/larry/artista',
     llamada: p2 ? { inicio: en3.toISOString(), fin: new Date(en3.getTime() + 1800000).toISOString(), titulo: 'Llamada de artista', meet: 'https://meet.google.com/abc-defg-hij', reprogramar: 'https://zcal.co/larry/artista' } : null,
     apps1: [
@@ -645,7 +657,7 @@ function compat(d) {
     { id: 'monetizacion', tipo: 'web', titulo: 'Monetización', sub: 'Cómo se gana plata', url: 'https://larryprog.github.io/estrategia/monetizacion/' },
   ];
   return {
-    status: 'ok', whatsapp: d.whatsapp, cliente: d.cliente, parte2: p2, carpeta: '', llamadaUrl: 'https://zcal.co/larry/artista', llamada: null,
+    status: 'ok', whatsapp: d.whatsapp, cliente: d.cliente, parte2: p2, manualOk: true, carpeta: '', llamadaUrl: 'https://zcal.co/larry/artista', llamada: null,
     apps1: [
       { id: 'video1', tipo: 'video', titulo: 'Bienvenida', sub: 'Empezá acá', video: d.etapa1 && d.etapa1.video },
       { id: 'manual', tipo: 'web', titulo: 'Manual de Marca', sub: 'Quién sos como artista', url: 'https://larryprog.github.io/Estrategia-de-Marca/' },
@@ -680,6 +692,10 @@ function llamadaHTML() {
       + ((L.reprogramar || D.llamadaUrl) ? '<p class="note">¿No podés? <a href="' + esc(L.reprogramar || D.llamadaUrl) + '" target="_blank" rel="noopener">Cambiá el horario</a> o escribime.</p>' : '')
       + '</div></div>';
   }
+  if (!D.manualOk) return '<div class="w call"><div class="wt px">LLAMADA DE ARTISTA<i>🔒</i></div><div class="wb">'
+    + '<p style="font-size:14.5px">Una charla 1 a 1 conmigo para revisar tu marca y tu lanzamiento. <b>Se habilita cuando completes tu Manual de Marca</b>: así llegamos a la llamada con todo lo tuyo armado.</p>'
+    + '<button class="btn full" data-app="manual">📘 Completar mi Manual de Marca</button>'
+    + '<p class="note">Cuando lo envíes desde el último paso del manual, acá se abre la agenda.</p></div></div>';
   return '<div class="w call"><div class="wt px">LLAMADA DE ARTISTA<i>●</i></div><div class="wb">'
     + '<p style="font-size:14.5px">Una charla 1 a 1 conmigo para revisar tu marca y tu lanzamiento. Elegí el día que te quede cómodo.</p>'
     + (D.llamadaUrl ? '<button class="btn full" data-open="agenda">📅 Agendar mi llamada</button>'
@@ -693,7 +709,7 @@ function tareas() {
   return [
     ['video1', 'Mirá el video de bienvenida', true],
     ['manual', 'Completá tu Manual de Marca', true],
-    ['llamada', 'Agendá tu llamada conmigo', true],
+    ['llamada', 'Agendá tu llamada conmigo', !!D.manualOk, 'después del manual'],
     ['video2', 'Mirá el video de estrategia de contenido', p2],
     ['maestra', 'Leé la Estrategia Maestra', p2],
     ['distro', 'Subí tu canción a DistroKid', p2],
@@ -703,11 +719,11 @@ function tareas() {
   ];
 }
 function progresoHTML() {
-  const o = leer(); if (D.llamada) o.llamada = true;
+  const o = leer(); if (D.llamada) o.llamada = true; if (D.manualOk) o.manual = true;
   const T = tareas(), ok = T.filter(t => t[2] && o[t[0]]).length, tot = T.filter(t => t[2]).length;
   return '<div class="w prog"><div class="wt px">TU PROGRESO<i>' + ok + '/' + tot + '</i></div><div class="wb">'
     + '<div class="bar"><i style="width:' + Math.round(ok / Math.max(1, tot) * 100) + '%"></i></div>'
-    + T.map(t => '<label class="' + (t[2] ? '' : 'lk') + '"><input type="checkbox" data-k="' + t[0] + '"' + (o[t[0]] ? ' checked' : '') + (t[2] ? '' : ' disabled') + '><span>' + esc(t[1]) + (t[2] ? '' : ' <small>(Parte 2)</small>') + '</span></label>').join('')
+    + T.map(t => '<label class="' + (t[2] ? '' : 'lk') + '"><input type="checkbox" data-k="' + t[0] + '"' + (o[t[0]] ? ' checked' : '') + (t[2] ? '' : ' disabled') + '><span>' + esc(t[1]) + (t[2] ? '' : ' <small>(' + (t[3] || 'Parte 2') + ')</small>') + '</span></label>').join('')
     + '</div></div>';
 }
 
@@ -725,7 +741,7 @@ function render() {
   const nombre = (D.cliente || '').split(' ')[0];
   const extras = [
     D.carpeta ? '<a class="ico" href="' + esc(D.carpeta) + '" target="_blank" rel="noopener"><span class="tile" style="--c:#3a3010">' + ico('folder') + '</span><b>Mi carpeta</b><small>Drive</small></a>' : '',
-    '<button class="ico" data-open="llamada"><span class="tile" style="--c:#1f2d5c">' + ico('phone') + '</span><b>Llamada</b><small>con Larry</small></button>',
+    '<button class="ico' + (D.manualOk ? '' : ' locked') + '" data-open="llamada"><span class="tile" style="--c:#1f2d5c">' + ico('phone') + '</span>' + (D.manualOk ? '' : '<span class="lk">' + LOCK + '</span>') + '<b>Llamada</b><small>' + (D.manualOk ? 'con Larry' : 'Después del manual') + '</small></button>',
     '<a class="ico" href="' + waLink(D.whatsapp, 'Hola Larry! Te escribo desde mi espacio de artista') + '" target="_blank" rel="noopener"><span class="tile" style="--c:#0f3a24">' + ico('wa') + '</span><b>WhatsApp</b><small>Escribime</small></a>',
     '<button class="ico" data-open="fondo"><span class="tile" style="--c:#3a2a5c">' + ico('sun') + '</span><b>Fondo</b><small>Elegí el tuyo</small></button>',
     '<button class="ico" data-open="instalar"><span class="tile" style="--c:#2b2b3a">' + ico('down') + '</span><b>Instalar app</b><small>En tu celu</small></button>',
@@ -753,7 +769,10 @@ function tick() { const c = $('#clock'); if (!c) return; const d = new Date(); c
 setInterval(tick, 20000);
 
 /* ─────────── VENTANAS ─────────── */
-function cerrar() { document.querySelectorAll('.win,.scrim,.modal').forEach(e => e.remove()); document.body.classList.remove('has-win'); if (location.hash) history.replaceState(null, '', location.pathname + location.search); }
+function cerrar() {
+  // al cerrar el Manual de Marca, vuelvo a consultar la planilla: si ya lo envió, se abre la llamada
+  if (window.__app === 'manual' && !D.manualOk && !params.get('demo')) { window.__app = null; setTimeout(() => cargar().then(d => { if (d && d.status === 'ok') { D = d; render(); } }).catch(() => {}), 600); }
+  window.__app = null; document.querySelectorAll('.win,.scrim,.modal').forEach(e => e.remove()); document.body.classList.remove('has-win'); if (location.hash) history.replaceState(null, '', location.pathname + location.search); }
 function ventana(titulo, cuerpo, externo) {
   cerrar();
   const s = document.createElement('div'); s.className = 'scrim'; s.onclick = cerrar; document.body.appendChild(s);
@@ -792,9 +811,10 @@ function abrirApp(id) {
   }
   const url = conToken(a.url);
   ventana(a.titulo, '<div class="load">Cargando…</div><iframe class="app" src="' + esc(url) + '" title="' + esc(a.titulo) + '" allow="clipboard-write; fullscreen; autoplay" onload="this.previousElementSibling&&this.previousElementSibling.remove()"></iframe>', url);
+  window.__app = id;   // después de abrir: ventana() cierra la anterior primero
 }
 function abrirAgenda() {
-  if (!D.llamadaUrl) return;
+  if (!D.llamadaUrl || !D.manualOk) return;
   // zcal no se deja mostrar adentro de una ventana: se abre en una pestaña nueva
   if (/zcal\.co/.test(D.llamadaUrl)) { window.open(D.llamadaUrl, '_blank', 'noopener'); return; }
   ventana('Agendar llamada', '<div class="load">Cargando la agenda…</div><iframe class="app" src="' + esc(D.llamadaUrl) + '" title="Agenda de Larry" onload="this.previousElementSibling&&this.previousElementSibling.remove()"></iframe>', D.llamadaUrl);
@@ -817,7 +837,7 @@ document.addEventListener('click', e => {
   if (o === 'agenda') abrirAgenda();
   else if (o === 'instalar') instalar();
   else if (o === 'fondo') elegirFondo();
-  else if (o === 'llamada') { if (D.llamada || !D.llamadaUrl) { cerrar(); const el = $('#wCall'); el.scrollIntoView({ behavior: 'smooth', block: 'center' }); el.animate([{ transform: 'scale(1.03)' }, { transform: 'none' }], 400); } else abrirAgenda(); }
+  else if (o === 'llamada') { if (D.llamada || !D.llamadaUrl || !D.manualOk) { cerrar(); const el = $('#wCall'); el.scrollIntoView({ behavior: 'smooth', block: 'center' }); el.animate([{ transform: 'scale(1.03)' }, { transform: 'none' }], 400); } else abrirAgenda(); }
 });
 document.addEventListener('change', e => {
   const i = e.target; if (!i.dataset || !i.dataset.k) return;

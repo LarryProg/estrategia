@@ -63,27 +63,56 @@
   #zoom.on{display:flex}
   @media (max-width:560px){ body{font-size:16px} .step .hd h3{font-size:17px} th,td{padding:8px} }
 </style>
+<link rel="icon" href="logo-distrokid.png">
+<link rel="apple-touch-icon" href="logo-distrokid.png">
+<style>
+  .brand{display:flex;align-items:center;gap:14px}
+  .brand img{width:58px;height:58px;flex:none;border:3px solid #000;box-shadow:4px 4px 0 #000;background:#fff;border-radius:12px}
+  main > section{--c:#000;--bg:#fff;position:relative;margin:30px 0;padding:22px 20px 20px;background:var(--bg);border:3px solid #000;box-shadow:6px 6px 0 #000}
+  main > section::before{content:'';position:absolute;left:0;right:0;top:0;height:10px;background:var(--c);border-bottom:3px solid #000}
+  main > section h2{margin-top:6px}
+  main > section h2 .n{background:var(--c);color:#000;border:2px solid #000}
+  main > section h2 .e{font-size:24px;vertical-align:-4px;margin-right:10px}
+  main > section .step .hd{background:color-mix(in srgb, var(--c) 30%, #fff)}
+  main > section .step .hd .n{background:var(--c);color:#000;border:2px solid #000}
+  main > section .step .hd h3 .e{margin-right:6px}
+  main > section .box{background:#fff}
+  main > section.promo-wrap{padding:0;border:0;box-shadow:none;background:none}
+  main > section.promo-wrap::before{display:none}
+  #antes{--c:#ffd86b;--bg:#fffaf0}
+  #cuenta{--c:#7fd49b;--bg:#f1faf3}
+  #subir{--c:#7fd4ff;--bg:#eef8fd}
+  #despues{--c:#ff7eb6;--bg:#fdf0f6}
+  #otras{--c:#b79bff;--bg:#f5f1ff}
+  .toc a{border-bottom-width:5px}
+  .toc a:nth-child(1){border-bottom-color:#ffd86b}
+  .toc a:nth-child(2){border-bottom-color:#7fd49b}
+  .toc a:nth-child(3){border-bottom-color:#7fd4ff}
+  .toc a:nth-child(4){border-bottom-color:#ff7eb6}
+  .toc a:nth-child(5){border-bottom-color:#b79bff}
+  @media (max-width:560px){ main > section{padding:20px 14px 16px;margin:22px 0} .brand img{width:46px;height:46px} }
+</style>
 </head>
 <body>
 <header><div class="wrap">
   <div class="k px">ARTIST OS · PARTE 2</div>
-  <h1>Subí tu canción a DistroKid</h1>
+  <div class="brand"><img src="logo-distrokid.png" alt="DistroKid"><h1>Subí tu canción a DistroKid</h1></div>
   <p>El paso a paso con las <b>pantallas reales</b> del formulario. Tenelo abierto al lado mientras subís tu tema: no te saltees nada.</p>
-  <nav class="toc"><a href="#antes">Antes de subir</a><a href="#cuenta">Cuenta y plan</a><a href="#subir">Subir paso a paso</a><a href="#despues">Después de enviar</a><a href="#otras">Otras distribuidoras</a></nav>
+  <nav class="toc"><a href="#antes">✅ Antes de subir</a><a href="#cuenta">💳 Cuenta y plan</a><a href="#subir">⬆️ Subir paso a paso</a><a href="#despues">🚀 Después de enviar</a><a href="#otras">⚖️ Otras distribuidoras</a></nav>
 </div></header>
 
 <main class="wrap">
 
-<section id="descuento">
+<section id="descuento" class="promo-wrap">
   <div class="box promo">
-    <b class="big">7% de descuento con mi link</b>
+    <b class="big">🎁 7% de descuento con mi link</b>
     Es la distribuidora que uso yo: rápida, simple y te quedás con el 100% de lo que generás. Si te creás la cuenta desde este link, tenés <b>7% de descuento</b> en tu plan.
     <br><a class="btn" href="https://distrokid.com/vip/seven/7131108" target="_blank" rel="noopener">Crear mi cuenta con descuento ↗</a>
   </div>
 </section>
 
 <section id="antes">
-  <h2><span class="n">1</span>Antes de subir</h2>
+  <h2><span class="n">1</span><span class="e">✅</span>Antes de subir</h2>
   <p class="lead">Tené esto listo <b>antes</b> de abrir el formulario. Si falta algo, la tienda puede rechazar tu tema y perdés días.</p>
   <div class="box"><ul class="chk">
     <li><b>El máster final</b> en WAV (el que te mandé yo). Nada de maquetas ni mp3.</li>
@@ -97,10 +126,10 @@
 </section>
 
 <section id="cuenta">
-  <h2><span class="n">2</span>Tu cuenta y tu plan</h2>
+  <h2><span class="n">2</span><span class="e">💳</span>Tu cuenta y tu plan</h2>
   <p class="lead">Creá tu cuenta con <a href="https://distrokid.com/vip/seven/7131108" target="_blank" rel="noopener">mi link de descuento</a> y elegí el plan.</p>
   <div class="step">
-    <div class="hd"><span class="n">!</span><h3>Con el plan Músico alcanza</h3></div>
+    <div class="hd"><span class="n">!</span><h3><span class="e">👍</span>Con el plan Músico alcanza</h3></div>
     <div class="bd">
       <p>Elegí <span class="pick">Músico</span>: es el más simple y el más barato, y tiene todo lo que necesitás para empezar (subís canciones ilimitadas y te quedás con el 100%).</p>
       <p>La única diferencia que vas a notar: <b>el tema sale apenas lo aprueban</b>, no en una fecha que elijas vos. Por eso lo subís unos días antes del Día 14 (te explico en el paso 6).</p>
@@ -110,31 +139,31 @@
 </section>
 
 <section id="subir">
-  <h2><span class="n">3</span>Subir tu canción, paso a paso</h2>
+  <h2><span class="n">3</span><span class="e">⬆️</span>Subir tu canción, paso a paso</h2>
   <p class="lead">Arriba de todo tocá <b>Sube</b>. Es un solo formulario largo: andá de arriba hacia abajo. Tocá cualquier imagen para verla grande.</p>
 
-  <div class="step"><div class="hd"><span class="n">1</span><h3>Servicios: dejá todo tildado</h3></div><div class="bd">
+  <div class="step"><div class="hd"><span class="n">1</span><h3><span class="e">🌐</span>Servicios: dejá todo tildado</h3></div><div class="bd">
     <p>Son las tiendas donde va a estar tu tema. Dejá <b>todas tildadas</b> (Spotify, Apple Music, YouTube Music, TikTok, Instagram y el resto). Snapchat y Roblox son opcionales.</p>
     <figure data-z><img src="img/01-servicios.jpg" alt="Lista de servicios de streaming tildados" loading="lazy"></figure>
   </div></div>
 
-  <div class="step"><div class="hd"><span class="n">2</span><h3>Número de canciones</h3></div><div class="bd">
+  <div class="step"><div class="hd"><span class="n">2</span><h3><span class="e">🔢</span>Número de canciones</h3></div><div class="bd">
     <p>Si es un tema solo, elegí <span class="pick">1 canción (un single)</span>.</p>
     <figure data-z><img src="img/02-canciones.jpg" alt="Selector de número de canciones" loading="lazy"></figure>
   </div></div>
 
-  <div class="step"><div class="hd"><span class="n">3</span><h3>¿Monetizar en redes sociales?</h3></div><div class="bd">
+  <div class="step"><div class="hd"><span class="n">3</span><h3><span class="e">💸</span>¿Monetizar en redes sociales?</h3></div><div class="bd">
     <p>Opcional. Te paga cuando otras personas usan tu tema en videos de YouTube, TikTok, Instagram o Facebook. Cuesta un poco por año y se quedan el 20% de esos ingresos.</p>
     <figure data-z><img src="img/03-redes.jpg" alt="Paquete de redes sociales" loading="lazy"></figure>
     <div class="ojo">Si lo activás y subís tu propio tema a YouTube, puede aparecer un aviso de "derechos de autor" en tu video. Es normal: es tu música detectada. Si te pasa, escribime.</div>
   </div></div>
 
-  <div class="step"><div class="hd"><span class="n">4</span><h3>¿Ya salió antes?</h3></div><div class="bd">
+  <div class="step"><div class="hd"><span class="n">4</span><h3><span class="e">🆕</span>¿Ya salió antes?</h3></div><div class="bd">
     <p>Si es un tema nuevo, <span class="pick">No</span>.</p>
     <figure data-z><img src="img/04-previo.jpg" alt="Pregunta: este single ha sido lanzado previamente" loading="lazy"></figure>
   </div></div>
 
-  <div class="step"><div class="hd"><span class="n">5</span><h3>Tu nombre de artista y tus perfiles</h3></div><div class="bd">
+  <div class="step"><div class="hd"><span class="n">5</span><h3><span class="e">👤</span>Tu nombre de artista y tus perfiles</h3></div><div class="bd">
     <p>El nombre tiene que ser <b>exactamente</b> como querés que aparezca, con las mismas mayúsculas, siempre igual en todos tus temas.</p>
     <figure data-z><img src="img/05-artista.jpg" alt="Nombre artístico" loading="lazy"></figure>
     <p>Después te pregunta si ya tenés perfil en cada plataforma. Si ya sacaste música, te muestra "¡Todo listo!".</p>
@@ -144,53 +173,53 @@
     <div class="ojo"><b>El error más común:</b> elegir el perfil de otro artista que se llama igual. Tu tema termina en la página de otra persona. Si no estás seguro, elegí "primer lanzamiento" y escribime.</div>
   </div></div>
 
-  <div class="step"><div class="hd"><span class="n">6</span><h3>Fecha de lanzamiento</h3></div><div class="bd">
+  <div class="step"><div class="hd"><span class="n">6</span><h3><span class="e">📅</span>Fecha de lanzamiento</h3></div><div class="bd">
     <p>Con el plan Músico este campo dice <b>"Hoy"</b>: no hay que tocar nada. El tema sale apenas lo aprueban, normalmente en pocos días.</p>
     <p>Por eso <b>lo subís cerca del Día 10</b> de tu plan. El día que aparece en Spotify es tu <b>Día de lanzamiento</b>: cambiá la fecha en tu Plan de Lanzamiento y el calendario se acomoda solo.</p>
     <figure data-z><img src="img/08-fecha.jpg" alt="Fecha de lanzamiento" loading="lazy"><figcaption>Con el plan Músico la fecha es "Hoy" (sale apenas lo aprueban).</figcaption></figure>
     <div class="tip">"Pedido anticipado de iTunes" y "Discográfica" los podés dejar como vienen.</div>
   </div></div>
 
-  <div class="step"><div class="hd"><span class="n">7</span><h3>Idioma y género</h3></div><div class="bd">
+  <div class="step"><div class="hd"><span class="n">7</span><h3><span class="e">🗣️</span>Idioma y género</h3></div><div class="bd">
     <p><b>Idioma</b>: el de la letra (Spanish si cantás en español). <b>Género primario</b>: el más cercano a tu música. Para música urbana en español, por ejemplo, <i>Latina urbana</i>; para pop en español, <i>Pop en español</i>. El secundario es opcional.</p>
     <figure data-z><img src="img/09-idioma-genero.jpg" alt="Idioma, género primario y secundario" loading="lazy"></figure>
     <div class="tip">El género ayuda a Spotify a saber a quién mostrarle tu tema. Elegí el que usaría tu oyente ideal.</div>
   </div></div>
 
-  <div class="step"><div class="hd"><span class="n">8</span><h3>La portada</h3></div><div class="bd">
+  <div class="step"><div class="hd"><span class="n">8</span><h3><span class="e">🖼️</span>La portada</h3></div><div class="bd">
     <p>Arrastrá tu imagen: <b>3000 × 3000, JPG</b>. Mirá los avisos de la derecha: si la portada tiene una URL, un @usuario, logos de plataformas o se ve pixelada, la rechazan.</p>
     <figure data-z><img src="img/10-portada.jpg" alt="Subir portada del álbum" loading="lazy"></figure>
   </div></div>
 
-  <div class="step"><div class="hd"><span class="n">9</span><h3>Título e invitados</h3></div><div class="bd">
+  <div class="step"><div class="hd"><span class="n">9</span><h3><span class="e">🏷️</span>Título e invitados</h3></div><div class="bd">
     <p>Escribí el <b>título solo</b>: sin "feat.", sin el año, sin "(Prod. …)". Si hay un artista invitado, elegí <b>"Sí, agregar artista invitado"</b> y cargalo ahí. Abajo ves una <b>vista previa</b> de cómo va a quedar.</p>
     <figure data-z><img src="img/11-titulo.jpg" alt="Título de la canción, invitados y vista previa" loading="lazy"></figure>
     <div class="tip">El código ISRC lo genera DistroKid solo. No hace falta tocar nada.</div>
   </div></div>
 
-  <div class="step"><div class="hd"><span class="n">10</span><h3>El audio y quién la escribió</h3></div><div class="bd">
+  <div class="step"><div class="hd"><span class="n">10</span><h3><span class="e">🎚️</span>El audio y quién la escribió</h3></div><div class="bd">
     <p>Subí el <b>máster en WAV</b>. En "Dolby Atmos" dejá <b>No</b> (salvo que tengas esa mezcla). En "Compositor / Cover" elegí <b>"Escribí esta canción"</b> y poné el <b>nombre y apellido reales</b> de quien escribió (no el nombre artístico). Si escribieron varios, tocá "Agregar otro compositor".</p>
     <figure data-z><img src="img/12-audio-compositor.jpg" alt="Subir audio, Dolby Atmos y compositor" loading="lazy"></figure>
     <div class="ojo">No uses "Masteriza tu canción con Mixea": tu tema ya viene masterizado.</div>
   </div></div>
 
-  <div class="step"><div class="hd"><span class="n">11</span><h3>Letras, IA y la parte buena</h3></div><div class="bd">
+  <div class="step"><div class="hd"><span class="n">11</span><h3><span class="e">📝</span>Letras, IA y la parte buena</h3></div><div class="bd">
     <p><b>Letras explícitas</b>: Sí si hay malas palabras. <b>Versión para radio</b>: No. <b>Instrumental</b>: "tiene letra". <b>Inteligencia artificial</b>: No (mezclar o masterizar con IA no cuenta).</p>
     <p>En <b>Clip de previsualización</b> elegí <b>"Elegir cuándo empieza la parte buena"</b> y poné el segundo donde arranca el fragmento que usás en tus reels. Así TikTok y Apple muestran lo mismo que la gente ya escuchó en tus videos.</p>
     <figure data-z><img src="img/13-letras-ia.jpg" alt="Letras explícitas, instrumental, IA y clip de previsualización" loading="lazy"></figure>
   </div></div>
 
-  <div class="step"><div class="hd"><span class="n">12</span><h3>Créditos para Apple Music</h3></div><div class="bd">
+  <div class="step"><div class="hd"><span class="n">12</span><h3><span class="e">🍎</span>Créditos para Apple Music</h3></div><div class="bd">
     <p>Apple pide <b>al menos un intérprete y un productor</b>. Tocá "Agregar créditos": intérprete sos vos y productor, quien produjo el tema (si lo produje yo, poné mi nombre).</p>
     <figure data-z><img src="img/14-creditos-apple.jpg" alt="Requisitos adicionales de Apple Music" loading="lazy"></figure>
   </div></div>
 
-  <div class="step"><div class="hd"><span class="n">13</span><h3>Extras: no hace falta ninguno</h3></div><div class="bd">
+  <div class="step"><div class="hd"><span class="n">13</span><h3><span class="e">🧩</span>Extras: no hace falta ninguno</h3></div><div class="bd">
     <p>Son opcionales y cuestan aparte. Para tu primer lanzamiento <b>no necesitás ninguno</b>. "Normalización del volumen" tampoco: el máster ya está al nivel correcto.</p>
     <figure data-z><img src="img/15-extras.jpg" alt="Extras opcionales" loading="lazy"></figure>
   </div></div>
 
-  <div class="step"><div class="hd"><span class="n">14</span><h3>Las casillas y enviar</h3></div><div class="bd">
+  <div class="step"><div class="hd"><span class="n">14</span><h3><span class="e">📨</span>Las casillas y enviar</h3></div><div class="bd">
     <p>Leé y tildá todas. Una dice que <b>no vas a pagar "promociones" que prometen playlists o reproducciones</b>: es en serio, Spotify detecta las reproducciones falsas y puede bajar tu tema. Revisá el resumen y tocá enviar.</p>
     <figure data-z><img src="img/16-casillas.jpg" alt="Casillas obligatorias" loading="lazy"></figure>
     <div class="tip">Antes de enviar, revisá: nombre igual que en Spotify, portada correcta, el máster final y el género.</div>
@@ -198,7 +227,7 @@
 </section>
 
 <section id="despues">
-  <h2><span class="n">4</span>Después de enviar</h2>
+  <h2><span class="n">4</span><span class="e">🚀</span>Después de enviar</h2>
   <p class="lead">En unos días tu tema aparece en <b>Mi música</b>. Ahí arranca lo importante:</p>
   <div class="after">
     <div class="box"><h4>🔗 Tu link para escuchar</h4><p>En DistroKid, entrá a tu lanzamiento y abrí <b>HyperFollow</b>: es una página gratis con los links a todas las plataformas. Ponela en tu bio y en tus historias.</p></div>
@@ -209,7 +238,7 @@
 </section>
 
 <section id="otras">
-  <h2><span class="n">5</span>¿Y otras distribuidoras?</h2>
+  <h2><span class="n">5</span><span class="e">⚖️</span>¿Y otras distribuidoras?</h2>
   <p class="lead">Casi todas hacen lo mismo: llevar tu tema a las plataformas. Cambia <b>cómo cobran</b>.</p>
   <div class="tw"><table>
     <thead><tr><th>Distribuidora</th><th>Cómo cobra</th><th>Lo bueno</th><th>A tener en cuenta</th></tr></thead>

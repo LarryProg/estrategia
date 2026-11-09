@@ -63,19 +63,46 @@
   #zoom.on{display:flex}
   @media (max-width:560px){ body{font-size:16px} .step .hd h3{font-size:17px} th,td{padding:8px} }
 </style>
+<link rel="icon" href="logo-spotify.svg">
+<link rel="apple-touch-icon" href="logo-spotify.svg">
+<style>
+  .brand{display:flex;align-items:center;gap:14px}
+  .brand img{width:58px;height:58px;flex:none;border:3px solid #000;box-shadow:4px 4px 0 #000;background:#fff;border-radius:12px}
+  main > section{--c:#000;--bg:#fff;position:relative;margin:30px 0;padding:22px 20px 20px;background:var(--bg);border:3px solid #000;box-shadow:6px 6px 0 #000}
+  main > section::before{content:'';position:absolute;left:0;right:0;top:0;height:10px;background:var(--c);border-bottom:3px solid #000}
+  main > section h2{margin-top:6px}
+  main > section h2 .n{background:var(--c);color:#000;border:2px solid #000}
+  main > section h2 .e{font-size:24px;vertical-align:-4px;margin-right:10px}
+  main > section .step .hd{background:color-mix(in srgb, var(--c) 30%, #fff)}
+  main > section .step .hd .n{background:var(--c);color:#000;border:2px solid #000}
+  main > section .step .hd h3 .e{margin-right:6px}
+  main > section .box{background:#fff}
+  main > section.promo-wrap{padding:0;border:0;box-shadow:none;background:none}
+  main > section.promo-wrap::before{display:none}
+  #cuando{--c:#ffd86b;--bg:#fffaf0}
+  #pasos{--c:#1ed760;--bg:#eefbf2}
+  #perfil{--c:#ff7eb6;--bg:#fdf0f6}
+  #numeros{--c:#7fd4ff;--bg:#eef8fd}
+  .toc a{border-bottom-width:5px}
+  .toc a:nth-child(1){border-bottom-color:#ffd86b}
+  .toc a:nth-child(2){border-bottom-color:#1ed760}
+  .toc a:nth-child(3){border-bottom-color:#ff7eb6}
+  .toc a:nth-child(4){border-bottom-color:#7fd4ff}
+  @media (max-width:560px){ main > section{padding:20px 14px 16px;margin:22px 0} .brand img{width:46px;height:46px} }
+</style>
 </head>
 <body>
 <header><div class="wrap">
   <div class="k px">ARTIST OS · PARTE 2</div>
-  <h1>Reclamá tu perfil de Spotify</h1>
+  <div class="brand"><img src="logo-spotify.svg" alt="Spotify"><h1>Reclamá tu perfil de Spotify</h1></div>
   <p>Con <b>Spotify for Artists</b> tu perfil pasa a ser tuyo: ponés tu foto y tu bio, ves quién te escucha y desde dónde, y elegís qué tema destacar. Es gratis y se hace una sola vez.</p>
-  <nav class="toc"><a href="#cuando">Cuándo</a><a href="#pasos">Paso a paso</a><a href="#perfil">Armá tu perfil</a><a href="#numeros">Qué mirar</a></nav>
+  <nav class="toc"><a href="#cuando">⏰ Cuándo</a><a href="#pasos">🪜 Paso a paso</a><a href="#perfil">🎨 Armá tu perfil</a><a href="#numeros">📊 Qué mirar</a></nav>
 </div></header>
 
 <main class="wrap">
 
 <section id="cuando">
-  <h2><span class="n">1</span>Cuándo hacerlo</h2>
+  <h2><span class="n">1</span><span class="e">⏰</span>Cuándo hacerlo</h2>
   <p class="lead">Apenas <b>DistroKid entregó tu tema a Spotify</b>. No hace falta esperar a que salga: alcanza con que ya figure como "entregado" en <b>Mi música</b> de DistroKid.</p>
   <div class="box"><ul class="chk">
     <li>Tu canción ya está subida y entregada desde DistroKid.</li>
@@ -86,34 +113,34 @@
 </section>
 
 <section id="pasos">
-  <h2><span class="n">2</span>Paso a paso</h2>
+  <h2><span class="n">2</span><span class="e">🪜</span>Paso a paso</h2>
 
-  <div class="step"><div class="hd"><span class="n">1</span><h3>Pedilo desde DistroKid (lo más rápido)</h3></div><div class="bd">
+  <div class="step"><div class="hd"><span class="n">1</span><h3><span class="e">⚡</span>Pedilo desde DistroKid (lo más rápido)</h3></div><div class="bd">
     <p>Todos los planes de DistroKid incluyen el <b>perfil de artista registrado en Spotify</b>. Entrá a DistroKid, buscá la opción de <b>Spotify for Artists</b> (está en el menú de tu cuenta y en la página de tu lanzamiento) y seguí los pasos: DistroKid le confirma a Spotify que el perfil es tuyo y el acceso llega mucho más rápido.</p>
     <div class="tip">Si no encontrás la opción en DistroKid, seguí con el paso 2: llegás al mismo lugar desde Spotify.</div>
   </div></div>
 
-  <div class="step"><div class="hd"><span class="n">2</span><h3>Entrá a Spotify for Artists</h3></div><div class="bd">
+  <div class="step"><div class="hd"><span class="n">2</span><h3><span class="e">🔑</span>Entrá a Spotify for Artists</h3></div><div class="bd">
     <p>Abrí <a href="https://artists.spotify.com" target="_blank" rel="noopener"><b>artists.spotify.com</b></a> en la compu (o bajate la app <b>Spotify for Artists</b>) y tocá <b>Comenzar</b> / <b>Obtener acceso</b>. Iniciá sesión con tu cuenta de Spotify.</p>
   </div></div>
 
-  <div class="step"><div class="hd"><span class="n">3</span><h3>Elegí "Artista" y buscá tu perfil</h3></div><div class="bd">
+  <div class="step"><div class="hd"><span class="n">3</span><h3><span class="e">🔎</span>Elegí "Artista" y buscá tu perfil</h3></div><div class="bd">
     <p>Cuando te pregunte qué sos, elegí <b>Artista o mánager</b>. Buscá tu nombre de artista y elegí <b>tu perfil</b>.</p>
     <div class="ojo"><b>Ojo con los nombres repetidos:</b> si hay otros artistas que se llaman igual, abrí cada uno y fijate que tenga <b>tu canción</b>. Si tu tema todavía no salió, buscalo por el link de tu perfil que aparece en DistroKid.</div>
   </div></div>
 
-  <div class="step"><div class="hd"><span class="n">4</span><h3>Verificá que sos vos</h3></div><div class="bd">
+  <div class="step"><div class="hd"><span class="n">4</span><h3><span class="e">🪪</span>Verificá que sos vos</h3></div><div class="bd">
     <p>Spotify te pide confirmar que el perfil es tuyo. Elegí verificar <b>con tu distribuidora (DistroKid)</b> si te lo ofrece; si no, con tu <b>Instagram</b> o con tus datos. Completá lo que pide y enviá.</p>
     <div class="tip">Usá el mismo nombre de artista que pusiste en DistroKid, con las mismas mayúsculas.</div>
   </div></div>
 
-  <div class="step"><div class="hd"><span class="n">5</span><h3>Esperá el mail de aprobación</h3></div><div class="bd">
+  <div class="step"><div class="hd"><span class="n">5</span><h3><span class="e">📬</span>Esperá el mail de aprobación</h3></div><div class="bd">
     <p>Por DistroKid suele ser rápido; por la otra vía puede tardar unos días. Te llega un mail cuando ya tenés acceso. Si pasa una semana y nada, escribime.</p>
   </div></div>
 </section>
 
 <section id="perfil">
-  <h2><span class="n">3</span>Armá tu perfil (con tu Manual de Marca)</h2>
+  <h2><span class="n">3</span><span class="e">🎨</span>Armá tu perfil (con tu Manual de Marca)</h2>
   <p class="lead">Ya es tuyo: ahora que <b>se vea igual que tu Instagram</b>. Todo esto sale de tu Manual de Marca.</p>
   <div class="after">
     <div class="box"><h4>📸 Foto de perfil y portada</h4><p>Una foto tuya clara, con la misma estética que tu Instagram. La de portada, horizontal y sin texto.</p></div>
@@ -126,7 +153,7 @@
 </section>
 
 <section id="numeros">
-  <h2><span class="n">4</span>Qué mirar después</h2>
+  <h2><span class="n">4</span><span class="e">📊</span>Qué mirar después</h2>
   <p class="lead">Entrá <b>una vez por semana</b>, el mismo día que mirás los números de tus reels.</p>
   <div class="box"><ul class="chk">
     <li><b>Oyentes</b>: cuánta gente distinta te escuchó. Compará semana contra semana.</li>

@@ -66,6 +66,24 @@
 </head>
 <body>
 <style>
+  /* cada parte con su color: panel con fondo suave, franja arriba y número del mismo tono */
+  main > section{--c:#000;--bg:#fff;position:relative;margin:30px 0;padding:22px 20px 20px;background:var(--bg);border:3px solid #000;box-shadow:6px 6px 0 #000}
+  main > section::before{content:'';position:absolute;left:0;right:0;top:0;height:10px;background:var(--c);border-bottom:3px solid #000}
+  main > section h2{margin-top:6px}
+  main > section h2 .n{background:var(--c);color:#000;border:2px solid #000}
+  main > section:nth-of-type(1){--c:#ffd86b;--bg:#fffaf0}
+  main > section:nth-of-type(2){--c:#7fd49b;--bg:#f1faf3}
+  main > section:nth-of-type(3){--c:#ffaa33;--bg:#fff5ea}
+  main > section:nth-of-type(4){--c:#7fd4ff;--bg:#eef8fd}
+  main > section:nth-of-type(5){--c:#ff7eb6;--bg:#fdf0f6}
+  main > section:nth-of-type(6){--c:#ff8a5c;--bg:#fff1ea}
+  main > section:nth-of-type(7){--c:#b79bff;--bg:#f5f1ff}
+  main > section .box,main > section .lv{background:#fff}
+  main > section .lv .num{background:var(--c);color:#000;border-right:3px solid #000}
+  main > section .quote{border-left-color:var(--c);background:#fff}
+  .toc a{border-bottom-width:5px}
+  .toc a:nth-child(1){border-bottom-color:#ffd86b}.toc a:nth-child(2){border-bottom-color:#7fd49b}.toc a:nth-child(3){border-bottom-color:#ffaa33}.toc a:nth-child(4){border-bottom-color:#7fd4ff}.toc a:nth-child(5){border-bottom-color:#ff7eb6}.toc a:nth-child(6){border-bottom-color:#ff8a5c}.toc a:nth-child(7){border-bottom-color:#b79bff}
+  @media (max-width:560px){ main > section{padding:20px 14px 16px;margin:22px 0} }
   .lvl{display:grid;gap:12px}
   .lv{display:grid;grid-template-columns:54px 1fr;gap:0;background:var(--card);border:3px solid #000;box-shadow:5px 5px 0 #000}
   .lv .num{display:flex;align-items:center;justify-content:center;background:#000;color:var(--moon);font-family:'Press Start 2P';font-size:14px}

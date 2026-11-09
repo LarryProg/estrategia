@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Monetización · @larry.prod</title>
+<meta name="theme-color" content="#070b1e">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Barlow:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#f4efe4;--card:#fffdf8;--ink:#15141c;--tx2:#4c4857;--line:#e2d9c6;--moon:#ffd86b;--night:#0d1430;--ok:#2f9e5b;--warn:#c4581a}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);font-family:'Barlow',system-ui,sans-serif;font-size:17px;line-height:1.55}
+  .px{font-family:'Press Start 2P',monospace;font-weight:400;letter-spacing:.02em}
+  a{color:#1f4fbf}
+  .wrap{max-width:860px;margin:0 auto;padding:0 18px}
+  header{background:var(--night);color:#fff;padding:34px 0 30px;border-bottom:4px solid #000}
+  header .k{font-size:9px;color:var(--moon);margin-bottom:14px}
+  header h1{font-family:'Press Start 2P';font-weight:400;font-size:clamp(18px,3.4vw,28px);line-height:1.45;text-shadow:3px 3px 0 #000}
+  header p{color:#cdd5ea;margin-top:12px;max-width:640px}
+  .toc{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+  .toc a{color:#fff;text-decoration:none;font-size:14px;font-weight:700;padding:6px 10px;border:2px solid #fff;background:rgba(255,255,255,.06)}
+  .toc a:hover{background:var(--moon);color:#000;border-color:#000}
+  section{padding:34px 0 8px}
+  h2{font-family:'Press Start 2P';font-weight:400;font-size:14px;line-height:1.6;margin-bottom:14px}
+  h2 .n{display:inline-block;background:#000;color:var(--moon);padding:4px 8px;margin-right:8px}
+  .lead{font-size:17.5px;color:var(--tx2);margin-bottom:16px}
+  .box{background:var(--card);border:3px solid #000;box-shadow:5px 5px 0 #000;padding:18px 18px;margin:16px 0}
+  .promo{background:var(--moon)}
+  .promo b.big{display:block;font-size:22px;line-height:1.2;margin-bottom:6px}
+  .btn{display:inline-flex;align-items:center;gap:8px;margin-top:12px;padding:12px 16px;background:#000;color:#fff;text-decoration:none;font-weight:800;border:3px solid #000;box-shadow:4px 4px 0 rgba(0,0,0,.35)}
+  .btn:hover{transform:translate(-1px,-1px)}
+  .btn.w{background:#fff;color:#000}
+  .chk{list-style:none}
+  .chk li{position:relative;padding:7px 0 7px 32px;border-top:1px dashed var(--line)}
+  .chk li:first-child{border-top:0}
+  .chk li::before{content:'';position:absolute;left:0;top:10px;width:18px;height:18px;border:2px solid #000;background:#fff}
+  .step{background:var(--card);border:3px solid #000;box-shadow:5px 5px 0 #000;margin:18px 0;overflow:hidden}
+  .step .hd{display:flex;gap:12px;align-items:center;padding:12px 16px;border-bottom:3px solid #000;background:#fff6d8}
+  .step .hd .n{flex:none;width:34px;height:34px;display:flex;align-items:center;justify-content:center;background:#000;color:var(--moon);font-family:'Press Start 2P';font-size:11px}
+  .step .hd h3{font-size:19px;line-height:1.25}
+  .step .bd{padding:14px 16px}
+  .step .bd p+p{margin-top:8px}
+  .step figure{margin:12px 0 2px;border:2px solid #000;background:#f7f7f7;cursor:zoom-in}
+  .step figure img{display:block;width:100%;height:auto}
+  .step figcaption{font-size:13px;color:var(--tx2);padding:6px 10px;border-top:2px solid #000;background:#fff;cursor:default}
+  .tip{margin-top:10px;padding:10px 12px;background:#eaf6ee;border-left:5px solid var(--ok);font-size:15.5px}
+  .ojo{margin-top:10px;padding:10px 12px;background:#fff0e6;border-left:5px solid var(--warn);font-size:15.5px}
+  .pick{display:inline-block;background:#000;color:#fff;font-weight:700;padding:1px 7px;font-size:15px}
+  table{width:100%;border-collapse:collapse;font-size:15px;background:var(--card)}
+  .tw{overflow-x:auto;border:3px solid #000;box-shadow:5px 5px 0 #000;margin:14px 0}
+  th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{background:#000;color:#fff;font-size:13.5px;white-space:nowrap}
+  tr.me td{background:#fff6d8}
+  td b{white-space:nowrap}
+  .small{font-size:13.5px;color:var(--tx2)}
+  .after{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+  .after .box{margin:0}
+  .after h4{font-size:17px;margin-bottom:4px}
+  footer{padding:30px 0 50px;color:var(--tx2);font-size:14px;text-align:center}
+  #zoom{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;align-items:center;justify-content:center;padding:16px;z-index:9;cursor:zoom-out}
+  #zoom img{max-width:100%;max-height:100%;border:3px solid #fff}
+  #zoom.on{display:flex}
+  @media (max-width:560px){ body{font-size:16px} .step .hd h3{font-size:17px} th,td{padding:8px} }
+</style>
+</head>
+<body>
+<style>
+  .lvl{display:grid;gap:12px}
+  .lv{display:grid;grid-template-columns:54px 1fr;gap:0;background:var(--card);border:3px solid #000;box-shadow:5px 5px 0 #000}
+  .lv .num{display:flex;align-items:center;justify-content:center;background:#000;color:var(--moon);font-family:'Press Start 2P';font-size:14px}
+  .lv .c{padding:12px 14px}
+  .lv h3{font-size:19px;line-height:1.25}
+  .lv .when{display:inline-block;margin:4px 0 6px;font-size:13px;font-weight:700;background:#fff6d8;border:2px solid #000;padding:1px 7px}
+  .lv .first{margin-top:8px;font-size:15px;padding:8px 10px;background:#eaf6ee;border-left:5px solid var(--ok)}
+  .calc{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:10px}
+  .calc label{display:block;font-weight:700;font-size:15px}
+  .calc input[type=range]{width:100%;accent-color:#000}
+  .calc output{font-family:'VT323',monospace;font-size:26px;line-height:1}
+  .res{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:14px}
+  .res .r{background:#000;color:#fff;padding:12px 14px;border:3px solid #000}
+  .res .r small{display:block;color:#cdd5ea;font-size:13px}
+  .res .r b{font-family:'VT323',monospace;font-size:38px;line-height:1;color:var(--moon)}
+  .quote{border-left:6px solid #000;background:var(--card);padding:12px 14px;margin:12px 0;font-size:17px}
+  .quote small{display:block;color:var(--tx2);font-size:13px;margin-top:6px}
+  .two{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+  .no{background:#fff0e6;border:3px solid #000;padding:12px 14px}
+  .si{background:#eaf6ee;border:3px solid #000;padding:12px 14px}
+  .no h4,.si h4{margin-bottom:6px}
+  .ul{margin-left:18px}.ul li{margin:4px 0}
+  .pick{display:grid;gap:8px;margin-top:8px}
+  .pick button{text-align:left;padding:10px 12px;background:#fff;border:3px solid #000;font:inherit;font-size:15.5px;cursor:pointer}
+  .pick button.on{background:var(--moon)}
+  .next{margin-top:12px;padding:12px 14px;background:#000;color:#fff;border:3px solid #000}
+  .next b{color:var(--moon)}
+  .chk2 label{display:flex;gap:10px;padding:8px 0;border-top:1px dashed var(--line);cursor:pointer}
+  .chk2 label:first-child{border-top:0}
+  .chk2 input{appearance:none;flex:none;width:20px;height:20px;border:2px solid #000;background:#fff;margin-top:2px;cursor:pointer}
+  .chk2 input:checked{background:#7fd49b}
+</style>
+<header><div class="wrap">
+  <div class="k px">ARTIST OS · PARTE 2</div>
+  <h1>Cómo se gana plata con la música</h1>
+  <p>El streaming es una parte, <b>no el plan completo</b>. Acá ves todas las fuentes de ingreso, en qué orden se abren y cuál es tu próximo paso.</p>
+  <nav class="toc"><a href="#idea">La idea</a><a href="#derechos">Cobrá lo tuyo</a><a href="#niveles">Las 6 fuentes</a><a href="#calc">Calculadora</a><a href="#larry">Lo que veo</a><a href="#ads">Publicidad</a><a href="#vos">Tu próximo paso</a></nav>
+</div></header>
+
+<main class="wrap">
+
+<section id="idea">
+  <h2><span class="n">1</span>La idea</h2>
+  <div class="quote"><b>La música es el producto. La marca es la empresa.</b> Y como toda empresa, necesita más de una fuente de ingreso para sostenerse.</div>
+  <p class="lead">Ninguna fuente sola alcanza al principio. Lo que funciona es <b>sumar varias</b> que se ayudan entre sí: el contenido trae oyentes, los oyentes llenan shows, los shows traen marcas y sellos.</p>
+</section>
+
+<section id="derechos">
+  <h2><span class="n">2</span>Antes que nada: cobrá lo que ya es tuyo</h2>
+  <p class="lead">Cada vez que suena tu tema se generan <b>tres pagos distintos</b>. La mayoría de los artistas nuevos cobra solo la primera.</p>
+  <div class="lvl">
+    <div class="lv"><div class="num">A</div><div class="c"><h3>Lo que paga la plataforma (tu máster)</h3><p>Spotify, Apple, YouTube Music y el resto le pagan a tu distribuidora, y ella te lo pasa a vos. <b>Con DistroKid ya lo estás cobrando</b>: lo ves en "Banco".</p></div></div>
+    <div class="lv"><div class="num">B</div><div class="c"><h3>Derechos de autor (la composición)</h3><p>Es la plata por haber <b>escrito</b> la letra y la música. No la cobra la distribuidora: la cobra tu <b>sociedad de autores</b> (SGAE en España, SADAIC en Argentina, SACM en México, SAYCO en Colombia…). Anotate y registrá cada canción con los nombres reales de quienes la escribieron.</p>
+      <div class="first">Alternativa: DistroKid tiene un servicio de <b>Publishing</b> que la cobra por vos. Fijate cuál te conviene según tu país.</div></div></div>
+    <div class="lv"><div class="num">C</div><div class="c"><h3>Derechos de intérprete</h3><p>Es la plata por haber <b>cantado o tocado</b> en la grabación, cuando tu tema suena en radio, bares, gimnasios o tele. Se cobra en la entidad de artistas intérpretes de tu país (por ejemplo AIE en España).</p></div></div>
+  </div>
+  <div class="ojo"><b>Ojo:</b> Spotify solo paga los temas que pasan las <b>1.000 reproducciones en el año</b>. Por eso importa tener oyentes reales que vuelvan, no un pico de un día.</div>
+</section>
+
+<section id="niveles">
+  <h2><span class="n">3</span>Las 6 fuentes, en el orden en que se abren</h2>
+  <p class="lead">Se ordenan por <b>cuánta gente te sigue</b>. A medida que crecés se van desbloqueando, muchas veces antes de lo que creés.</p>
+  <div class="lvl">
+    <div class="lv"><div class="num">1</div><div class="c"><h3>Streaming y catálogo</h3><span class="when">Desde tu primer tema</span>
+      <p>Al principio es poco, pero <b>cada tema sigue pagando durante años</b>. La clave no es el hit perfecto: es sumar catálogo.</p>
+      <div class="first"><b>Primer paso:</b> sacá un tema cada 1–2 meses y repetí el plan de 21 días con cada uno.</div></div></div>
+    <div class="lv"><div class="num">2</div><div class="c"><h3>Shows en vivo</h3><span class="when">Cuando tenés gente cerca que te escucha</span>
+      <p><b>Acá está la mayor parte de la plata hoy.</b> Empezá chico (bares, fechas compartidas, eventos), juntá experiencia y subí de nivel. Tu contenido es lo que llena la sala.</p>
+      <div class="first"><b>Primer paso:</b> mirá en Spotify for Artists en qué ciudades te escuchan más y empezá por ahí.</div></div></div>
+    <div class="lv"><div class="num">3</div><div class="c"><h3>Sync (tu música en publicidades, series y videos)</h3><span class="when">Cuando tenés catálogo y tus derechos en orden</span>
+      <p>Una sola colocación puede pagar más que meses de streaming. Para eso tenés que tener <b>tus masters y tus derechos de autor bien registrados</b>.</p>
+      <div class="first"><b>Primer paso:</b> pedime las versiones instrumentales de tus temas: es lo primero que piden.</div></div></div>
+    <div class="lv"><div class="num">4</div><div class="c"><h3>Enseñar lo que sabés</h3><span class="when">Cuando la gente te reconoce por algo</span>
+      <p>Clases, talleres, tutoriales pagos. No hace falta ser experto: alcanza con ir dos pasos adelante de quien aprende.</p>
+      <div class="first"><b>Primer paso:</b> anotá 3 cosas que te preguntan seguido (cómo cantás, cómo grabás en casa, cómo escribís).</div></div></div>
+    <div class="lv"><div class="num">5</div><div class="c"><h3>Marcas y colaboraciones pagas</h3><span class="when">Cuando tenés comunidad activa (aunque sea chica)</span>
+      <p>Marcas de instrumentos, audio, ropa o bebidas buscan artistas con gente que reacciona. <b>5.000 seguidores activos valen más que 50.000 que no comentan.</b></p>
+      <div class="first"><b>Primer paso:</b> hacé una lista de 5 marcas que ya usás y nombralas en tu contenido de forma natural.</div></div></div>
+    <div class="lv"><div class="num">6</div><div class="c"><h3>Hacer música para otros</h3><span class="when">Cuando ya tenés oficio</span>
+      <p>Escribir, componer o producir para otros artistas. Muchos financian su proyecto así mientras crece.</p>
+      <div class="first"><b>Primer paso:</b> ofrecé una colaboración a un artista de tu nivel: suma catálogo a los dos.</div></div></div>
+  </div>
+</section>
+
+<section id="calc">
+  <h2><span class="n">4</span>La calculadora: cuánto puede darte tu catálogo</h2>
+  <p class="lead">Mové las barras. Es una <b>estimación</b>: cada plataforma paga distinto y cambia según el país del oyente.</p>
+  <div class="box">
+    <div class="calc">
+      <div><label>Temas publicados: <output id="oT">5</output></label><input id="cT" type="range" min="1" max="40" value="5"></div>
+      <div><label>Reproducciones por tema al mes: <output id="oS">3.000</output></label><input id="cS" type="range" min="0" max="50" value="6"></div>
+      <div><label>Shows al mes: <output id="oV">1</output></label><input id="cV" type="range" min="0" max="8" value="1"></div>
+      <div><label>Plata que te queda por show (€): <output id="oP">150</output></label><input id="cP" type="range" min="0" max="2000" step="50" value="150"></div>
+    </div>
+    <div class="res">
+      <div class="r"><small>Streaming al mes (aprox.)</small><b id="rS">45 €</b></div>
+      <div class="r"><small>Shows al mes</small><b id="rV">150 €</b></div>
+      <div class="r"><small>Total al año</small><b id="rA">2.340 €</b></div>
+    </div>
+    <p class="small" style="margin-top:10px">Se calcula con unos 0,003 € por reproducción, un promedio aproximado. Fijate cómo pesan los shows comparados con el streaming: por eso el contenido tiene que traer <b>gente real</b>, que después va a verte.</p>
+  </div>
+  <div class="tip"><b>La matemática del catálogo:</b> un tema que genera 50 € al mes parece poco. Pero 20 temas así son <b>1.000 € al mes</b>, sin contar shows ni nada más. Y un tema viejo puede volver a sonar en cualquier momento.</div>
+</section>
+
+<section id="larry">
+  <h2><span class="n">5</span>Lo que veo con los artistas</h2>
+  <p class="lead">Lo que les digo siempre en las llamadas:</p>
+  <div class="quote">Lo importante es que sean <b>personas reales</b>, para que el día que hagas un show en vivo, que es donde está la plata hoy, vaya la gente.</div>
+  <div class="two">
+    <div class="box" style="margin:0"><h4>🚫 Playlists pagas = números falsos</h4><p>Te meten en una playlist y de la nada tenés 5.000 oyentes… que escuchan a otros 20 artistas y pasan tu tema de largo. Si te siguen en Instagram pero nadie escucha, o te escuchan pero nadie reacciona a tus historias, <b>no es real</b>.</p></div>
+    <div class="box" style="margin:0"><h4>🏷️ Cómo funciona un sello</h4><p>Cuando tu música ya funciona sola, aparece un sello con plata para invertir en vos. Pero casi todos los contratos son iguales: <b>primero recuperan lo que pusieron</b>, y recién después empezás a cobrar vos. Por eso conviene llegar con oyentes reales: negociás mejor.</p></div>
+    <div class="box" style="margin:0"><h4>✨ El contenido trae oportunidades</h4><p>Cuando tu contenido funciona, aparecen cosas que ni imaginás: marcas que te pagan para tocar, productores, fechas, sellos. Me pasó con artistas que trabajo: una marca grande llevó a uno a tocar pago <b>solo por su contenido</b>, antes de que saliera el disco.</p></div>
+    <div class="box" style="margin:0"><h4>🎬 El videoclip, al final</h4><p>El videoclip es <b>el último gasto</b> de la estrategia, no el primero. No es lo que hace que un tema pegue. Antes: reels, visualizers y catálogo.</p></div>
+  </div>
+  <div class="quote">Enfocate en <b>contenido y catálogo</b>. Una sola canción no alcanza.</div>
+</section>
+
+<section id="ads">
+  <h2><span class="n">6</span>¿Y la publicidad paga?</h2>
+  <p class="lead">No es para empezar: es para <b>amplificar algo que ya funciona solo</b>. Si pagás antes, llevás gente a un perfil que no la retiene.</p>
+  <div class="two">
+    <div class="no"><h4>❌ No sirve cuando…</h4><ul class="ul"><li>Todavía no sabés qué contenido te funciona sin pagar.</li><li>No tenés comunidad que reaccione.</li><li>Tu perfil no está en orden.</li><li>Querés inflar números en vez de sumar oyentes reales.</li></ul></div>
+    <div class="si"><h4>✅ Sí sirve cuando…</h4><ul class="ul"><li>Un reel ya funcionó bien solo y lo querés empujar.</li><li>Querés que tu gente se entere de un lanzamiento.</li><li>Tenés un show y querés llegar a gente parecida a la que ya te sigue.</li></ul></div>
+  </div>
+  <p class="small" style="margin-top:8px">Como regla: con menos de 5.000 oyentes mensuales, primero contenido orgánico.</p>
+</section>
+
+<section id="vos">
+  <h2><span class="n">7</span>Tu próximo paso</h2>
+  <p class="lead">Tocá dónde estás hoy y te digo qué hacer ahora.</p>
+  <div class="pick" id="pick">
+    <button data-n="0">Todavía no saqué nada</button>
+    <button data-n="1">Tengo 1 o 2 temas publicados</button>
+    <button data-n="2">Tengo varios temas y gente que me escucha</button>
+    <button data-n="3">Ya toco en vivo seguido</button>
+  </div>
+  <div class="next" id="next" hidden></div>
+  <h3 style="margin:22px 0 8px;font-size:18px">Checklist de monetización</h3>
+  <div class="box chk2" id="chk">
+    <label><input type="checkbox" data-k="a"><span>Sé cuántos temas tengo y cuánto me pagan por mes (DistroKid → Banco).</span></label>
+    <label><input type="checkbox" data-k="b"><span>Me anoté en mi sociedad de autores y registré mis canciones.</span></label>
+    <label><input type="checkbox" data-k="c"><span>Tengo los instrumentales y los archivos de mis temas ordenados.</span></label>
+    <label><input type="checkbox" data-k="d"><span>Identifiqué 2 fuentes de ingreso además del streaming.</span></label>
+    <label><input type="checkbox" data-k="e"><span>Sé en qué ciudades me escuchan más (Spotify for Artists).</span></label>
+  </div>
+  <p style="margin-top:16px"><a class="btn" href="https://wa.me/34628034355?text=Hola%20Larry!%20Quiero%20hablar%20de%20monetizaci%C3%B3n" target="_blank" rel="noopener">Hablarlo con Larry por WhatsApp</a></p>
+</section>
+
+</main>
+<footer>Larry · Prod · Mix · Master — Monetización para artistas independientes.</footer>
+<script>
+  const $ = s => document.querySelector(s);
+  const fmt = n => String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  const SV = v => v <= 10 ? v * 500 : v <= 30 ? 5000 + (v - 10) * 1250 : 30000 + (v - 30) * 3500;
+  function calc(){
+    const t = +$('#cT').value, s = SV(+$('#cS').value), v = +$('#cV').value, p = +$('#cP').value;
+    $('#oT').textContent = t; $('#oS').textContent = fmt(s); $('#oV').textContent = v; $('#oP').textContent = fmt(p);
+    const st = t * s * 0.003, sh = v * p;
+    $('#rS').textContent = fmt(st) + ' €'; $('#rV').textContent = fmt(sh) + ' €'; $('#rA').textContent = fmt((st + sh) * 12) + ' €';
+  }
+  document.querySelectorAll('.calc input').forEach(i => i.addEventListener('input', calc)); calc();
+  const NEXT = [
+    '<b>Tu foco:</b> sacar tu primer tema con el plan de 21 días y anotarte en tu sociedad de autores antes de que salga. La plata llega después; ahora se construye.',
+    '<b>Tu foco:</b> catálogo. Un tema nuevo cada 1–2 meses y 3 reels por semana. Registrá tus canciones para cobrar derechos de autor y mirá en qué ciudades te escuchan.',
+    '<b>Tu foco:</b> llevar esa gente a un show. Elegí la ciudad donde más te escuchan, armá una fecha chica y avisala con tus historias. Ordená tus instrumentales para sync.',
+    '<b>Tu foco:</b> que cada show venda más: merch, lista de contactos de los que van, y contenido grabado en vivo. Ya podés hablar con marcas y probar publicidad sobre lo que funciona.'
+  ];
+  const K = 'mon:';
+  function load(k){ try { return JSON.parse(localStorage.getItem(K + k)); } catch(e){ return null; } }
+  function save(k, v){ try { localStorage.setItem(K + k, JSON.stringify(v)); } catch(e){} }
+  function pick(n){ document.querySelectorAll('#pick button').forEach(b => b.classList.toggle('on', +b.dataset.n === n)); $('#next').innerHTML = NEXT[n]; $('#next').hidden = false; save('nivel', n); }
+  document.querySelectorAll('#pick button').forEach(b => b.onclick = () => pick(+b.dataset.n));
+  const nv = load('nivel'); if (nv !== null) pick(nv);
+  const ck = load('chk') || {};
+  document.querySelectorAll('#chk input').forEach(i => { i.checked = !!ck[i.dataset.k]; i.onchange = () => { ck[i.dataset.k] = i.checked; save('chk', ck); }; });
+</script>
+</body>
+</html>

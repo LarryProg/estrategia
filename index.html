@@ -542,6 +542,7 @@ const XICONS = {
   book:   ["KKKKKKKKKK.", "KWWWWKWWWWK", "KWKKWKWKKWK", "KWWWWKWWWWK", "KWKKWKWKKWK", "KWWWWKWWWWK", "KWKKWKWKKWK", "KWWWWKWWWWK", "KKKKKKKKKKK", "..........."],
   disc:   ["...KKKKK...", ".KKCCCCCKK.", ".KCCWCCCCK.", "KCCWCCCCCCK", "KCCCCKCCCCK", "KCCCKAKCCCK", "KCCCCKCCCCK", "KCCCCCCCCCK", ".KCCCCCCCK.", "...KKKKK..."],
   home:   ["....AA.....", "...AAAA....", "..AAAAAA...", ".AAAAAAAA..", "AAAAAAAAAA.", ".AWWAAWWA..", ".AWWAAWWA..", ".AAAAKKAA..", ".AAAAKKAA..", ".AAAAKKAA.."],
+  coin:   ['...AAAAA...', '.AAAAAAAAA.', 'AAAKKKKKAAA', 'AAKAAAAAAAA', 'AKKKKKKAAAA', 'AAKAAAAAAAA', 'AKKKKKKAAAA', 'AAKAAAAAAAA', 'AAAKKKKKAAA', '.AAAAAAAAA.'],
   spot:   ['...VVVVV...', '.VVVVVVVVV.', 'VVKKKKKKVVV', 'VVVVVVVVKVV', 'VVKKKKKVVVV', 'VVVVVVVKVVV', 'VVVKKKKVVVV', 'VVVVVVVVVVV', '.VVVVVVVVV.', '...VVVVV...'],
   down:   ["....WW.....", "....WW.....", "....WW.....", "....WW.....", ".WW.WW.WW..", "..WWWWWW...", "...WWWW....", "....WW.....", "WWWWWWWWWW.", "WWWWWWWWWW."],
 };
@@ -552,7 +553,7 @@ function ico(name) {
 const APP_LOOK = {
   video1: { i: 'play', c: '#2a3766' }, manual: { i: 'flag', c: '#123d2a' },
   video2: { i: 'camera', c: '#2a3766' }, maestra: { i: 'fire', c: '#4a1f1a' },
-  distro: { i: 'disc', c: '#3a2a10' }, spotify: { i: 'spot', c: '#0f3a24' }, plan: { i: 'rocket', c: '#1f2d5c' },
+  distro: { i: 'disc', c: '#3a2a10' }, spotify: { i: 'spot', c: '#0f3a24' }, monetizacion: { i: 'coin', c: '#3a3010' }, plan: { i: 'rocket', c: '#1f2d5c' },
 };
 const LOCK = '<svg viewBox="0 0 8 8" width="16" height="16" shape-rendering="crispEdges"><rect x="2" y="0" width="4" height="1"/><rect x="1" y="1" width="1" height="3"/><rect x="6" y="1" width="1" height="3"/><rect x="0" y="3" width="8" height="5"/><rect x="3" y="5" width="2" height="2" fill="#ffd86b"/></svg>';
 
@@ -610,6 +611,7 @@ function demo(modo) {
     { id: 'distro', tipo: 'web', titulo: 'Subí tu canción', sub: 'DistroKid paso a paso', url: 'distribucion/index.html' },
     { id: 'spotify', tipo: 'web', titulo: 'Spotify for Artists', sub: 'Reclamá tu perfil', url: 'spotify/index.html' },
     { id: 'plan', tipo: 'web', titulo: 'Plan de Lanzamiento', sub: 'Tu plan de 21 días', url: 'https://larryprog.github.io/Plan-de-Lanzamiento/' },
+    { id: 'monetizacion', tipo: 'web', titulo: 'Monetización', sub: 'Cómo se gana plata', url: 'monetizacion/index.html' },
   ];
   return {
     status: modo === 'off' ? 'inactive' : 'ok', whatsapp: '34628034355', cliente: 'Artista Demo', parte2: p2,
@@ -640,6 +642,7 @@ function compat(d) {
     { id: 'distro', tipo: 'web', titulo: 'Subí tu canción', sub: 'DistroKid paso a paso', url: 'https://larryprog.github.io/estrategia/distribucion/' },
     { id: 'spotify', tipo: 'web', titulo: 'Spotify for Artists', sub: 'Reclamá tu perfil', url: 'https://larryprog.github.io/estrategia/spotify/' },
     { id: 'plan', tipo: 'web', titulo: 'Plan de Lanzamiento', sub: 'Tu plan de 21 días', url: 'https://larryprog.github.io/Plan-de-Lanzamiento/' },
+    { id: 'monetizacion', tipo: 'web', titulo: 'Monetización', sub: 'Cómo se gana plata', url: 'https://larryprog.github.io/estrategia/monetizacion/' },
   ];
   return {
     status: 'ok', whatsapp: d.whatsapp, cliente: d.cliente, parte2: p2, carpeta: '', llamadaUrl: 'https://zcal.co/larry/artista', llamada: null,
@@ -696,6 +699,7 @@ function tareas() {
     ['distro', 'Subí tu canción a DistroKid', p2],
     ['spotify', 'Reclamá tu perfil de Spotify for Artists', p2],
     ['plan', 'Armá tu Plan de Lanzamiento', p2],
+    ['monetizacion', 'Leé cómo se gana plata con tu música', p2],
   ];
 }
 function progresoHTML() {

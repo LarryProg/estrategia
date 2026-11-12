@@ -1,0 +1,1702 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Logo · Artist OS</title>
+<meta name="description" content="Diseñá el logo de tu nombre artístico y llevátelo listo para usar.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap">
+<script src="../aos-store.js"></script>
+<style>
+:root{
+  --bg:#f2f2ef;--paper:#fff;--ink:#0d0d0d;--ink2:#2e2e2c;--mut:#686864;--mut2:#8d8d88;
+  --line:#e4e4df;--line2:#cfcfc9;--acc:#3451f5;--acc-soft:#eaedff;
+  --ok:#1d7a45;--warn:#9a5b00;--bad:#b42318;
+  --r:16px;--r2:12px;
+  --sh:0 1px 2px rgba(0,0,0,.04),0 6px 20px rgba(0,0,0,.05);
+  --sh2:0 2px 6px rgba(0,0,0,.06),0 18px 40px rgba(0,0,0,.10);
+  --ui:"Inter Tight",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --serif:"Instrument Serif",Georgia,serif;
+  --top:58px;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 var(--ui);-webkit-font-smoothing:antialiased}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+/* ── barra superior ── */
+.top{position:sticky;top:0;z-index:40;height:var(--top);background:#0d0d0d;color:#fff;display:flex;align-items:center;gap:14px;padding:0 18px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:600;letter-spacing:-.01em;white-space:nowrap}
+.brand .mk{width:26px;height:26px;border-radius:7px;background:#fff;color:#0d0d0d;display:grid;place-items:center;font:italic 20px/1 var(--serif)}
+.brand small{color:#9a9a96;font-weight:500}
+.steps{display:flex;gap:4px;margin:0 auto;background:#1c1c1b;border-radius:999px;padding:4px}
+.steps button{border:0;background:transparent;color:#a9a9a4;border-radius:999px;padding:6px 14px;font-size:13px;font-weight:500;white-space:nowrap;min-height:32px}
+.steps button b{font-weight:600;color:#6f6f6b;margin-right:6px}
+.steps button.on{background:#fff;color:#0d0d0d}
+.steps button.on b{color:var(--acc)}
+.steps button:disabled{opacity:.45;cursor:default}
+.save{font-size:12.5px;color:#a9a9a4;display:flex;align-items:center;gap:6px;white-space:nowrap;min-width:120px;justify-content:flex-end}
+.save i{width:7px;height:7px;border-radius:50%;background:#555;display:inline-block}
+.save.ok i{background:#3ccf7a}.save.busy i{background:#f5b638;animation:pulse 1s infinite}
+@keyframes pulse{50%{opacity:.3}}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid var(--line2);background:var(--paper);border-radius:12px;padding:0 16px;min-height:44px;font-weight:600;font-size:14px;transition:transform .12s,background .15s,border-color .15s,box-shadow .15s;white-space:nowrap}
+.btn:hover{border-color:var(--ink)}
+.btn:active{transform:scale(.98)}
+.btn.pri{background:var(--ink);color:#fff;border-color:var(--ink)}
+.btn.pri:hover{background:#262626}
+.btn.ghost{background:transparent;border-color:transparent}
+.btn.ghost:hover{background:rgba(0,0,0,.05)}
+.btn.sm{min-height:36px;padding:0 12px;font-size:13px;border-radius:10px}
+.btn.lg{min-height:54px;padding:0 26px;font-size:16px;border-radius:14px}
+.btn svg{width:17px;height:17px;flex:none}
+.top .btn{min-height:36px;background:#fff;color:#0d0d0d;border:0}
+.btn[disabled]{opacity:.5;pointer-events:none}
+
+/* ── pantallas ── */
+.view{display:none}
+.view.on{display:block;animation:fade .35s ease}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.wrap{max-width:1240px;margin:0 auto;padding:0 22px}
+
+/* inicio */
+.hero{max-width:820px;margin:0 auto;padding:64px 22px 80px}
+.eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut);font-weight:600;display:flex;align-items:center;gap:10px}
+.eyebrow:before{content:"";width:22px;height:1px;background:var(--mut2)}
+.hero h1{font:400 clamp(40px,7vw,72px)/.98 var(--serif);letter-spacing:-.02em;margin:18px 0 16px}
+.hero h1 em{font-style:italic;color:var(--mut)}
+.hero .lead{font-size:17px;color:var(--ink2);max-width:600px;margin:0 0 38px}
+.field{background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:22px 24px;box-shadow:var(--sh)}
+.field+.field{margin-top:14px}
+.flabel{display:flex;align-items:baseline;justify-content:space-between;gap:10px;font-weight:600;font-size:14px;margin-bottom:10px}
+.flabel span{color:var(--mut);font-weight:500;font-size:13px}
+.nm{width:100%;border:0;outline:0;background:transparent;font:500 clamp(30px,5vw,46px)/1.1 var(--ui);letter-spacing:-.025em;padding:2px 0}
+.nm::placeholder{color:#c4c4bf}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1px solid var(--line2);background:var(--paper);border-radius:999px;min-height:44px;padding:0 16px 0 6px;display:inline-flex;align-items:center;gap:10px;font-weight:500;font-size:14px;transition:all .15s}
+.chip .gl{width:32px;height:32px;border-radius:50%;background:var(--bg);display:grid;place-items:center;font-size:17px;line-height:1;transition:all .15s}
+.chip:hover{border-color:var(--ink)}
+.chip.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.chip.on .gl{background:#fff;color:var(--ink)}
+.chip:disabled{opacity:.4;cursor:not-allowed}
+.hint{font-size:13px;color:var(--mut);margin-top:12px}
+.go{display:flex;align-items:center;gap:16px;margin-top:26px;flex-wrap:wrap}
+.go .hint{margin:0}
+.resume{display:flex;align-items:center;gap:14px;background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:12px 14px;margin-bottom:26px;box-shadow:var(--sh)}
+.resume .th{width:92px;height:56px;border-radius:10px;overflow:hidden;flex:none;display:grid;place-items:center}
+.resume .th svg{width:84%;height:80%}
+.resume p{margin:0;font-size:14px;flex:1}
+.resume p b{display:block}
+
+/* propuestas */
+.ihead{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;padding:34px 0 20px;flex-wrap:wrap}
+.ihead h2{font:400 clamp(30px,4.2vw,46px)/1 var(--serif);letter-spacing:-.02em;margin:6px 0 0}
+.ihead h2 em{font-style:italic}
+.ihead .acts{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.minichips{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
+.minichips button{border:1px solid var(--line2);background:transparent;border-radius:999px;padding:0 12px;min-height:34px;font-size:13px;font-weight:500}
+.minichips button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;padding-bottom:60px}
+.card{position:relative;border-radius:var(--r);overflow:hidden;aspect-ratio:4/3;border:0;padding:0;background:#ddd;box-shadow:var(--sh);transition:transform .2s cubic-bezier(.2,.8,.2,1),box-shadow .2s;display:block;width:100%}
+.card:hover{transform:translateY(-3px);box-shadow:var(--sh2)}
+.card .lg{position:absolute;inset:14% 12%;display:grid;place-items:center}
+.card .lg svg{max-width:100%;max-height:100%;width:100%;height:100%}
+.card .meta{position:absolute;left:0;right:0;bottom:0;display:flex;justify-content:space-between;align-items:center;padding:10px 12px;font-size:11.5px;font-weight:500;opacity:0;transform:translateY(6px);transition:all .2s;background:linear-gradient(transparent,rgba(0,0,0,.55));color:#fff}
+.card:hover .meta,.card:focus-visible .meta{opacity:1;transform:none}
+.card .meta b{background:#fff;color:#0d0d0d;border-radius:999px;padding:5px 11px;font-weight:600}
+.fav{position:absolute;top:8px;right:8px;width:38px;height:38px;border-radius:50%;border:0;background:rgba(255,255,255,.9);display:grid;place-items:center;box-shadow:0 1px 4px rgba(0,0,0,.15);z-index:2;transition:transform .15s}
+.fav:hover{transform:scale(1.08)}
+.fav svg{width:18px;height:18px}
+.fav.on svg path{fill:#e0245e;stroke:#e0245e}
+.card.skel{background:linear-gradient(90deg,#e6e6e2,#efefec,#e6e6e2);background-size:200% 100%;animation:sk 1.2s infinite}
+@keyframes sk{to{background-position:-200% 0}}
+.favbar{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--mut);margin:-4px 0 14px}
+
+/* editor */
+.ed{display:grid;grid-template-columns:minmax(0,1fr) 392px;gap:22px;padding:22px 0 30px;align-items:start}
+.stage{background:var(--paper);border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:var(--sh);position:sticky;top:calc(var(--top) + 16px)}
+.stbar{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 12px;border-bottom:1px solid var(--line)}
+.seg{display:inline-flex;background:var(--bg);border-radius:11px;padding:3px;gap:2px;flex-wrap:nowrap}
+.seg button{border:0;background:transparent;border-radius:9px;min-height:34px;padding:0 11px;font-size:12.5px;font-weight:500;color:var(--ink2);display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.seg button.on{background:var(--paper);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.seg .sw{width:12px;height:12px;border-radius:50%;border:1px solid rgba(0,0,0,.2)}
+.canvas{position:relative;aspect-ratio:16/10;display:grid;place-items:center;transition:background .3s}
+.canvas.chk{background-color:#fff;background-image:linear-gradient(45deg,#ececec 25%,transparent 25%),linear-gradient(-45deg,#ececec 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#ececec 75%),linear-gradient(-45deg,transparent 75%,#ececec 75%);background-size:22px 22px;background-position:0 0,0 11px,11px -11px,-11px 0}
+.canvas .lg{width:78%;height:66%;display:grid;place-items:center}
+.canvas .lg svg{width:100%;height:100%}
+.canvas.bw .lg{filter:grayscale(1) contrast(1.05)}
+.canvas .tag{position:absolute;left:14px;bottom:12px;font-size:11.5px;font-weight:500;padding:4px 10px;border-radius:999px;background:rgba(255,255,255,.85);color:#333;backdrop-filter:blur(6px)}
+.checks{display:flex;gap:8px;flex-wrap:wrap;padding:12px 14px;border-top:1px solid var(--line)}
+.ck{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:500;padding:6px 11px 6px 8px;border-radius:999px;background:var(--bg)}
+.ck i{width:18px;height:18px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:11px;color:#fff;font-weight:700}
+.ck.ok i{background:var(--ok)}.ck.warn i{background:#d48806}.ck.bad i{background:var(--bad)}
+
+.panel{background:var(--paper);border:1px solid var(--line);border-radius:22px;box-shadow:var(--sh);overflow:hidden}
+.tabs{display:flex;border-bottom:1px solid var(--line);padding:6px 6px 0;gap:2px;overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tabs button{flex:1;border:0;background:transparent;padding:10px 8px 12px;min-height:44px;font-size:13.5px;font-weight:600;color:var(--mut);border-bottom:2px solid transparent;white-space:nowrap}
+.tabs button.on{color:var(--ink);border-color:var(--ink)}
+.tp{display:none;padding:18px}
+.tp.on{display:block}
+.grp{margin-bottom:20px}
+.grp:last-child{margin-bottom:0}
+.gl2{display:flex;justify-content:space-between;align-items:center;font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--mut);margin-bottom:9px}
+.gl2 output{font:600 12.5px var(--ui);letter-spacing:0;text-transform:none;color:var(--ink)}
+.srch{display:flex;align-items:center;gap:8px;border:1px solid var(--line2);border-radius:12px;padding:0 12px;min-height:44px;background:var(--paper)}
+.srch input{border:0;outline:0;flex:1;min-width:0;background:transparent;font-size:14px}
+.srch svg{width:16px;height:16px;color:var(--mut)}
+.cats{display:flex;gap:6px;overflow-x:auto;margin:10px 0;scrollbar-width:none;padding-bottom:2px}
+.cats::-webkit-scrollbar{display:none}
+.cats button{border:1px solid var(--line);background:var(--paper);border-radius:999px;padding:0 11px;min-height:32px;font-size:12.5px;font-weight:500;white-space:nowrap}
+.cats button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.flist{max-height:300px;overflow-y:auto;border:1px solid var(--line);border-radius:14px;overscroll-behavior:contain}
+.fi{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;border:0;background:transparent;padding:10px 14px;min-height:54px;text-align:left;border-bottom:1px solid var(--line)}
+.fi:last-child{border-bottom:0}
+.fi:hover{background:#fafaf8}
+.fi.on{background:var(--acc-soft)}
+.fi .pv{font-size:24px;line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.fi small{color:var(--mut);font-size:11.5px;white-space:nowrap;flex:none}
+.rng{width:100%;accent-color:var(--ink);height:28px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.full{width:100%}
+.full .seg{display:flex;width:100%}
+.full .seg button{flex:1;justify-content:center}
+.tog{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:44px;font-size:14px;font-weight:500;cursor:pointer}
+.tog input{appearance:none;width:42px;height:24px;border-radius:999px;background:var(--line2);position:relative;transition:background .2s;flex:none;cursor:pointer;margin:0}
+.tog input:after{content:"";position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:transform .2s;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.tog input:checked{background:var(--ink)}
+.tog input:checked:after{transform:translateX(18px)}
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.tile{border:1.5px solid var(--line);background:var(--paper);border-radius:12px;padding:0;overflow:hidden;display:flex;flex-direction:column;transition:border-color .15s,transform .15s}
+.tile:hover{border-color:var(--line2)}
+.tile.on{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink)}
+.tile .tv{aspect-ratio:16/10;position:relative}
+.tile .tv svg{position:absolute;inset:6px;width:calc(100% - 12px);height:calc(100% - 12px)}
+.tile span{font-size:11.5px;font-weight:500;padding:5px 4px 7px;color:var(--ink2);border-top:1px solid var(--line)}
+.symgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
+.symgrid button{aspect-ratio:1;border:1.5px solid var(--line);border-radius:11px;background:var(--paper);display:grid;place-items:center;padding:0;min-height:44px}
+.symgrid button svg{width:52%;height:52%}
+.symgrid button.on{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink)}
+.symgrid button .no{font-size:11px;font-weight:600;color:var(--mut)}
+.combos{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
+.combos button{aspect-ratio:1;border-radius:11px;border:1.5px solid rgba(0,0,0,.08);padding:0;display:grid;place-items:center;font:600 15px var(--ui);position:relative;overflow:hidden;min-height:44px}
+.combos button i{position:absolute;right:5px;bottom:5px;width:8px;height:8px;border-radius:50%}
+.combos button.on{box-shadow:0 0 0 2px var(--paper),0 0 0 4px var(--ink)}
+.cfield{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:12px;padding:6px 10px 6px 6px;min-height:50px}
+.cfield+.cfield{margin-top:8px}
+.cfield label{flex:1;font-size:13.5px;font-weight:500}
+.cfield label small{display:block;color:var(--mut);font-size:11.5px;font-weight:400}
+.cfield .well{position:relative;width:38px;height:38px;border-radius:10px;border:1px solid rgba(0,0,0,.12);overflow:hidden;flex:none}
+.cfield .well input{position:absolute;inset:-8px;width:60px;height:60px;border:0;padding:0;cursor:pointer;opacity:0}
+.cfield .hex{width:84px;border:1px solid var(--line);border-radius:8px;padding:6px 8px;font:500 13px ui-monospace,Menlo,monospace;text-transform:uppercase}
+.pal{display:flex;gap:6px;flex-wrap:wrap}
+.pal button{width:34px;height:34px;border-radius:9px;border:1px solid rgba(0,0,0,.12);padding:0}
+.palnote{font-size:12px;color:var(--mut);margin:-2px 0 10px}
+.tipbox{margin:0 18px 18px;border-radius:16px;background:#0d0d0d;color:#eaeae6;padding:14px 16px;display:flex;gap:12px;align-items:flex-start}
+.tipbox .av{width:34px;height:34px;border-radius:50%;background:#fff;color:#0d0d0d;display:grid;place-items:center;font:italic 19px/1 var(--serif);flex:none}
+.tipbox p{margin:0;font-size:13.5px;line-height:1.45}
+.tipbox p b{color:#fff;display:block;font-size:12px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:2px;color:#9d9d98}
+.tipnav{display:flex;gap:4px;margin-top:8px}
+.tipnav button{border:0;background:#262624;color:#ddd;border-radius:8px;min-height:30px;padding:0 10px;font-size:12px}
+.edfoot{display:flex;gap:8px;padding:0 18px 18px}
+.edfoot .btn{flex:1}
+
+/* secciones de abajo */
+.sec{padding:40px 0 10px}
+.sech{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:18px;flex-wrap:wrap}
+.sech h3{font:400 clamp(28px,3.6vw,40px)/1 var(--serif);letter-spacing:-.02em;margin:6px 0 0}
+.sech p{margin:6px 0 0;color:var(--mut);max-width:520px}
+.mocks{display:grid;grid-template-columns:repeat(6,1fr);gap:14px}
+.mock{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh)}
+.mock figcaption{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;font-size:13px;font-weight:600;border-top:1px solid var(--line)}
+.mock figcaption span{color:var(--mut);font-weight:500;font-size:12px}
+.mock figure,.mock{margin:0}
+.mock{display:flex;flex-direction:column}.mock .mv{flex:1}
+.m-ig{grid-column:span 2}.m-sp{grid-column:span 4}.m-tee{grid-column:span 2}.m-post{grid-column:span 2}.m-cover{grid-column:span 2}
+.mv{position:relative;overflow:hidden}
+/* instagram */
+.ig{background:#fff;padding:18px 18px 14px;height:100%;color:#000;font-family:-apple-system,"Segoe UI",Roboto,Helvetica,sans-serif}
+.ig .h{display:flex;align-items:center;gap:18px}
+.ig .av{width:84px;height:84px;border-radius:50%;padding:3px;background:conic-gradient(from 200deg,#f9ce34,#ee2a7b,#6228d7,#f9ce34);flex:none}
+.ig .av>div{width:100%;height:100%;border-radius:50%;border:3px solid #fff;overflow:hidden}
+.ig .av svg{width:100%;height:100%;display:block}
+.ig .st{display:flex;gap:16px;text-align:center;font-size:12px;flex:1;justify-content:space-around}
+.ig .st b{display:block;font-size:15px}
+.ig .un{font-weight:600;font-size:13.5px;margin-top:10px}
+.ig .bio{font-size:12.5px;color:#333;margin-top:2px}
+.ig .bio span{color:#00376b}
+.ig .hl{display:flex;gap:12px;margin-top:14px}
+.ig .hl div{width:50px;text-align:center;font-size:10.5px;color:#333}
+.ig .hl i{display:block;width:50px;height:50px;border-radius:50%;border:1px solid #dbdbdb;padding:3px;margin-bottom:4px}
+.ig .hl i>span{display:block;width:100%;height:100%;border-radius:50%;background:#efefef}
+.ig .posts{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin:14px -18px 0}
+.ig .posts svg{display:block;width:100%;height:auto;aspect-ratio:1}
+.ig .tiny{display:flex;align-items:center;gap:8px;margin-top:14px;padding-top:12px;border-top:1px solid #efefef;font-size:11.5px;color:#737373}
+.ig .tiny .t{width:28px;height:28px;border-radius:50%;overflow:hidden;flex:none}
+.ig .tiny .t svg{width:100%;height:100%;display:block}
+/* spotify */
+.sp{background:#121212;color:#fff;height:100%;font-family:-apple-system,"Segoe UI",Roboto,Helvetica,sans-serif;display:flex;flex-direction:column}
+.sp .hd{position:relative;flex:1;min-height:170px;display:flex;align-items:flex-end;padding:18px 22px;overflow:hidden}
+.sp .hd .lgw{position:relative;width:62%;height:56%;display:flex;align-items:flex-end}
+.sp .hd .lgw svg{width:100%;height:100%}
+.sp .vf{position:absolute;top:16px;left:22px;font-size:12px;display:flex;align-items:center;gap:6px;font-weight:500;z-index:1}
+.sp .vf i{width:16px;height:16px;border-radius:50%;background:#4cb3ff;display:grid;place-items:center;font-size:10px;font-style:normal;color:#fff}
+.sp .ls{position:absolute;right:22px;bottom:18px;font-size:12px;opacity:.85;z-index:1}
+.sp .bd{padding:14px 22px 18px}
+.sp .ctl{display:flex;align-items:center;gap:16px}
+.sp .play{width:46px;height:46px;border-radius:50%;background:#1ed760;display:grid;place-items:center}
+.sp .play:after{content:"";border-left:13px solid #000;border-top:8px solid transparent;border-bottom:8px solid transparent;margin-left:3px}
+.sp .fol{border:1px solid #888;border-radius:999px;padding:4px 14px;font-size:12px;font-weight:600}
+.sp .pop{margin-top:14px;font-weight:700;font-size:15px}
+.sp .tr{display:grid;grid-template-columns:18px 36px 1fr auto;gap:12px;align-items:center;font-size:13px;margin-top:10px;color:#b3b3b3}
+.sp .tr .c{width:36px;height:36px;border-radius:3px;overflow:hidden}
+.sp .tr .c svg{width:100%;height:100%;display:block}
+.sp .tr b{color:#fff;font-weight:500;display:block}
+.mock .mv>svg{display:block;width:100%;height:auto}
+.mtoggle{display:inline-flex;gap:4px}
+.mtoggle button{width:22px;height:22px;border-radius:50%;border:1px solid rgba(0,0,0,.25);padding:0}
+.mtoggle button.on{box-shadow:0 0 0 2px #fff,0 0 0 3px var(--ink)}
+
+.vers{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.ver{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh)}
+.ver .vv{aspect-ratio:16/9;position:relative}
+.ver .vv>div{position:absolute;inset:19% 13%}
+.ver .vv svg{width:100%;height:100%}
+.ver .vf{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 12px 12px 14px;border-top:1px solid var(--line)}
+.ver .vf b{font-size:14px;display:block}
+.ver .vf small{color:var(--mut);font-size:12px;display:block;line-height:1.3}
+.ver .vf .bs{display:flex;gap:6px}
+
+.exp{display:grid;grid-template-columns:1.2fr 1fr;gap:0;background:#0d0d0d;color:#fff;border-radius:24px;overflow:hidden;margin:20px 0 70px}
+.exp .l{padding:38px 40px}
+.exp h3{font:400 clamp(30px,4vw,46px)/1 var(--serif);margin:10px 0 12px;letter-spacing:-.02em}
+.exp p{color:#bdbdb8;margin:0 0 22px;max-width:460px}
+.exp .eyebrow{color:#8d8d88}.exp .eyebrow:before{background:#555}
+.exp ul{list-style:none;padding:0;margin:0 0 26px;display:grid;grid-template-columns:1fr 1fr;gap:6px 16px;font-size:13.5px;color:#d9d9d4}
+.exp ul li{display:flex;gap:8px;align-items:center}
+.exp ul li:before{content:"";width:6px;height:6px;border-radius:50%;background:#3ccf7a;flex:none}
+.exp .btns{display:flex;gap:10px;flex-wrap:wrap}
+.exp .btn{border-color:#3a3a38;background:#1b1b1a;color:#fff}
+.exp .btn:hover{border-color:#fff}
+.exp .btn.pri{background:#fff;color:#0d0d0d;border-color:#fff}
+.exp .r{position:relative;display:grid;place-items:center;padding:30px;background:radial-gradient(circle at 60% 40%,#262624,#0d0d0d 70%)}
+.exp .r .stack{position:relative;width:100%;max-width:360px;aspect-ratio:1}
+.exp .r .stack>div{position:absolute;border-radius:14px;display:grid;place-items:center;box-shadow:0 20px 50px rgba(0,0,0,.5);overflow:hidden}
+.exp .r .stack svg{width:76%;height:70%}
+.exp .note{font-size:12.5px;color:#9d9d98;margin-top:16px;display:flex;gap:8px;align-items:flex-start}
+.exp .note i{font-style:normal}
+.prog{height:3px;background:#2a2a28;border-radius:3px;overflow:hidden;margin-top:14px;display:none}
+.prog.on{display:block}
+.prog div{height:100%;width:0;background:#3ccf7a;transition:width .3s}
+
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);background:#0d0d0d;color:#fff;padding:12px 18px;border-radius:12px;font-size:14px;font-weight:500;opacity:0;pointer-events:none;transition:all .25s;z-index:90;box-shadow:var(--sh2);max-width:calc(100% - 32px)}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+
+/* ── responsive ── */
+@media (max-width:1100px){
+  .grid{grid-template-columns:repeat(3,1fr)}
+  .mocks{grid-template-columns:repeat(4,1fr)}
+  .m-sp{grid-column:span 4}.m-ig,.m-tee,.m-post,.m-cover{grid-column:span 2}
+}
+@media (max-width:900px){
+  .ed{grid-template-columns:1fr;gap:14px;padding-top:12px}
+  .stage{top:var(--top);border-radius:0 0 18px 18px;margin:0 -22px;border-left:0;border-right:0;z-index:20}
+  .canvas{aspect-ratio:auto;height:min(34vh,260px)}
+  .checks{display:none}
+  .steps{display:none}
+  .exp{grid-template-columns:1fr}
+  .exp .r{min-height:300px}
+}
+@media (max-width:640px){
+  :root{--top:54px}
+  .wrap{padding:0 16px}
+  .stage{margin:0 -16px}
+  .top{padding:0 12px;gap:10px}
+  .brand small{display:none}
+  .save{min-width:0;font-size:0;gap:0}
+  .save i{width:9px;height:9px}
+  .hero{padding:34px 16px 60px}
+  .hero .lead{font-size:16px;margin-bottom:26px}
+  .field{padding:18px;border-radius:18px}
+  .grid{grid-template-columns:repeat(2,1fr);gap:10px}
+  .card{border-radius:13px}
+  .card .meta{display:none}
+  .fav{width:34px;height:34px;top:6px;right:6px}
+  .ihead{padding:22px 0 14px}
+  .mocks{grid-template-columns:1fr}
+  .m-sp,.m-ig,.m-tee,.m-post,.m-cover{grid-column:auto}
+  .vers{grid-template-columns:1fr 1fr;gap:10px}
+  .ver .vf{flex-direction:column;align-items:stretch}
+  .ver .vf .bs .btn{flex:1}
+  .exp .l{padding:28px 22px}
+  .exp ul{grid-template-columns:1fr}
+  .exp .btns .btn{flex:1 1 100%}
+  .tp{padding:16px}
+  .tipbox{margin:0 16px 16px}
+  .edfoot{padding:0 16px 16px}
+  .stbar{padding:8px}
+  .seg button{padding:0 9px}
+  #bgseg .lbl{display:none}
+  #bgseg button{min-width:40px;justify-content:center}
+  #bgseg .sw{width:18px;height:18px}
+  .canvas{height:min(27vh,210px)}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="brand"><span class="mk">L</span>Logo <small>· Artist OS</small></div>
+  <nav class="steps" aria-label="Pasos">
+    <button data-go="start" class="on"><b>1</b>Tu nombre</button>
+    <button data-go="ideas" disabled><b>2</b>Propuestas</button>
+    <button data-go="editor" disabled><b>3</b>Ajustar</button>
+    <button data-go="export" disabled><b>4</b>Llevártelo</button>
+  </nav>
+  <div class="save" id="save" aria-live="polite"><i></i><span>Sin cambios</span></div>
+</header>
+
+<!-- ═════════ 1 · INICIO ═════════ -->
+<main>
+<section class="view on" id="v-start">
+  <div class="hero">
+    <div id="resume"></div>
+    <div class="eyebrow">Pack ERA · Identidad</div>
+    <h1>El logo de tu nombre,<br><em>listo para usar.</em></h1>
+    <p class="lead">Escribí tu nombre artístico y elegí cómo querés que se sienta. Te armo un montón de propuestas, elegís una, la ajustás y te la llevás para Instagram, Spotify y merch.</p>
+    <div class="field">
+      <label class="flabel" for="nm">Tu nombre artístico <span>Tal cual lo querés ver</span></label>
+      <input id="nm" class="nm" maxlength="28" autocomplete="off" spellcheck="false" placeholder="Ej: Luna Vega">
+    </div>
+    <div class="field">
+      <div class="flabel">¿Cómo se tiene que sentir? <span id="stcount">Elegí 2 o 3</span></div>
+      <div class="chips" id="stylechips"></div>
+      <div class="hint">No hay respuesta correcta: pensá en tu música y en cómo te vestís para un show.</div>
+    </div>
+    <div class="go">
+      <button class="btn pri lg" id="genbtn">Ver propuestas <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+      <span class="hint" id="genhint">Tarda 2 segundos. Podés pedir más ideas las veces que quieras.</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════ 2 · PROPUESTAS ═════════ -->
+<section class="view" id="v-ideas">
+  <div class="wrap">
+    <div class="ihead">
+      <div>
+        <div class="eyebrow">Paso 2 · Elegí la que más te represente</div>
+        <h2 id="ititle">Propuestas</h2>
+        <div class="minichips" id="istyles"></div>
+      </div>
+      <div class="acts">
+        <button class="btn" id="backname"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>Cambiar nombre</button>
+        <button class="btn pri" id="more"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12a8 8 0 0 1 14-5.3L20 9M20 4v5h-5M20 12a8 8 0 0 1-14 5.3L4 15M4 20v-5h5"/></svg>Más ideas</button>
+      </div>
+    </div>
+    <div class="favbar" id="favbar"></div>
+    <div class="grid" id="grid"></div>
+  </div>
+</section>
+
+<!-- ═════════ 3 · EDITOR ═════════ -->
+<section class="view" id="v-editor">
+  <div class="wrap">
+    <div class="ed">
+      <div class="stage" id="stage">
+        <div class="stbar">
+          <div class="seg" id="bgseg" role="group" aria-label="Fondo de la vista">
+            <button data-bg="brand" class="on" aria-label="Tu fondo"><span class="sw" id="bgsw"></span><span class="lbl">Tu fondo</span></button>
+            <button data-bg="white" aria-label="Fondo blanco"><span class="sw" style="background:#fff"></span><span class="lbl">Blanco</span></button>
+            <button data-bg="black" aria-label="Fondo negro"><span class="sw" style="background:#000"></span><span class="lbl">Negro</span></button>
+            <button data-bg="none" aria-label="Fondo transparente"><span class="sw" style="background:conic-gradient(#ddd 25%,#fff 0 50%,#ddd 0 75%,#fff 0)"></span><span class="lbl">Sin fondo</span></button>
+          </div>
+          <div style="display:flex;gap:4px">
+            <button class="btn ghost sm" id="bwbtn" aria-pressed="false" title="Ver en blanco y negro">B/N</button>
+            <button class="btn ghost sm" id="undo" title="Deshacer" aria-label="Deshacer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 14 4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-3"/></svg></button>
+            <button class="btn ghost sm" id="redo" title="Rehacer" aria-label="Rehacer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 14 5-5-5-5"/><path d="M20 9H9a5 5 0 0 0 0 10h3"/></svg></button>
+          </div>
+        </div>
+        <div class="canvas" id="canvas"><div class="lg" id="main"></div><span class="tag" id="ftag"></span></div>
+        <div class="checks" id="checks"></div>
+      </div>
+
+      <aside class="panel" aria-label="Ajustes del logo">
+        <div class="tabs" role="tablist">
+          <button class="on" data-tab="type" role="tab">Letra</button>
+          <button data-tab="fx" role="tab">Estilo</button>
+          <button data-tab="color" role="tab">Color</button>
+          <button data-tab="sym" role="tab">Símbolo</button>
+        </div>
+
+        <div class="tp on" id="tp-type">
+          <div class="grp">
+            <div class="srch"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="fsearch" placeholder="Buscar tipografía…" aria-label="Buscar tipografía"></div>
+            <div class="cats" id="fcats"></div>
+            <div class="flist" id="flist" role="listbox" aria-label="Tipografías"></div>
+          </div>
+          <div class="grp" id="wgrp">
+            <div class="gl2">Grosor</div>
+            <div class="full"><div class="seg" id="wseg"></div></div>
+          </div>
+          <div class="grp">
+            <div class="gl2">Mayúsculas</div>
+            <div class="full"><div class="seg" id="caseseg">
+              <button data-v="upper">AA</button><button data-v="title">Aa</button><button data-v="lower">aa</button><button data-v="asis">Como lo escribí</button>
+            </div></div>
+          </div>
+          <div class="grp">
+            <div class="gl2">Espacio entre letras <output id="trout"></output></div>
+            <input type="range" class="rng" id="tr" min="-0.08" max="0.6" step="0.01" aria-label="Espacio entre letras">
+          </div>
+          <div class="grp">
+            <div class="gl2">Disposición</div>
+            <div class="full"><div class="seg" id="layseg">
+              <button data-v="line">En una línea</button><button data-v="stack">Apilado</button>
+            </div></div>
+            <label class="tog" id="justog"><span>Bloque parejo (mismo ancho)</span><input type="checkbox" id="justify"></label>
+            <label class="tog"><span>Inclinado</span><input type="checkbox" id="skew"></label>
+          </div>
+        </div>
+
+        <div class="tp" id="tp-fx">
+          <div class="grp"><div class="gl2">Efecto</div><div class="tiles" id="fxtiles"></div></div>
+          <div class="grp"><div class="gl2">Marco</div><div class="tiles" id="frtiles"></div></div>
+          <div class="grp"><div class="gl2">Detalle</div><div class="tiles" id="dctiles"></div></div>
+          <div class="grp"><label class="tog"><span>Una letra espejada <small style="color:var(--mut)">(tipo Я)</small></span><input type="checkbox" id="mirror"></label></div>
+        </div>
+
+        <div class="tp" id="tp-color">
+          <div class="grp"><div class="gl2">Combinaciones listas</div><div class="combos" id="combos"></div></div>
+          <div class="grp" id="palgrp"><div class="gl2" id="palttl">Tu paleta</div><p class="palnote" id="palnote"></p><div class="pal" id="pal"></div></div>
+          <div class="grp">
+            <div class="gl2">Colores del logo</div>
+            <div class="cfield"><div class="well" id="w-fg"><input type="color" id="c-fg" aria-label="Color de la letra"></div><label for="c-fg">Letra<small>El color principal</small></label><input class="hex" id="h-fg" aria-label="Hex letra"></div>
+            <div class="cfield"><div class="well" id="w-bg"><input type="color" id="c-bg" aria-label="Color de fondo"></div><label for="c-bg">Fondo<small>Donde vive el logo</small></label><input class="hex" id="h-bg" aria-label="Hex fondo"></div>
+            <div class="cfield"><div class="well" id="w-ac"><input type="color" id="c-ac" aria-label="Color de acento"></div><label for="c-ac">Acento<small>Símbolo, sombra y detalles</small></label><input class="hex" id="h-ac" aria-label="Hex acento"></div>
+            <div style="display:flex;gap:8px;margin-top:10px"><button class="btn sm" id="swap" style="flex:1">Invertir letra y fondo</button><button class="btn sm" id="mono1" style="flex:1">Todo a un color</button></div>
+          </div>
+        </div>
+
+        <div class="tp" id="tp-sym">
+          <div class="grp"><div class="gl2">Símbolo <output>opcional</output></div><div class="symgrid" id="symgrid"></div></div>
+          <div class="grp" id="symposgrp">
+            <div class="gl2">Dónde va</div>
+            <div class="full"><div class="seg" id="symseg">
+              <button data-v="left">Izquierda</button><button data-v="top">Arriba</button><button data-v="right">Derecha</button><button data-v="after">Al final</button>
+            </div></div>
+          </div>
+          <div class="grp">
+            <div class="gl2">Monograma <output>para la foto de perfil</output></div>
+            <div class="tiles" id="monotiles"></div>
+            <div class="cfield" style="margin-top:10px"><label for="monol">Letras<small>Tus iniciales, 1 o 2 letras</small></label><input class="hex" id="monol" maxlength="3" style="width:70px;text-align:center"></div>
+          </div>
+        </div>
+
+        <div class="tipbox" id="tipbox"><span class="av">L</span><div><p id="tip"></p><div class="tipnav"><button id="tipnext">Otro consejo →</button></div></div></div>
+        <div class="edfoot">
+          <button class="btn" id="toideas"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Propuestas</button>
+          <button class="btn pri" id="toexport">Llevármelo<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 4v12M6 10l6 6 6-6M5 20h14"/></svg></button>
+        </div>
+      </aside>
+    </div>
+
+    <section class="sec" id="s-mocks">
+      <div class="sech"><div><div class="eyebrow">Prueba de fuego</div><h3>Así se ve en la vida real</h3><p>Si funciona en un avatar chiquito y en una remera, funciona en todos lados.</p></div></div>
+      <div class="mocks" id="mocks"></div>
+    </section>
+
+    <section class="sec" id="s-vers">
+      <div class="sech"><div><div class="eyebrow">Tu sistema de logo</div><h3>Seis versiones, un mismo logo</h3><p>Cada lugar pide una forma distinta. Con estas seis cubrís todo.</p></div></div>
+      <div class="vers" id="vers"></div>
+    </section>
+
+    <section class="exp" id="s-export">
+      <div class="l">
+        <div class="eyebrow">Paso 4 · Llevártelo</div>
+        <h3>Tu logo, listo para usar.</h3>
+        <p>Un solo archivo con todas las versiones, en vector (para imprenta y diseñadores) y en PNG transparente de alta (para redes).</p>
+        <ul>
+          <li>Principal, horizontal y apilada</li><li>Monograma para avatar</li>
+          <li>Negativo y positivo (1 color)</li><li>Foto de perfil 1080 × 1080</li>
+          <li>SVG con letras convertidas a formas</li><li>PNG 2400 px sin fondo</li>
+        </ul>
+        <div class="btns">
+          <button class="btn pri lg" id="zipbtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 4v12M6 10l6 6 6-6M5 20h14"/></svg>Descargar todo (.zip)</button>
+          <button class="btn lg" id="officialbtn">Guardar como mi logo</button>
+        </div>
+        <div class="prog" id="prog"><div></div></div>
+        <div class="note" id="expnote"><i>ⓘ</i><span>Se guarda solo mientras editás. “Guardar como mi logo” lo deja fijo para el resto de tu Artist OS (portfolio, estética).</span></div>
+      </div>
+      <div class="r"><div class="stack" id="expstack"></div></div>
+    </section>
+  </div>
+</section>
+</main>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+/* ════════════════════════════════════════════════════════════════════
+   LOGO · Artist OS
+   Render: un modelo de logo → SVG. Modo "live" (texto con Google Fonts,
+   medido con canvas) para ver al instante y modo "outline" (opentype.js,
+   letras convertidas a curvas) para exportar.
+   ════════════════════════════════════════════════════════════════════ */
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+const r2 = n => Math.round(n * 100) / 100;
+
+/* ── Tipografías curadas (Google Fonts; archivos .woff vía Fontsource para vectorizar) ── */
+const FONTS = [
+  // display / condensadas
+  ['Anton', [400], 'display', 'callejero agresivo oscuro pop', 'upper'],
+  ['Bebas Neue', [400], 'display', 'minimal callejero futurista', 'upper'],
+  ['Oswald', [300, 500, 700], 'display', 'callejero minimal clasico', 'any'],
+  ['League Gothic', [400], 'display', 'oscuro retro callejero', 'upper'],
+  ['Archivo Black', [400], 'display', 'callejero pop agresivo', 'any'],
+  ['Big Shoulders Display', [500, 800, 900], 'display', 'futurista callejero retro', 'upper'],
+  ['Teko', [400, 600], 'display', 'futurista agresivo', 'upper'],
+  ['Bungee', [400], 'display', 'retro callejero pop', 'upper'],
+  ['Monoton', [400], 'display', 'retro pop', 'upper'],
+  ['Rubik Mono One', [400], 'display', 'pop futurista callejero', 'upper'],
+  ['Staatliches', [400], 'display', 'retro callejero', 'upper'],
+  ['Shrikhand', [400], 'display', 'retro pop romantico', 'title'],
+  ['Righteous', [400], 'display', 'retro pop futurista', 'any'],
+  ['Black Ops One', [400], 'display', 'agresivo callejero', 'upper'],
+  // futuristas
+  ['Unbounded', [400, 700, 900], 'futur', 'futurista pop minimal', 'any'],
+  ['Syne', [500, 700, 800], 'futur', 'futurista minimal elegante', 'any'],
+  ['Michroma', [400], 'futur', 'futurista minimal elegante', 'upper'],
+  ['Orbitron', [500, 900], 'futur', 'futurista', 'upper'],
+  ['Audiowide', [400], 'futur', 'futurista retro', 'any'],
+  ['Krona One', [400], 'futur', 'futurista minimal', 'upper'],
+  // serif
+  ['Playfair Display', [400, 700, 900], 'serif', 'elegante romantico clasico', 'any'],
+  ['Cormorant Garamond', [400, 600], 'serif', 'elegante romantico', 'any'],
+  ['Bodoni Moda', [400, 700], 'serif', 'elegante clasico oscuro', 'any'],
+  ['DM Serif Display', [400], 'serif', 'elegante romantico pop', 'any'],
+  ['Abril Fatface', [400], 'serif', 'clasico retro elegante', 'any'],
+  ['Cinzel', [400, 700], 'serif', 'elegante clasico oscuro', 'upper'],
+  ['Italiana', [400], 'serif', 'elegante romantico minimal', 'upper'],
+  ['Fraunces', [300, 600, 900], 'serif', 'retro romantico pop', 'any'],
+  ['Gloock', [400], 'serif', 'elegante oscuro', 'any'],
+  ['Prata', [400], 'serif', 'elegante clasico', 'any'],
+  // grotescas
+  ['Inter', [300, 500, 800], 'grotesk', 'minimal', 'any'],
+  ['Space Grotesk', [400, 700], 'grotesk', 'futurista minimal', 'any'],
+  ['Montserrat', [300, 600, 900], 'grotesk', 'minimal pop clasico', 'any'],
+  ['Bricolage Grotesque', [400, 800], 'grotesk', 'pop minimal callejero', 'any'],
+  ['Jost', [300, 500], 'grotesk', 'minimal elegante', 'any'],
+  // script
+  ['Great Vibes', [400], 'script', 'romantico elegante', 'title'],
+  ['Mrs Saint Delafield', [400], 'script', 'romantico elegante', 'title'],
+  ['Yellowtail', [400], 'script', 'retro romantico', 'title'],
+  ['Sacramento', [400], 'script', 'romantico minimal', 'title'],
+  ['Kaushan Script', [400], 'script', 'callejero retro', 'title'],
+  ['Permanent Marker', [400], 'script', 'callejero', 'any'],
+  ['Rock Salt', [400], 'script', 'callejero agresivo', 'any'],
+  ['Allura', [400], 'script', 'romantico', 'title'],
+  // góticas
+  ['UnifrakturMaguntia', [400], 'gothic', 'oscuro agresivo clasico', 'title'],
+  ['Pirata One', [400], 'gothic', 'oscuro callejero', 'title'],
+  ['Grenze Gotisch', [400, 700], 'gothic', 'oscuro agresivo', 'title'],
+  ['New Rocker', [400], 'gothic', 'oscuro agresivo retro', 'title'],
+  ['Metal Mania', [400], 'gothic', 'agresivo oscuro', 'any'],
+  // mono
+  ['Space Mono', [400, 700], 'mono', 'futurista minimal', 'any'],
+  ['JetBrains Mono', [300, 800], 'mono', 'futurista minimal', 'any'],
+  ['VT323', [400], 'mono', 'retro futurista', 'any'],
+  ['Major Mono Display', [400], 'mono', 'futurista minimal', 'lower'],
+  ['IBM Plex Mono', [400, 600], 'mono', 'minimal', 'any'],
+  ['Rubik Glitch', [400], 'display', 'futurista agresivo', 'upper'],
+].map(([f, w, c, t, caps]) => ({ f, w, c, t: t.split(' '), caps, id: f.toLowerCase().replace(/\s+/g, '-') }));
+const FMAP = Object.fromEntries(FONTS.map(F => [F.id, F]));
+const CATS = [['all', 'Todas'], ['display', 'Display'], ['serif', 'Serif'], ['grotesk', 'Grotescas'], ['futur', 'Futuristas'], ['script', 'Script'], ['gothic', 'Góticas'], ['mono', 'Mono']];
+const CATNAME = Object.fromEntries(CATS);
+
+// cargamos todas las familias (el navegador baja cada archivo recién cuando se usa)
+let fontsCss;
+(function () {
+  const fam = FONTS.map(F => 'family=' + F.f.replace(/ /g, '+') + ':wght@' + F.w.join(';')).join('&');
+  const l = document.createElement('link'); l.rel = 'stylesheet';
+  l.href = 'https://fonts.googleapis.com/css2?' + fam + '&display=block';
+  fontsCss = new Promise(res => { l.onload = res; l.onerror = res; setTimeout(res, 8000); });
+  document.head.appendChild(l);
+})();
+
+const STYLES = [
+  ['oscuro', 'Oscuro', 'UnifrakturMaguntia', 'A'], ['elegante', 'Elegante', 'Bodoni Moda', 'Aa'],
+  ['callejero', 'Callejero', 'Permanent Marker', 'A'], ['retro', 'Retro', 'Shrikhand', 'A'],
+  ['futurista', 'Futurista', 'Orbitron', 'A'], ['romantico', 'Romántico', 'Great Vibes', 'A'],
+  ['minimal', 'Minimal', 'Inter', 'a'], ['agresivo', 'Agresivo', 'Metal Mania', 'A'],
+  ['pop', 'Pop', 'Rubik Mono One', 'A'], ['clasico', 'Clásico', 'Cinzel', 'A'],
+];
+const STYLENAME = Object.fromEntries(STYLES.map(s => [s[0], s[1]]));
+
+const SCHEMES = {
+  oscuro: [['#0b0b0c', '#f2f1ee', '#8b1a24'], ['#121212', '#d8d4cc', '#6b6b6b'], ['#0d0f14', '#e8e8ea', '#5b6cff'], ['#e9e6e1', '#121212', '#7a0f1c']],
+  elegante: [['#f4efe6', '#1b1a17', '#9c7a3c'], ['#0f0f0f', '#ece3cf', '#b89a5a'], ['#ffffff', '#111111', '#8a8a8a'], ['#1d2a26', '#efe8da', '#c7a86a']],
+  callejero: [['#e9e9e4', '#0d0d0d', '#ff3b1f'], ['#111111', '#f5f5f5', '#ffd400'], ['#1d3bff', '#ffffff', '#ff9ad5'], ['#d9ff3f', '#0d0d0d', '#0d0d0d']],
+  retro: [['#f3e6cf', '#2b1d14', '#e0582a'], ['#1f2a44', '#f6d6a8', '#e85d3a'], ['#f6c945', '#1a1a1a', '#d9412b'], ['#e8d9c4', '#0f3b3a', '#e07a2e']],
+  futurista: [['#05060a', '#e6f0ff', '#3cf2ff'], ['#e7e9ee', '#0a0a0a', '#4b3cff'], ['#0a0a0a', '#c6ff3d', '#ffffff'], ['#101018', '#f2f2f2', '#b26bff']],
+  romantico: [['#f6e7e4', '#4a1f2a', '#c86b7f'], ['#1b0f14', '#f3d9df', '#d9869a'], ['#fffaf4', '#3a2a2a', '#b98b6e'], ['#5a1424', '#f8e4e0', '#f2a7b5']],
+  minimal: [['#ffffff', '#0a0a0a', '#0a0a0a'], ['#0a0a0a', '#ffffff', '#ffffff'], ['#ececea', '#1a1a1a', '#8c8c8c'], ['#f5f3ef', '#222222', '#c2410c']],
+  agresivo: [['#0a0a0a', '#ffffff', '#e3001b'], ['#d7d7d7', '#000000', '#e3001b'], ['#1a0000', '#ff2a2a', '#ffffff'], ['#0a0a0a', '#e3001b', '#ffffff']],
+  pop: [['#ff7ad9', '#1a1a1a', '#ffffff'], ['#ffe14d', '#141414', '#ff4f9a'], ['#7b5cff', '#ffffff', '#ffe14d'], ['#ffffff', '#ff2e63', '#2b2bff']],
+  clasico: [['#f5f2ea', '#1c1c1c', '#7d1d1d'], ['#14213d', '#f5f2ea', '#c9a227'], ['#0e0e0e', '#f0ebe0', '#a8873a']],
+};
+const STYLE_SYMS = {
+  oscuro: ['moon', 'eye', 'cross', 'star5'], elegante: ['sparkle', 'circle', 'mono'], callejero: ['bolt', 'star5', 'cross'],
+  retro: ['star5', 'sparkle', 'bolt'], futurista: ['sparkle', 'ring', 'triangle', 'bolt'], romantico: ['heart', 'moon', 'sparkle'],
+  minimal: ['dot', 'ring', 'circle'], agresivo: ['bolt', 'cross', 'star5'], pop: ['heart', 'star5', 'sparkle'], clasico: ['star5', 'mono', 'circle'],
+};
+
+/* ── Símbolos en caja 100×100 ── */
+const SYMBOLS = {
+  star5: ['Estrella', 'M50 3 61.8 36.2 97.6 37.4 69.2 59.3 79.4 93.6 50 73.5 20.6 93.6 30.8 59.3 2.4 37.4 38.2 36.2Z'],
+  sparkle: ['Destello', 'M50 0C53 34 66 47 100 50 66 53 53 66 50 100 47 66 34 53 0 50 34 47 47 34 50 0Z'],
+  bolt: ['Rayo', 'M60 0 16 58H45L36 100 84 38H54L60 0Z'],
+  moon: ['Luna', 'M64 4A47 47 0 1 0 96 64 37 37 0 0 1 64 4Z'],
+  heart: ['Corazón', 'M50 91C22 70 3 53 3 31 3 15 15 5 29 5 39 5 46 11 50 19 54 11 61 5 71 5 85 5 97 15 97 31 97 53 78 70 50 91Z'],
+  eye: ['Ojo', 'M0 50C20 18 80 18 100 50 80 82 20 82 0 50ZM50 26A24 24 0 1 0 50 74 24 24 0 1 0 50 26ZM50 38A12 12 0 1 1 50 62 12 12 0 1 1 50 38Z'],
+  circle: ['Círculo', 'M50 2A48 48 0 1 0 50 98 48 48 0 1 0 50 2Z'],
+  ring: ['Aro', 'M50 2A48 48 0 1 0 50 98 48 48 0 1 0 50 2ZM50 16A34 34 0 1 1 50 84 34 34 0 1 1 50 16Z'],
+  cross: ['Cruz', 'M41 0H59V32H90V50H59V100H41V50H10V32H41Z'],
+  triangle: ['Triángulo', 'M50 6 97 92H3Z'],
+  dot: ['Punto', 'M50 10A40 40 0 1 0 50 90 40 40 0 1 0 50 10Z'],
+};
+
+/* ── utilidades de color ── */
+function hexRgb(h) { h = String(h || '#000').replace('#', ''); if (h.length === 3) h = h.split('').map(c => c + c).join(''); const n = parseInt(h, 16) || 0; return [n >> 16 & 255, n >> 8 & 255, n & 255]; }
+function lum(h) { const [r, g, b] = hexRgb(h).map(v => { v /= 255; return v <= .03928 ? v / 12.92 : Math.pow((v + .055) / 1.055, 2.4); }); return .2126 * r + .7152 * g + .0722 * b; }
+function contrast(a, b) { const x = lum(a), y = lum(b); return (Math.max(x, y) + .05) / (Math.min(x, y) + .05); }
+function sat(h) { const [r, g, b] = hexRgb(h).map(v => v / 255); const mx = Math.max(r, g, b), mn = Math.min(r, g, b); return mx === 0 ? 0 : (mx - mn) / mx; }
+function normHex(h) { h = String(h || '').trim(); if (!h) return null; if (h[0] !== '#') h = '#' + h; return /^#([0-9a-f]{3}|[0-9a-f]{6})$/i.test(h) ? (h.length === 4 ? '#' + h.slice(1).split('').map(c => c + c).join('') : h).toLowerCase() : null; }
+
+/* ── texto ── */
+function applyCase(s, c) {
+  s = String(s || '').replace(/\s+/g, ' ').trim();
+  if (c === 'upper') return s.toLocaleUpperCase('es');
+  if (c === 'lower') return s.toLocaleLowerCase('es');
+  if (c === 'title') return s.toLocaleLowerCase('es').replace(/(^|[\s\-.])(\S)/g, (m, a, b) => a + b.toLocaleUpperCase('es'));
+  return s;
+}
+function splitLines(s, layout) {
+  if (layout !== 'stack') return [s];
+  const w = s.split(' ').filter(Boolean);
+  if (w.length >= 2) {
+    let best = 1, bd = 1e9;
+    for (let i = 1; i < w.length; i++) { const d = Math.abs(w.slice(0, i).join(' ').length - w.slice(i).join(' ').length); if (d < bd) { bd = d; best = i; } }
+    return [w.slice(0, best).join(' '), w.slice(best).join(' ')];
+  }
+  const ch = Array.from(s);
+  if (ch.length >= 5) { const k = Math.ceil(ch.length / 2); return [ch.slice(0, k).join(''), ch.slice(k).join('')]; }
+  return [s];
+}
+function initials(name) {
+  const w = String(name || '').replace(/[^\p{L}\p{N}\s]/gu, '').split(/\s+/).filter(Boolean);
+  if (!w.length) return 'A';
+  if (w.length === 1) return Array.from(w[0])[0].toLocaleUpperCase('es');
+  return (Array.from(w[0])[0] + Array.from(w[w.length - 1])[0]).toLocaleUpperCase('es');
+}
+
+/* ── medición: canvas (vista) y opentype (exportar) ──
+   Ambas devuelven por letra: x (avance acumulado con kerning), caja de tinta (l,r,asc,desc). */
+const _cx = document.createElement('canvas').getContext('2d');
+const _mc = new Map();
+function cvMeasure(F, w, str) { // a tamaño 100
+  const key = F.f + '|' + w + '|' + str;
+  if (_mc.has(key)) return _mc.get(key);
+  _cx.font = `${w} 100px "${F.f}"`;
+  const ch = Array.from(str); let pre = '';
+  const g = ch.map(c => {
+    const x = _cx.measureText(pre).width; pre += c;
+    const m = _cx.measureText(c);
+    return { c, x, adv: m.width, l: -m.actualBoundingBoxLeft, r: m.actualBoundingBoxRight, asc: m.actualBoundingBoxAscent, desc: m.actualBoundingBoxDescent, ws: /\s/.test(c) };
+  });
+  const H = _cx.measureText('H');
+  const res = { g, adv: _cx.measureText(str).width, cap: H.actualBoundingBoxAscent || 70 };
+  if (document.fonts.check(`${w} 100px "${F.f}"`, str || 'A')) _mc.set(key, res); // no guardamos medidas de una fuente que todavía no llegó
+  return res;
+}
+const OT = {}; // id|peso → fuente opentype
+function otMeasure(F, w, str) {
+  const font = OT[F.id + '|' + w]; const sc = 100 / font.unitsPerEm;
+  const ch = Array.from(str); let x = 0;
+  const glyphs = ch.map(c => font.charToGlyph(c));
+  const g = ch.map((c, i) => {
+    const gl = glyphs[i]; const bb = gl.getPath(0, 0, 100).getBoundingBox();
+    const ws = /\s/.test(c) || !isFinite(bb.x1);
+    const o = { c, x, adv: gl.advanceWidth * sc, l: ws ? 0 : bb.x1, r: ws ? 0 : bb.x2, asc: ws ? 0 : -bb.y1, desc: ws ? 0 : bb.y2, ws, glyph: gl };
+    x += gl.advanceWidth * sc;
+    if (i < ch.length - 1) { try { x += font.getKerningValue(gl, glyphs[i + 1]) * sc; } catch (e) {} }
+    return o;
+  });
+  const hb = font.charToGlyph('H').getPath(0, 0, 100).getBoundingBox();
+  return { g, adv: x, cap: -hb.y1 || 70, font };
+}
+
+/* ── RENDER DEL LOGO ── */
+let UID = 0;
+function renderLogo(m, o = {}) {
+  const mode = o.mode || 'live';
+  const F = FMAP[m.font] || FONTS[0];
+  const W = F.w.includes(m.weight) ? m.weight : F.w[0];
+  const C = Object.assign({}, m.colors, o.colors || {});
+  const id = 'g' + (++UID).toString(36);
+  const S = 100;
+  const meas = s => mode === 'outline' ? otMeasure(F, W, s) : cvMeasure(F, W, s);
+  const txt = applyCase(m.text || ' ', m.case) || ' ';
+  const L = splitLines(txt, m.layout).map(s => ({ s, k: 1, mt: meas(s) }));
+  const tr = (m.tracking || 0) * S;
+  const ink = (Ln) => { let l = 1e9, r = -1e9, a = 0, d = 0; Ln.mt.g.forEach((g, i) => { if (g.ws) return; const x = g.x + i * tr; l = Math.min(l, x + g.l); r = Math.max(r, x + g.r); a = Math.max(a, g.asc); d = Math.max(d, g.desc); }); if (l > r) { l = 0; r = Ln.mt.adv || 50; a = 70; } return { l, r, a, d }; };
+  L.forEach(Ln => { Ln.ink = ink(Ln); });
+  if (L.length > 1 && m.justify) {
+    const tw = Math.max(...L.map(Ln => Ln.ink.r - Ln.ink.l));
+    L.forEach(Ln => { Ln.k = clamp(tw / Math.max(1, Ln.ink.r - Ln.ink.l), .35, 2.6); });
+  }
+  const cap = L[0].mt.cap;
+  // posiciones verticales (todo en unidades de tamaño 100 × k)
+  const gap = S * (m.justify ? .1 : .17);
+  let y = 0;
+  L.forEach(Ln => { const a = Ln.ink.a * Ln.k, d = Ln.ink.d * Ln.k; Ln.base = y + a; y = Ln.base + d + gap; });
+  const tbH = y - gap;
+  const tbW = Math.max(...L.map(Ln => (Ln.ink.r - Ln.ink.l) * Ln.k));
+  L.forEach(Ln => { Ln.x = (tbW - (Ln.ink.r - Ln.ink.l) * Ln.k) / 2 - Ln.ink.l * Ln.k; });
+
+  // letra espejada: la primera que "queda bien" dada vuelta
+  let mir = null;
+  if (m.mirror) {
+    const pref = 'RNEKSZJCDBPLFG';
+    outer: for (const p of pref) for (let li = 0; li < L.length; li++) { const idx = L[li].mt.g.findIndex((g, i) => g.c.toUpperCase() === p && i > 0); if (idx > 0) { mir = [li, idx]; break outer; } }
+    if (!mir) { const g = L[0].mt.g; if (g.length > 2) mir = [0, Math.floor(g.length / 2)]; }
+  }
+
+  // corridas de texto (vista: <text>, exportar: <path>)
+  function runs(fill, stroke, sw) {
+    let out = '';
+    const paint = (k) => `fill="${fill}"` + (stroke ? ` stroke="${stroke}" stroke-width="${r2(sw * k)}" stroke-linejoin="round"` : '');
+    L.forEach((Ln, li) => {
+      const k = Ln.k, size = S * k;
+      const X = i => Ln.x + (Ln.mt.g[i].x + i * tr) * k;
+      const segs = []; let cur = [];
+      Ln.mt.g.forEach((g, i) => { if (mir && mir[0] === li && mir[1] === i) { if (cur.length) segs.push(cur); segs.push({ mir: i }); cur = []; } else cur.push(i); });
+      if (cur.length) segs.push(cur);
+      segs.forEach(sg => {
+        if (sg.mir !== undefined) {
+          const i = sg.mir, g = Ln.mt.g[i], cx = X(i) + (g.l + g.r) / 2 * k;
+          const tf = `translate(${r2(cx * 2)} 0) scale(-1 1)`;
+          if (mode === 'outline') out += `<path transform="${tf}" d="${g.glyph.getPath(X(i), Ln.base, size).toPathData(2)}" ${paint(k)}/>`;
+          else out += `<text transform="${tf}" x="${r2(X(i))}" y="${r2(Ln.base)}" font-family="'${F.f}'" font-weight="${W}" font-size="${r2(size)}" ${paint(k)}>${esc(g.c)}</text>`;
+          return;
+        }
+        if (mode === 'outline') {
+          const d = sg.map(i => Ln.mt.g[i].ws ? '' : Ln.mt.g[i].glyph.getPath(X(i), Ln.base, size).toPathData(2)).join('');
+          if (d) out += `<path d="${d}" ${paint(k)}/>`;
+        } else {
+          const str = sg.map(i => Ln.mt.g[i].c).join('');
+          out += `<text x="${sg.map(i => r2(X(i))).join(' ')}" y="${r2(Ln.base)}" font-family="'${F.f}'" font-weight="${W}" font-size="${r2(size)}" xml:space="preserve" ${paint(k)}>${esc(str)}</text>`;
+        }
+      });
+    });
+    return out;
+  }
+
+  // caja acumulada
+  const B = { x1: 0, y1: 0, x2: tbW, y2: tbH };
+  const add = (x1, y1, x2, y2) => { B.x1 = Math.min(B.x1, x1); B.y1 = Math.min(B.y1, y1); B.x2 = Math.max(B.x2, x2); B.y2 = Math.max(B.y2, y2); };
+  const skewT = m.skew ? Math.tan(12 * Math.PI / 180) : 0;
+  if (skewT) add(-skewT * tbH / 2, 0, tbW + skewT * tbH / 2, tbH);
+
+  const badge = m.frame === 'badge';
+  const tFill = badge ? C.bg : C.fg;
+  const sAcc = badge ? C.bg : C.accent;
+  let defs = '', textG = '';
+  const d = S * .065;
+  const ef = m.effect || 'none';
+  if (ef === 'outline') textG = runs('none', tFill, S * .03);
+  else if (ef === 'shadow') { textG = `<g transform="translate(${r2(d)} ${r2(d)})">${runs(sAcc, null)}</g>` + runs(tFill, null); add(d, d, tbW + d, tbH + d); }
+  else if (ef === 'outshadow') { textG = `<g transform="translate(${r2(d)} ${r2(d)})">${runs(sAcc, null)}</g>` + runs(o.transparent ? 'none' : C.bg, tFill, S * .03); add(d, d, tbW + d, tbH + d); }
+  else if (ef === 'glitch' || ef === 'cut') {
+    const cy = tbH * .54, band = tbH * (ef === 'glitch' ? .14 : .035), dx = S * (ef === 'glitch' ? .07 : .06);
+    const big = 1e4;
+    defs += `<clipPath id="${id}a"><rect x="${-big}" y="${-big}" width="${2 * big}" height="${r2(big + cy)}"/></clipPath>`;
+    if (ef === 'glitch') {
+      defs += `<clipPath id="${id}b"><rect x="${-big}" y="${r2(cy)}" width="${2 * big}" height="${r2(band)}"/></clipPath><clipPath id="${id}c"><rect x="${-big}" y="${r2(cy + band)}" width="${2 * big}" height="${big}"/></clipPath>`;
+      textG = `<g transform="translate(${r2(-S * .04)} 0)" opacity=".9">${runs(sAcc, null)}</g><g clip-path="url(#${id}a)">${runs(tFill, null)}</g><g clip-path="url(#${id}b)" transform="translate(${r2(dx)} 0)">${runs(tFill, null)}</g><g clip-path="url(#${id}c)">${runs(tFill, null)}</g>`;
+      add(-S * .04, 0, tbW + dx, tbH);
+    } else {
+      defs += `<clipPath id="${id}c"><rect x="${-big}" y="${r2(cy + band)}" width="${2 * big}" height="${big}"/></clipPath>`;
+      textG = `<g clip-path="url(#${id}a)">${runs(tFill, null)}</g><g clip-path="url(#${id}c)" transform="translate(${r2(dx)} 0)">${runs(tFill, null)}</g>`;
+      add(0, 0, tbW + dx, tbH);
+    }
+  } else textG = runs(tFill, null);
+  if (skewT) textG = `<g transform="translate(0 ${r2(tbH / 2)}) skewX(-12) translate(0 ${r2(-tbH / 2)})">${textG}</g>`;
+
+  // detalle
+  let deco = '';
+  const dc = m.deco || 'none';
+  if (dc === 'underline') { const h = S * .06, yy = tbH + S * .12; deco = `<rect x="0" y="${r2(yy)}" width="${r2(tbW)}" height="${r2(h)}" fill="${sAcc}"/>`; add(0, yy, tbW, yy + h); }
+  if (dc === 'rules') { const h = S * .028, p = S * .2, ex = S * .08; deco = `<rect x="${r2(-ex)}" y="${r2(-p - h)}" width="${r2(tbW + 2 * ex)}" height="${r2(h)}" fill="${tFill}"/><rect x="${r2(-ex)}" y="${r2(tbH + p)}" width="${r2(tbW + 2 * ex)}" height="${r2(h)}" fill="${tFill}"/>`; add(-ex, -p - h, tbW + ex, tbH + p + h); }
+  let strike = '';
+  if (dc === 'strike') { const h = S * .075, ex = S * .1, yy = (L.length > 1 ? tbH / 2 : L[0].base - cap * L[0].k * .5) - h / 2; strike = `<rect x="${r2(-ex)}" y="${r2(yy)}" width="${r2(tbW + 2 * ex)}" height="${r2(h)}" fill="${sAcc}"/>`; add(-ex, yy, tbW + ex, yy + h); }
+
+  // símbolo
+  let sym = '';
+  if (m.symbol && m.symbol !== 'none') {
+    const pos = m.symPos || 'left';
+    const c0 = cap * L[0].k;
+    const last = L[L.length - 1];
+    let sz, sx, sy;
+    if (pos === 'left' || pos === 'right') {
+      sz = L.length > 1 ? tbH * .92 : c0 * 1.12;
+      const cyy = L.length > 1 ? tbH / 2 : L[0].base - c0 / 2;
+      const g = sz * .34;
+      sx = pos === 'left' ? Math.min(B.x1, 0) - g - sz : Math.max(B.x2, tbW) + g; sy = cyy - sz / 2;
+    } else if (pos === 'top') {
+      sz = Math.min(c0 * 1.25, tbW * .5); sx = tbW / 2 - sz / 2; sy = Math.min(B.y1, 0) - sz * .32 - sz;
+    } else { // al final
+      const rx = last.x + last.ink.r * last.k + tr * last.k * .3;
+      if (m.symbol === 'dot') { sz = c0 * .26; sx = rx + sz * .35; sy = last.base - sz; }
+      else { sz = c0 * .46; sx = rx + sz * .12; sy = last.base - cap * last.k - sz * .1; }
+    }
+    if (m.symbol === 'mono') {
+      const mm = renderMono(m, { mode, style: 'ring', colors: { fg: sAcc } });
+      sym = `<svg x="${r2(sx)}" y="${r2(sy)}" width="${r2(sz)}" height="${r2(sz)}" viewBox="0 0 100 100" overflow="visible">${mm.inner}</svg>`;
+    } else {
+      const sp = SYMBOLS[m.symbol];
+      if (sp) sym = `<path transform="translate(${r2(sx)} ${r2(sy)}) scale(${r2(sz / 100)})" d="${sp[1]}" fill="${sAcc}" fill-rule="evenodd"/>`;
+    }
+    add(sx, sy, sx + sz, sy + sz);
+  }
+
+  // marco
+  let frame = '';
+  const fr = m.frame || 'none';
+  const cw = B.x2 - B.x1, ch = B.y2 - B.y1, ccx = (B.x1 + B.x2) / 2, ccy = (B.y1 + B.y2) / 2;
+  const sw = S * .035;
+  if (fr === 'box' || fr === 'badge' || fr === 'pill') {
+    const px = S * (fr === 'pill' ? .5 : .3), py = S * (fr === 'badge' ? .22 : .26);
+    const x = B.x1 - px, yy = B.y1 - py, w = cw + 2 * px, h = ch + 2 * py, rx = fr === 'pill' ? h / 2 : 0;
+    frame = fr === 'badge' ? `<rect x="${r2(x)}" y="${r2(yy)}" width="${r2(w)}" height="${r2(h)}" fill="${C.fg}"/>`
+      : `<rect x="${r2(x)}" y="${r2(yy)}" width="${r2(w)}" height="${r2(h)}" rx="${r2(rx)}" fill="none" stroke="${C.fg}" stroke-width="${r2(sw)}"/>`;
+    add(x - sw, yy - sw, x + w + sw, yy + h + sw);
+  } else if (fr === 'circle') {
+    const R = Math.hypot(cw, ch) / 2 + S * .2;
+    frame = `<circle cx="${r2(ccx)}" cy="${r2(ccy)}" r="${r2(R)}" fill="none" stroke="${C.fg}" stroke-width="${r2(sw)}"/><circle cx="${r2(ccx)}" cy="${r2(ccy)}" r="${r2(R - S * .09)}" fill="none" stroke="${C.fg}" stroke-width="${r2(sw * .38)}"/>`;
+    add(ccx - R - sw, ccy - R - sw, ccx + R + sw, ccy + R + sw);
+  } else if (fr === 'oval') {
+    const rx = cw / 2 * 1.36 + S * .1, ry = ch / 2 * 1.36 + S * .14;
+    frame = `<ellipse cx="${r2(ccx)}" cy="${r2(ccy)}" rx="${r2(rx)}" ry="${r2(ry)}" fill="none" stroke="${C.fg}" stroke-width="${r2(sw)}"/>`;
+    add(ccx - rx - sw, ccy - ry - sw, ccx + rx + sw, ccy + ry + sw);
+  } else if (fr === 'brackets') {
+    const px = S * .26, py = S * .2, arm = S * .16, x1 = B.x1 - px, x2 = B.x2 + px, y1 = B.y1 - py, y2 = B.y2 + py;
+    frame = `<path d="M${r2(x1 + arm)} ${r2(y1)}H${r2(x1)}V${r2(y2)}H${r2(x1 + arm)}M${r2(x2 - arm)} ${r2(y1)}H${r2(x2)}V${r2(y2)}H${r2(x2 - arm)}" fill="none" stroke="${C.fg}" stroke-width="${r2(sw * 1.1)}" stroke-linecap="square"/>`;
+    add(x1 - sw, y1 - sw, x2 + sw, y2 + sw);
+  }
+
+  if (ef === 'outline') add(B.x1 - S * .02, B.y1 - S * .02, B.x2 + S * .02, B.y2 + S * .02);
+  const pad = (o.pad ?? .07) * Math.max(B.x2 - B.x1, B.y2 - B.y1);
+  const vx = B.x1 - pad, vy = B.y1 - pad, vw = B.x2 - B.x1 + 2 * pad, vh = B.y2 - B.y1 + 2 * pad;
+  const inner = (defs ? `<defs>${defs}</defs>` : '') + frame + deco + textG + strike + sym;
+  const bgRect = o.bg ? `<rect x="${r2(vx)}" y="${r2(vy)}" width="${r2(vw)}" height="${r2(vh)}" fill="${C.bg}"/>` : '';
+  const vb = [vx, vy, vw, vh].map(r2);
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${vb.join(' ')}"${o.size ? ` width="${o.size[0]}" height="${o.size[1]}"` : ''}${o.alt ? ` role="img" aria-label="${esc(o.alt)}"` : ' aria-hidden="true"'}>${o.head || ''}${bgRect}${inner}</svg>`;
+  return { svg, inner: bgRect + inner, vb, w: vw, h: vh, font: F, weight: W };
+}
+
+/* ── MONOGRAMA (caja 100×100) ── */
+function renderMono(m, o = {}) {
+  const mode = o.mode || 'live';
+  const F = FMAP[m.font] || FONTS[0];
+  const W = F.w.includes(m.weight) ? m.weight : F.w[F.w.length - 1];
+  const C = Object.assign({}, m.colors, o.colors || {});
+  const st = o.style || (m.mono && m.mono.style) || 'solid';
+  let letters = (m.mono && m.mono.letters) || initials(m.text);
+  if (F.caps === 'lower') letters = letters.toLocaleLowerCase('es');
+  const mt = mode === 'outline' ? otMeasure(F, W, letters) : cvMeasure(F, W, letters);
+  const tr = letters.length > 1 ? -.03 * 100 : 0;
+  let l = 1e9, r = -1e9, a = 0, d = 0;
+  mt.g.forEach((g, i) => { if (g.ws) return; const x = g.x + i * tr; l = Math.min(l, x + g.l); r = Math.max(r, x + g.r); a = Math.max(a, g.asc); d = Math.max(d, g.desc); });
+  if (l > r) { l = 0; r = 60; a = 70; }
+  const iw = r - l, ih = a + d;
+  const box = st === 'plain' ? [84, 72] : st === 'square' ? [58, 50] : [54, 46];
+  const k = Math.min(box[0] / iw, box[1] / ih);
+  const size = 100 * k;
+  const x0 = 50 - (l + iw / 2) * k, base = 50 + (a - ih / 2) * k;
+  const onDark = st === 'solid' || st === 'square';
+  const fill = onDark ? C.bg : C.fg;
+  let t = '';
+  if (mode === 'outline') t = `<path d="${mt.g.map((g, i) => g.ws ? '' : g.glyph.getPath(x0 + (g.x + i * tr) * k, base, size).toPathData(2)).join('')}" fill="${fill}"/>`;
+  else t = `<text x="${mt.g.map((g, i) => r2(x0 + (g.x + i * tr) * k)).join(' ')}" y="${r2(base)}" font-family="'${F.f}'" font-weight="${W}" font-size="${r2(size)}" fill="${fill}">${esc(letters)}</text>`;
+  let shape = '';
+  if (st === 'solid') shape = `<circle cx="50" cy="50" r="50" fill="${C.fg}"/>`;
+  else if (st === 'square') shape = `<rect x="0" y="0" width="100" height="100" rx="${o.round ? 18 : 0}" fill="${C.fg}"/>`;
+  else if (st === 'ring') shape = `<circle cx="50" cy="50" r="47" fill="none" stroke="${C.fg}" stroke-width="3.6"/>`;
+  else if (st === 'seal') shape = `<circle cx="50" cy="50" r="47.5" fill="none" stroke="${C.fg}" stroke-width="2.8"/><circle cx="50" cy="50" r="42" fill="none" stroke="${C.fg}" stroke-width="1"/>`;
+  const bg = o.bg ? `<rect width="100" height="100" fill="${C.bg}"/>` : '';
+  let inner = bg + shape + t;
+  if (o.bg && o.scale) inner = bg + `<g transform="translate(50 50) scale(${o.scale}) translate(-50 -50)">${shape + t}</g>`;
+  return { inner, svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"${o.size ? ` width="${o.size}" height="${o.size}"` : ''} aria-hidden="true">${o.head || ''}${inner}</svg>` };
+}
+
+/* ── carga de fuentes ── */
+const _fl = {};
+function ensureFont(fid, w, text) {
+  const F = FMAP[fid]; if (!F) return Promise.resolve();
+  const key = fid + '|' + w + '|' + (text || '');
+  if (!_fl[key]) {
+    const spec = `${w} 100px "${F.f}"`, sample = (text || '') + 'AaHg';
+    _fl[key] = Promise.race([
+      (async () => {
+        await fontsCss;
+        for (let i = 0; i < 4; i++) { await document.fonts.load(spec, sample); if (document.fonts.check(spec, sample)) break; await new Promise(r => setTimeout(r, 250)); }
+        for (const k of _mc.keys()) if (k.startsWith(F.f + '|' + w + '|')) _mc.delete(k);
+      })(),
+      new Promise(r => setTimeout(r, 6000)),
+    ]).catch(() => {});
+  }
+  return _fl[key];
+}
+let _ldT = 0;
+document.fonts.addEventListener('loadingdone', () => { clearTimeout(_ldT); _ldT = setTimeout(() => { _mc.clear(); if (state.view === 'ideas' && state.ideas.length) drawIdeas(); else if (state.model && state.view !== 'start') renderEditor(); }, 200); });
+const ensureModel = m => ensureFont(m.font, m.weight, applyCase(m.text, m.case) + ((m.mono && m.mono.letters) || initials(m.text)));
+
+/* ════════════════ GENERADOR ════════════════ */
+function rng(seed) { let a = seed >>> 0; return () => { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+function pickW(R, items) { const tot = items.reduce((s, it) => s + it[1], 0); let x = R() * tot; for (const it of items) { x -= it[1]; if (x <= 0) return it[0]; } return items[items.length - 1][0]; }
+
+// recetas: [id, afinidad por estilo, no-va-con-categorías, aplicar]
+const RECIPES = [
+  ['limpio', { minimal: 3, elegante: 2, futurista: 2, clasico: 1, romantico: 2, oscuro: 1, pop: 1 }, [], () => ({})],
+  ['abierto', { elegante: 4, minimal: 3, futurista: 3, oscuro: 1, clasico: 2 }, ['script', 'gothic'], R => ({ case: 'upper', tracking: .32 + R() * .2, light: true })],
+  ['compacto', { pop: 3, callejero: 2, agresivo: 2, minimal: 1 }, ['script'], R => ({ tracking: -.035, case: R() < .5 ? 'lower' : 'upper', heavy: true })],
+  ['bloque', { callejero: 4, agresivo: 4, oscuro: 2, retro: 1, pop: 1 }, ['script', 'mono'], () => ({ layout: 'stack', justify: true, case: 'upper', heavy: true, multi: true })],
+  ['apilado', { elegante: 2, romantico: 2, clasico: 2, minimal: 1, oscuro: 1 }, [], () => ({ layout: 'stack', justify: false, multi: true })],
+  ['contorno', { futurista: 2, retro: 2, agresivo: 1, pop: 2 }, ['script', 'gothic', 'mono'], () => ({ effect: 'outline', case: 'upper', heavy: true })],
+  ['sombra', { retro: 4, pop: 3, callejero: 2 }, ['mono'], () => ({ effect: 'shadow', heavy: true })],
+  ['retro-out', { retro: 4, pop: 2 }, ['script', 'gothic', 'mono', 'serif'], () => ({ effect: 'outshadow', case: 'upper', heavy: true })],
+  ['subrayado', { elegante: 2, clasico: 2, pop: 1, romantico: 2, minimal: 1 }, ['gothic'], () => ({ deco: 'underline' })],
+  ['reglas', { clasico: 4, elegante: 3, retro: 2, oscuro: 1 }, ['script'], R => ({ deco: 'rules', case: 'upper', tracking: .22 + R() * .14, light: true })],
+  ['espejo', { oscuro: 3, agresivo: 3, futurista: 2, callejero: 1 }, ['script', 'gothic'], () => ({ mirror: true, case: 'upper' })],
+  ['simbolo', { oscuro: 2, romantico: 2, pop: 2, callejero: 2, retro: 2, futurista: 2, elegante: 1, agresivo: 1, clasico: 1 }, [], (R, st) => ({ symbol: pickSym(R, st), symPos: R() < .6 ? 'left' : 'top' })],
+  ['punto', { minimal: 4, pop: 2, futurista: 1 }, ['gothic', 'script'], () => ({ symbol: 'dot', symPos: 'after', case: 'lower' })],
+  ['estrellita', { pop: 3, romantico: 2, retro: 2, elegante: 1 }, [], R => ({ symbol: R() < .5 ? 'sparkle' : 'star5', symPos: 'after' })],
+  ['caja', { callejero: 2, minimal: 2, futurista: 1 }, ['script'], () => ({ frame: 'box', case: 'upper', tracking: .12 })],
+  ['etiqueta', { callejero: 4, agresivo: 2, pop: 3, minimal: 1 }, ['script'], () => ({ frame: 'badge', case: 'upper', heavy: true, tracking: .04 })],
+  ['sello', { retro: 2, clasico: 3, elegante: 1, romantico: 1, oscuro: 1 }, [], () => ({ frame: 'circle', short: true })],
+  ['ovalo', { retro: 3, romantico: 2, pop: 1 }, [], () => ({ frame: 'oval', short: true })],
+  ['corchetes', { futurista: 4, minimal: 1 }, ['script', 'gothic'], () => ({ frame: 'brackets', case: 'upper', tracking: .1 })],
+  ['corte', { futurista: 2, oscuro: 1.5, agresivo: 1.5 }, ['script', 'serif', 'mono'], () => ({ effect: 'cut', case: 'upper', heavy: true })],
+  ['glitch', { futurista: 1.5, agresivo: 1.5 }, ['script', 'serif'], () => ({ effect: 'glitch', case: 'upper', heavy: true })],
+  ['veloz', { agresivo: 3, callejero: 2, retro: 2 }, ['script'], () => ({ skew: true, case: 'upper', tracking: -.01, heavy: true })],
+  ['tachado', { agresivo: 1.5, callejero: 1.5, oscuro: .5 }, ['script', 'serif', 'mono', 'gothic'], () => ({ deco: 'strike', case: 'upper', heavy: true })],
+];
+function pickSym(R, st) { const l = STYLE_SYMS[st] || ['star5']; return l[Math.floor(R() * l.length)]; }
+
+function userSchemes() {
+  const out = [];
+  const e = state.est && state.est.paleta;
+  if (e) {
+    const f = normHex(e.fondo), t = normHex(e.texto) || normHex(e.principal), a = normHex(e.acento) || normHex(e.secundario), p = normHex(e.principal);
+    if (f && t) out.push([f, t, a || t]);
+    if (p && f && p !== t) out.push([p, f, a || f]);
+  }
+  const mp = (state.mood && state.mood.paleta || []).map(normHex).filter(Boolean);
+  if (!out.length && mp.length >= 2) {
+    const byL = mp.slice().sort((x, y) => lum(x) - lum(y));
+    const acc = mp.slice().sort((x, y) => sat(y) - sat(x))[0];
+    out.push([byL[0], byL[byL.length - 1], acc]);
+    out.push([byL[byL.length - 1], byL[0], acc]);
+  }
+  return out.filter(s => contrast(s[0], s[1]) >= 3);
+}
+
+function caseFor(F, want, R) {
+  if (F.caps === 'upper') return 'upper';
+  if (F.caps === 'lower') return 'lower';
+  if (F.c === 'script' || F.c === 'gothic') return want === 'lower' && F.c === 'script' ? 'lower' : 'title';
+  if (want) return want;
+  return pickW(R, [['upper', 5], ['title', 2], ['lower', 2]]);
+}
+
+function generate(name, styles, n, seed) {
+  const R = rng(seed);
+  const sty = styles.length ? styles : ['minimal', 'elegante', 'callejero'];
+  const words = name.trim().split(/\s+/).length;
+  const len = Array.from(name.replace(/\s/g, '')).length;
+  const uS = userSchemes();
+  // fuentes candidatas por afinidad
+  const scored = FONTS.map(F => ({ F, s: F.t.filter(t => sty.includes(t)).length + R() * 1.2 })).sort((a, b) => b.s - a.s);
+  const pool = scored.filter(x => x.s >= 1).map(x => x.F);
+  const rest = scored.filter(x => x.s < 1).map(x => x.F);
+  const out = [], usedR = {};
+  for (let i = 0; i < n; i++) {
+    const F = pool.length ? pool.splice(Math.floor(R() * Math.min(pool.length, 4)), 1)[0] : rest.splice(Math.floor(R() * rest.length), 1)[0] || FONTS[i % FONTS.length];
+    const myS = F.t.filter(t => sty.includes(t));
+    const st = myS.length ? myS[Math.floor(R() * myS.length)] : sty[i % sty.length];
+    const cand = RECIPES.filter(rc => !rc[2].includes(F.c)).map(rc => [rc, ((rc[1][st] || 0) + sty.reduce((s, x) => s + (rc[1][x] || 0) * .3, 0)) * Math.pow(.3, usedR[rc[0]] || 0)]).filter(x => x[1] > 0);
+    let rc = pickW(R, cand.length ? cand : [[RECIPES[0], 1]]);
+    usedR[rc[0]] = (usedR[rc[0]] || 0) + 1;
+    let p = rc[3](R, st);
+    if (p.short && len > 9 && words < 2) { p = { frame: 'box' }; }
+    if (len > 12 && words >= 2 && !p.layout && R() < .7) { p = Object.assign({}, p, { layout: 'stack', justify: !['script', 'gothic', 'serif'].includes(F.c) && R() < .7 }); }
+    if (len > 12 && p.tracking > .15) p.tracking = .1;
+    if (p.tracking > .2 && /rubik-mono-one|krona-one|michroma|unbounded|monoton|bungee|orbitron|audiowide/.test(F.id)) p.tracking = .12 + R() * .06;
+    if (p.multi && words < 2 && len < 5) p = {};
+    const m = {
+      text: name, font: F.id, weight: F.w[0], case: 'upper', tracking: 0, layout: 'line', justify: false,
+      effect: 'none', deco: 'none', frame: 'none', symbol: 'none', symPos: 'left', skew: false, mirror: false,
+      colors: { fg: '#111111', bg: '#ffffff', accent: '#111111' }, mono: { style: 'solid', letters: '' }, recipe: rc[0], style: st,
+    };
+    Object.assign(m, p);
+    m.case = caseFor(F, p.case, R);
+    if (p.frame === 'circle' || p.frame === 'oval') { if (len > 7 && words >= 2) { m.layout = 'stack'; } }
+    // grosor
+    const ws = F.w;
+    m.weight = p.heavy ? ws[ws.length - 1] : p.light ? ws[0] : ws[Math.floor(R() * ws.length)];
+    if (F.c === 'script' || F.c === 'gothic') m.tracking = 0;
+    else if (p.tracking === undefined) m.tracking = m.case === 'upper' ? pickW(R, [[0, 3], [.06, 2], [.14, 1]]) : pickW(R, [[0, 3], [-.02, 2]]);
+    // un toque extra a veces
+    if (m.symbol === 'none' && m.frame === 'none' && R() < .22) { m.symbol = pickSym(R, st); m.symPos = m.layout === 'stack' ? 'top' : 'left'; }
+    if (m.symbol === 'mono' && m.symPos === 'after') m.symPos = 'left';
+    // color
+    const sc = uS.length && R() < .45 ? uS[Math.floor(R() * uS.length)] : (SCHEMES[st] || SCHEMES.minimal)[Math.floor(R() * (SCHEMES[st] || SCHEMES.minimal).length)];
+    m.colors = { bg: sc[0], fg: sc[1], accent: sc[2] };
+    m.mono.style = R() < .5 ? 'solid' : 'ring';
+    delete m.heavy; delete m.light; delete m.multi; delete m.short;
+    out.push(m);
+  }
+  return out;
+}
+
+/* ════════════════ ESTADO ════════════════ */
+const state = {
+  name: '', styles: [], ideas: [], favs: [], seed: 1, model: null, view: 'start', stageBg: 'brand', bw: false,
+  hist: [], fut: [], est: null, mood: null, ready: null, tipI: 0, svgFinal: '', pngUrl: '', outlineOk: null, cat: 'all', q: '',
+};
+
+/* ════════════════ NAVEGACIÓN ════════════════ */
+function show(v) {
+  state.view = v;
+  $$('.view').forEach(e => e.classList.toggle('on', e.id === 'v-' + (v === 'export' ? 'editor' : v)));
+  $$('.steps button').forEach(b => b.classList.toggle('on', b.dataset.go === v));
+  if (v === 'export') setTimeout(() => $('#s-export').scrollIntoView({ behavior: 'smooth', block: 'start' }), 60);
+  else window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' });
+  updateSteps();
+}
+function updateSteps() {
+  const b = $$('.steps button');
+  b[1].disabled = !state.ideas.length;
+  b[2].disabled = b[3].disabled = !state.model;
+}
+$$('.steps button').forEach(b => b.onclick = () => { if (b.dataset.go === 'ideas' && !state.ideas.length) return; if (b.dataset.go === 'editor' || b.dataset.go === 'export') { show(b.dataset.go); renderEditor(); } else show(b.dataset.go); });
+
+function toast(t, ms = 2400) { const e = $('#toast'); e.textContent = t; e.classList.add('on'); clearTimeout(toast._t); toast._t = setTimeout(() => e.classList.remove('on'), ms); }
+
+/* ════════════════ 1 · INICIO ════════════════ */
+function renderStyleChips() {
+  $('#stylechips').innerHTML = STYLES.map(([id, lb, f, g]) => `<button class="chip${state.styles.includes(id) ? ' on' : ''}" data-s="${id}" aria-pressed="${state.styles.includes(id)}"><span class="gl" style="font-family:'${f}'">${g}</span>${lb}</button>`).join('');
+  const n = state.styles.length;
+  $$('#stylechips .chip').forEach(c => { c.disabled = n >= 3 && !state.styles.includes(c.dataset.s); c.onclick = () => toggleStyle(c.dataset.s); });
+  $('#stcount').textContent = n === 0 ? 'Elegí 2 o 3' : n < 3 ? `${n} elegido${n > 1 ? 's' : ''} · podés sumar ${3 - n}` : '3 elegidos ✓';
+}
+function toggleStyle(id) {
+  const i = state.styles.indexOf(id);
+  if (i >= 0) state.styles.splice(i, 1); else if (state.styles.length < 3) state.styles.push(id);
+  renderStyleChips(); persist();
+}
+$('#nm').addEventListener('input', e => { state.name = e.target.value; persist(); });
+$('#nm').addEventListener('keydown', e => { if (e.key === 'Enter') $('#genbtn').click(); });
+$('#genbtn').onclick = () => {
+  const n = $('#nm').value.trim();
+  if (!n) { $('#nm').focus(); toast('Primero escribí tu nombre artístico'); return; }
+  if (!state.styles.length) { toast('Elegí al menos un estilo (mejor 2 o 3)'); return; }
+  state.name = n; state.seed = (Date.now() % 100000) + 7; state.ideas = [];
+  show('ideas'); buildIdeas();
+};
+
+/* ════════════════ 2 · PROPUESTAS ════════════════ */
+const N_IDEAS = 16;
+async function buildIdeas(append) {
+  const g = $('#grid');
+  $('#ititle').innerHTML = `Propuestas para <em>${esc(state.name)}</em>`;
+  renderIStyles();
+  const fresh = generate(state.name, state.styles, N_IDEAS, state.seed);
+  g.innerHTML = state.favs.map(() => '<div class="card skel"></div>').join('') + fresh.map(() => '<div class="card skel" aria-hidden="true"></div>').join('');
+  await Promise.all(fresh.concat(state.favs).map(ensureModel));
+  state.ideas = fresh;
+  drawIdeas();
+  updateSteps(); persist();
+}
+function drawIdeas() {
+  const g = $('#grid');
+  const favKeys = new Set(state.favs.map(keyOf));
+  const list = state.favs.map(m => ({ m, fav: true })).concat(state.ideas.filter(m => !favKeys.has(keyOf(m))).map(m => ({ m, fav: false })));
+  g.innerHTML = list.map(({ m, fav }, i) => {
+    const r = renderLogo(Object.assign({}, m, { text: state.name }), { alt: 'Propuesta ' + (i + 1) });
+    const F = FMAP[m.font];
+    return `<div class="card" role="button" tabindex="0" data-i="${i}" style="background:${m.colors.bg}" aria-label="Propuesta ${i + 1}, ${esc(F.f)}">
+      <div class="lg">${r.svg}</div>
+      <button class="fav${fav ? ' on' : ''}" data-f="${i}" aria-label="${fav ? 'Quitar de' : 'Guardar en'} favoritos" aria-pressed="${fav}"><svg viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z" fill="none" stroke="#111" stroke-width="2"/></svg></button>
+      <div class="meta"><span>${esc(F.f)}</span><b>Editar →</b></div></div>`;
+  }).join('');
+  $$('.card', g).forEach(c => {
+    const pick = () => { const it = list[+c.dataset.i]; openEditor(JSON.parse(JSON.stringify(Object.assign({}, it.m, { text: state.name })))); };
+    c.onclick = e => { if (e.target.closest('.fav')) return; pick(); };
+    c.onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pick(); } };
+  });
+  $$('.fav', g).forEach(b => b.onclick = e => {
+    e.stopPropagation();
+    const it = list[+b.dataset.f]; const k = keyOf(it.m);
+    if (it.fav) state.favs = state.favs.filter(x => keyOf(x) !== k);
+    else { state.favs.unshift(JSON.parse(JSON.stringify(it.m))); state.favs = state.favs.slice(0, 8); toast('Guardada en favoritos: queda fija aunque pidas más ideas'); }
+    drawIdeas(); persist();
+  });
+  $('#favbar').innerHTML = state.favs.length ? `<svg width="14" height="14" viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z" fill="#e0245e"/></svg> ${state.favs.length} favorita${state.favs.length > 1 ? 's' : ''} fija${state.favs.length > 1 ? 's' : ''} al principio` : 'Tocá el corazón para guardar las que te gustan. Tocá cualquiera para ajustarla.';
+}
+const keyOf = m => [m.font, m.weight, m.case, m.layout, m.effect, m.frame, m.deco, m.symbol, m.colors.bg, m.colors.fg].join('|');
+function renderIStyles() {
+  $('#istyles').innerHTML = STYLES.map(([id, lb]) => `<button data-s="${id}" class="${state.styles.includes(id) ? 'on' : ''}" aria-pressed="${state.styles.includes(id)}">${lb}</button>`).join('');
+  $$('#istyles button').forEach(b => b.onclick = () => {
+    const id = b.dataset.s, i = state.styles.indexOf(id);
+    if (i >= 0) { if (state.styles.length === 1) return toast('Dejá al menos un estilo'); state.styles.splice(i, 1); }
+    else { if (state.styles.length >= 3) state.styles.shift(); state.styles.push(id); }
+    state.seed++; renderStyleChips(); buildIdeas();
+  });
+}
+$('#more').onclick = () => { state.seed = state.seed * 7 + 13; buildIdeas(); window.scrollTo({ top: 0, behavior: 'smooth' }); };
+$('#backname').onclick = () => show('start');
+
+/* ════════════════ 3 · EDITOR ════════════════ */
+function openEditor(m) {
+  if (!m.mono) m.mono = { style: 'solid', letters: '' };
+  state.model = m; state.hist = []; state.fut = [];
+  show('editor');
+  ensureModel(m).then(renderEditor);
+  buildFontList();
+  persist();
+}
+let _snapT = 0;
+function setM(patch, opt = {}) {
+  const m = state.model;
+  const now = Date.now();
+  if (!opt.noHist && (now - _snapT > 600 || opt.forceHist)) { state.hist.push(JSON.stringify(m)); if (state.hist.length > 60) state.hist.shift(); state.fut = []; }
+  _snapT = now;
+  for (const k in patch) { if (k === 'colors' || k === 'mono') m[k] = Object.assign({}, m[k], patch[k]); else m[k] = patch[k]; }
+  ensureModel(m).then(() => { renderEditor(); persist(); });
+}
+$('#undo').onclick = () => { if (!state.hist.length) return toast('No hay nada para deshacer'); state.fut.push(JSON.stringify(state.model)); state.model = JSON.parse(state.hist.pop()); ensureModel(state.model).then(() => { renderEditor(); persist(); }); };
+$('#redo').onclick = () => { if (!state.fut.length) return; state.hist.push(JSON.stringify(state.model)); state.model = JSON.parse(state.fut.pop()); ensureModel(state.model).then(() => { renderEditor(); persist(); }); };
+document.addEventListener('keydown', e => { if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'z' && state.view !== 'start' && !/INPUT/.test(document.activeElement.tagName)) { e.preventDefault(); (e.shiftKey ? $('#redo') : $('#undo')).click(); } });
+
+function stageBgColor() { const m = state.model; return state.stageBg === 'brand' ? m.colors.bg : state.stageBg === 'white' ? '#ffffff' : state.stageBg === 'black' ? '#0a0a0a' : null; }
+function renderEditor() {
+  const m = state.model; if (!m) return;
+  const cv = $('#canvas');
+  const bg = stageBgColor();
+  cv.classList.toggle('chk', !bg); cv.style.background = bg || '';
+  cv.classList.toggle('bw', state.bw);
+  let mm = m;
+  if (state.stageBg === 'white' && contrast(m.colors.fg, '#ffffff') < 2) mm = Object.assign({}, m, { colors: { fg: '#0a0a0a', bg: '#ffffff', accent: contrast(m.colors.accent, '#fff') < 2 ? '#0a0a0a' : m.colors.accent } });
+  if (state.stageBg === 'black' && contrast(m.colors.fg, '#0a0a0a') < 2) mm = Object.assign({}, m, { colors: { fg: '#ffffff', bg: '#0a0a0a', accent: contrast(m.colors.accent, '#0a0a0a') < 2 ? '#ffffff' : m.colors.accent } });
+  $('#main').innerHTML = renderLogo(mm, { alt: 'Tu logo: ' + m.text, transparent: !bg }).svg;
+  $('#bgsw').style.background = m.colors.bg;
+  const F = FMAP[m.font];
+  const tg = $('#ftag'); tg.textContent = F.f + ' · ' + wName(m.weight);
+  syncControls(); renderChecks(); renderTiles(); renderMocks(); renderVersions(); renderTip(); renderExpStack();
+  scheduleFinal();
+}
+const WN = { 300: 'Light', 400: 'Regular', 500: 'Medium', 600: 'Semibold', 700: 'Bold', 800: 'Extra bold', 900: 'Black' };
+const wName = w => WN[w] || w;
+
+$$('#bgseg button').forEach(b => b.onclick = () => { state.stageBg = b.dataset.bg; $$('#bgseg button').forEach(x => x.classList.toggle('on', x === b)); renderEditor(); });
+$('#bwbtn').onclick = () => { state.bw = !state.bw; $('#bwbtn').setAttribute('aria-pressed', state.bw); $('#bwbtn').classList.toggle('pri', state.bw); renderEditor(); if (state.bw) toast('Así se ve en blanco y negro (fotocopia, sello, bordado)'); };
+$$('.tabs button').forEach(b => b.onclick = () => { $$('.tabs button').forEach(x => x.classList.toggle('on', x === b)); $$('.tp').forEach(p => p.classList.toggle('on', p.id === 'tp-' + b.dataset.tab)); });
+
+/* tipografías */
+function buildFontList() {
+  $('#fcats').innerHTML = CATS.map(([id, lb]) => `<button data-c="${id}" class="${state.cat === id ? 'on' : ''}">${lb}</button>`).join('');
+  $$('#fcats button').forEach(b => b.onclick = () => { state.cat = b.dataset.c; $$('#fcats button').forEach(x => x.classList.toggle('on', x === b)); drawFontList(); });
+  drawFontList();
+}
+function drawFontList() {
+  const m = state.model; if (!m) return;
+  const q = state.q.toLowerCase();
+  const list = FONTS.filter(F => (state.cat === 'all' || F.c === state.cat) && (!q || F.f.toLowerCase().includes(q) || F.t.some(t => t.includes(q)) || (CATNAME[F.c] || '').toLowerCase().includes(q)));
+  const prev = s => applyCase(s, FMAP[m.font] ? m.case : 'asis');
+  $('#flist').innerHTML = list.length ? list.map(F => {
+    const cs = F.caps === 'upper' ? 'upper' : F.caps === 'lower' ? 'lower' : (F.c === 'script' || F.c === 'gothic') ? 'title' : m.case;
+    return `<button class="fi${F.id === m.font ? ' on' : ''}" data-f="${F.id}" role="option" aria-selected="${F.id === m.font}"><span class="pv" style="font-family:'${F.f}';font-weight:${F.w[Math.min(1, F.w.length - 1)]}">${esc(applyCase(m.text, cs))}</span><small>${esc(F.f)}</small></button>`;
+  }).join('') : '<p style="padding:16px;color:var(--mut);margin:0;font-size:13px">No encontré esa tipografía. Probá con “script”, “gótica” o “mono”.</p>';
+  $$('#flist .fi').forEach(b => b.onclick = () => {
+    const F = FMAP[b.dataset.f]; const m = state.model;
+    const patch = { font: F.id, weight: F.w.includes(m.weight) ? m.weight : F.w[F.w.length > 1 ? 1 : 0] };
+    if (F.caps === 'upper') patch.case = 'upper';
+    else if (F.caps === 'lower') patch.case = 'lower';
+    else if ((F.c === 'script' || F.c === 'gothic') && m.case === 'upper') patch.case = 'title';
+    if (F.c === 'script' || F.c === 'gothic') patch.tracking = Math.min(m.tracking, .02);
+    $$('#flist .fi').forEach(x => { x.classList.toggle('on', x === b); x.setAttribute('aria-selected', x === b); });
+    setM(patch, { forceHist: true });
+  });
+}
+$('#fsearch').addEventListener('input', e => { state.q = e.target.value; drawFontList(); });
+
+function syncControls() {
+  const m = state.model, F = FMAP[m.font];
+  $('#wgrp').style.display = F.w.length > 1 ? '' : 'none';
+  $('#wseg').innerHTML = F.w.map(w => `<button data-v="${w}" class="${w === m.weight ? 'on' : ''}" style="font-weight:${w}">${wName(w)}</button>`).join('');
+  $$('#wseg button').forEach(b => b.onclick = () => setM({ weight: +b.dataset.v }, { forceHist: true }));
+  segSync('#caseseg', m.case, v => setM({ case: v }, { forceHist: true }));
+  $$('#caseseg button').forEach(b => { const dis = (F.caps === 'upper' && b.dataset.v !== 'upper') || (F.caps === 'lower' && b.dataset.v !== 'lower'); b.disabled = dis; b.style.opacity = dis ? .35 : ''; b.title = dis ? 'Esta tipografía viene solo así' : ''; });
+  segSync('#layseg', m.layout, v => setM({ layout: v, justify: v === 'stack' ? m.justify : false }, { forceHist: true }));
+  const tr = $('#tr'); if (document.activeElement !== tr) tr.value = m.tracking;
+  $('#trout').textContent = m.tracking === 0 ? 'Normal' : (m.tracking > 0 ? '+' : '') + Math.round(m.tracking * 100);
+  $('#justog').style.display = m.layout === 'stack' ? '' : 'none';
+  $('#justify').checked = !!m.justify; $('#skew').checked = !!m.skew; $('#mirror').checked = !!m.mirror;
+  ['fg', 'bg', 'ac'].forEach(k => { const v = k === 'ac' ? m.colors.accent : m.colors[k]; $('#c-' + k).value = v; if (document.activeElement !== $('#h-' + k)) $('#h-' + k).value = v.toUpperCase(); $('#w-' + k).style.background = v; });
+  segSync('#symseg', m.symPos, v => setM({ symPos: v }, { forceHist: true }));
+  $('#symposgrp').style.display = m.symbol === 'none' ? 'none' : '';
+  $$('#symseg button').forEach(b => { const dis = m.symbol === 'mono' && b.dataset.v === 'after'; b.disabled = dis; b.style.opacity = dis ? .35 : ''; });
+  const ml = $('#monol'); if (document.activeElement !== ml) ml.value = (m.mono && m.mono.letters) || initials(m.text);
+}
+function segSync(sel, val, fn) { $$(sel + ' button').forEach(b => { b.classList.toggle('on', b.dataset.v === String(val)); b.onclick = () => fn(b.dataset.v); }); }
+$('#tr').addEventListener('input', e => setM({ tracking: +e.target.value }));
+$('#justify').onchange = e => setM({ justify: e.target.checked }, { forceHist: true });
+$('#skew').onchange = e => setM({ skew: e.target.checked }, { forceHist: true });
+$('#mirror').onchange = e => setM({ mirror: e.target.checked }, { forceHist: true });
+[['fg', 'fg'], ['bg', 'bg'], ['ac', 'accent']].forEach(([k, key]) => {
+  $('#c-' + k).addEventListener('input', e => setM({ colors: { [key]: e.target.value } }));
+  $('#h-' + k).addEventListener('change', e => { const h = normHex(e.target.value); if (h) setM({ colors: { [key]: h } }, { forceHist: true }); else { e.target.value = state.model.colors[key].toUpperCase(); toast('Escribí un color tipo #1A1A1A'); } });
+});
+$('#swap').onclick = () => { const c = state.model.colors; setM({ colors: { fg: c.bg, bg: c.fg, accent: c.accent === c.fg ? c.bg : c.accent } }, { forceHist: true }); };
+$('#mono1').onclick = () => { const c = state.model.colors; setM({ colors: { accent: c.fg } }, { forceHist: true }); toast('Listo: letra y detalles del mismo color'); };
+$('#monol').addEventListener('input', e => setM({ mono: { letters: e.target.value.replace(/\s/g, '').slice(0, 3) } }));
+
+/* miniaturas de efecto/marco/detalle/monograma/símbolo/colores */
+const FX = [['none', 'Limpio'], ['outline', 'Contorno'], ['shadow', 'Sombra dura'], ['outshadow', 'Retro'], ['cut', 'Corte'], ['glitch', 'Glitch']];
+const FR = [['none', 'Sin marco'], ['box', 'Caja'], ['badge', 'Etiqueta'], ['pill', 'Píldora'], ['circle', 'Sello'], ['oval', 'Óvalo'], ['brackets', 'Corchetes']];
+const DC = [['none', 'Nada'], ['underline', 'Subrayado'], ['rules', 'Líneas'], ['strike', 'Tachado']];
+const MONO = [['solid', 'Círculo lleno'], ['ring', 'Aro'], ['square', 'Cuadrado'], ['seal', 'Sello'], ['plain', 'Solo letras']];
+function tileHTML(key, list, cur, fn) {
+  const m = state.model;
+  return list.map(([v, lb]) => {
+    const mm = Object.assign({}, m, { [key]: v });
+    if (key === 'frame' && (v === 'circle' || v === 'oval') && mm.symPos === 'after') mm.symPos = 'left';
+    const svg = renderLogo(mm, { pad: .04 }).svg;
+    return `<button class="tile${cur === v ? ' on' : ''}" data-v="${v}" aria-pressed="${cur === v}"><div class="tv" style="background:${m.colors.bg}">${svg}</div><span>${lb}</span></button>`;
+  }).join('');
+}
+function renderTiles() {
+  const m = state.model;
+  const tabOpen = id => $('#tp-' + id).classList.contains('on') || window.innerWidth < 900 || !renderTiles._done;
+  if (tabOpen('fx')) {
+    $('#fxtiles').innerHTML = tileHTML('effect', FX, m.effect);
+    $('#frtiles').innerHTML = tileHTML('frame', FR, m.frame);
+    $('#dctiles').innerHTML = tileHTML('deco', DC, m.deco);
+    $$('#fxtiles .tile').forEach(b => b.onclick = () => setM({ effect: b.dataset.v }, { forceHist: true }));
+    $$('#frtiles .tile').forEach(b => b.onclick = () => setM({ frame: b.dataset.v }, { forceHist: true }));
+    $$('#dctiles .tile').forEach(b => b.onclick = () => setM({ deco: b.dataset.v }, { forceHist: true }));
+  }
+  $('#monotiles').innerHTML = MONO.map(([v, lb]) => `<button class="tile${(m.mono.style || 'solid') === v ? ' on' : ''}" data-v="${v}"><div class="tv" style="background:${m.colors.bg}">${renderMono(m, { style: v }).svg}</div><span>${lb}</span></button>`).join('');
+  $$('#monotiles .tile').forEach(b => b.onclick = () => setM({ mono: { style: b.dataset.v } }, { forceHist: true }));
+  const syms = [['none', '']].concat(Object.entries(SYMBOLS).map(([k, v]) => [k, v[1], v[0]])).concat([['mono', '', 'Iniciales']]);
+  $('#symgrid').innerHTML = syms.map(([k, d, lb]) => `<button data-v="${k}" class="${m.symbol === k ? 'on' : ''}" title="${lb || 'Sin símbolo'}" aria-label="${lb || 'Sin símbolo'}" aria-pressed="${m.symbol === k}">${k === 'none' ? '<span class="no">Nada</span>' : k === 'mono' ? `<span style="font:600 15px '${FMAP[m.font].f}'">${esc(initials(m.text))}</span>` : `<svg viewBox="0 0 100 100"><path d="${d}" fill="#111" fill-rule="evenodd"/></svg>`}</button>`).join('');
+  $$('#symgrid button').forEach(b => b.onclick = () => { const v = b.dataset.v; const p = { symbol: v }; if (v === 'dot') p.symPos = 'after'; else if (v === 'mono' && m.symPos === 'after') p.symPos = 'left'; else if (m.symbol === 'none' && v !== 'none') p.symPos = m.layout === 'stack' ? 'top' : 'left'; setM(p, { forceHist: true }); });
+  // colores
+  const combos = comboList();
+  $('#combos').innerHTML = combos.map((c, i) => `<button data-i="${i}" style="background:${c[0]};color:${c[1]};font-family:'${FMAP[m.font].f}'" class="${c[0] === m.colors.bg && c[1] === m.colors.fg ? 'on' : ''}" aria-label="Combinación ${i + 1}">Aa<i style="background:${c[2]}"></i></button>`).join('');
+  $$('#combos button').forEach(b => b.onclick = () => { const c = combos[+b.dataset.i]; setM({ colors: { bg: c[0], fg: c[1], accent: c[2] } }, { forceHist: true }); });
+  const up = userPalette();
+  $('#palttl').textContent = up.src ? 'Tu paleta' : 'Paleta sugerida';
+  $('#palnote').textContent = up.src ? `De tu ${up.src}. Tocá un color y elegí dónde va.` : 'Cuando armes tu Moodboard o tu Estética, acá aparecen tus colores.';
+  $('#pal').innerHTML = up.list.map(h => `<button style="background:${h}" data-h="${h}" title="${h.toUpperCase()}" aria-label="Color ${h}"></button>`).join('');
+  $$('#pal button').forEach(b => b.onclick = () => { palTarget = (palTarget + 1) % 3; const key = ['fg', 'bg', 'accent'][palTarget]; setM({ colors: { [key]: b.dataset.h } }, { forceHist: true }); toast(`Aplicado a ${['la letra', 'el fondo', 'el acento'][palTarget]} · tocá otra vez para cambiar`); });
+  renderTiles._done = true;
+}
+let palTarget = 2;
+function comboList() {
+  const out = userSchemes().slice(0, 3);
+  const st = state.model.style && SCHEMES[state.model.style] ? state.model.style : 'minimal';
+  SCHEMES[st].forEach(s => out.push(s));
+  [['#ffffff', '#0a0a0a', '#0a0a0a'], ['#0a0a0a', '#ffffff', '#ffffff'], ['#f3efe7', '#1a1a1a', '#b5452b'], ['#111111', '#e9e3d6', '#c9a227'], ['#1f2cff', '#ffffff', '#ffe14d'], ['#e8e2d6', '#2d3a2e', '#a35d2a'], ['#0e1a2b', '#f2f2f2', '#59a7ff'], ['#ffd9e1', '#5a1424', '#e0245e']].forEach(s => out.push(s));
+  const seen = new Set(); return out.filter(s => { const k = s.join(); if (seen.has(k)) return false; seen.add(k); return true; }).slice(0, 12);
+}
+function userPalette() {
+  if (state.est && state.est.paleta) { const p = state.est.paleta; const l = ['principal', 'secundario', 'acento', 'fondo', 'texto'].map(k => normHex(p[k])).filter(Boolean); if (l.length) return { src: 'Estética visual', list: Array.from(new Set(l)) }; }
+  const mp = (state.mood && state.mood.paleta || []).map(normHex).filter(Boolean);
+  if (mp.length) return { src: 'Moodboard', list: Array.from(new Set(mp)).slice(0, 12) };
+  return { src: null, list: ['#0a0a0a', '#ffffff', '#e9e6e1', '#8b1a24', '#e3001b', '#ff5a1f', '#ffd400', '#c6ff3d', '#1d3bff', '#3cf2ff', '#b26bff', '#ff7ad9', '#9c7a3c', '#1d2a26'] };
+}
+
+/* chequeos y consejos */
+function renderChecks() {
+  const m = state.model, c = contrast(m.colors.fg, m.colors.bg);
+  const out = [];
+  out.push(c >= 4.5 ? ['ok', 'Contraste fuerte'] : c >= 3 ? ['warn', 'Contraste justo'] : ['bad', 'Poco contraste']);
+  const F = FMAP[m.font], len = Array.from(m.text.replace(/\s/g, '')).length;
+  const thin = F.c === 'script' || (F.w[0] === m.weight && m.weight <= 300) || F.id === 'monoton';
+  out.push(thin || (len > 12 && m.layout === 'line') ? ['warn', 'Chico cuesta leerlo: usá el monograma'] : ['ok', 'Se lee chico']);
+  const accDep = ['shadow', 'outshadow', 'glitch'].includes(m.effect) && contrast(m.colors.accent, m.colors.bg) < 1.6;
+  out.push(accDep ? ['warn', 'El acento casi no se ve'] : ['ok', 'Funciona en B/N']);
+  if (len > 14 && m.layout === 'line') out.push(['warn', 'Nombre largo: probá Apilado']);
+  $('#checks').innerHTML = out.map(([k, t]) => `<span class="ck ${k}"><i>${k === 'ok' ? '✓' : '!'}</i>${t}</span>`).join('');
+}
+const TIPS = [
+  ['Que se lea chico', 'El 90% de las veces tu logo se ve del tamaño de una uña: el avatar, la portada en la lista de Spotify. Si chico no se lee, usá el monograma.'],
+  ['Probalo en blanco y negro', 'Tocá B/N arriba. Si sin color sigue teniendo fuerza, es un buen logo. El color lo suma la portada de cada lanzamiento.'],
+  ['Menos es más', 'Elegí UN efecto. Contorno + sombra + símbolo + marco juntos parece flyer de cumpleaños. Los sellos grandes son simples.'],
+  ['Pensá en 10 años', 'Lo de moda envejece rápido. Si dudás entre dos, quedate con el más sobrio: lo vas a usar en cada tapa, cada show y cada remera.'],
+  ['Una tipografía, siempre la misma', 'Una vez que elijas, no la cambies en cada flyer. La repetición es lo que hace que la gente te reconozca sin leer.'],
+  ['El color no es el logo', 'Tu logo tiene que funcionar en blanco sobre negro y en negro sobre blanco. Por eso te dejo las versiones negativo y positivo.'],
+  ['Mostralo antes de decidir', 'Mandale el avatar a 3 personas sin explicarles nada. Si te dicen tu nombre, ganaste.'],
+];
+function renderTip() {
+  const m = state.model, F = FMAP[m.font];
+  let t = null;
+  if (F.c === 'script' && !renderTip._s) t = ['Ojo con las script', 'Las letras a mano son hermosas grandes pero se empastan chicas. Para la foto de perfil usá el monograma.'];
+  else if (F.c === 'gothic' && !renderTip._g) t = ['Góticas en mayúscula, no', 'Las góticas todas en mayúscula no se leen. Dejalas con la primera en mayúscula y listo.'];
+  if (t) { if (F.c === 'script') renderTip._s = 1; else renderTip._g = 1; renderTip.cur = t; }
+  const cur = renderTip.cur || TIPS[state.tipI % TIPS.length];
+  $('#tip').innerHTML = `<b>${esc(cur[0])}</b>${esc(cur[1])}`;
+}
+$('#tipnext').onclick = () => { renderTip.cur = null; state.tipI++; renderTip(); };
+
+/* ── mockups ── */
+function embed(r, x, y, w, h, align = 'xMidYMid') { return `<svg x="${r2(x)}" y="${r2(y)}" width="${r2(w)}" height="${r2(h)}" viewBox="${r.vb.join(' ')}" preserveAspectRatio="${align} meet" overflow="visible">${r.inner}</svg>`; }
+function oneColor(m, fg, bg) { return Object.assign({}, m, { colors: { fg, bg, accent: fg } }); }
+function slug(s) { return String(s || 'artista').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '').slice(0, 24) || 'artista'; }
+let teeColor = 'black';
+function renderMocks() {
+  const m = state.model, C = m.colors;
+  const darkBg = lum(C.bg) < .35;
+  const monoAv = renderMono(m, { bg: true, scale: .82 }).svg;
+  const handle = slug(m.text);
+  // Spotify: logo claro sobre su fondo oscurecido
+  const spBg = darkBg ? C.bg : `color-mix(in srgb, ${sat(C.accent) > .25 ? C.accent : C.fg} 55%, #121212)`;
+  const spLogo = darkBg && contrast(C.fg, C.bg) > 3 ? m : oneColor(m, '#ffffff', '#000000');
+  const spR = renderLogo(Object.assign({}, spLogo, { layout: 'line', frame: m.frame === 'circle' || m.frame === 'oval' ? 'none' : m.frame }), { pad: 0 });
+  const cover = (k) => `<svg viewBox="0 0 100 100"><rect width="100" height="100" fill="${k ? C.accent : C.bg}"/><circle cx="${k ? 30 : 70}" cy="${k ? 70 : 30}" r="34" fill="${k ? C.bg : C.accent}" opacity=".85"/></svg>`;
+  // remera
+  const teeFill = teeColor === 'black' ? '#141414' : teeColor === 'white' ? '#f4f4f2' : C.bg;
+  const teeLogoM = teeColor === 'brand' ? m : teeColor === 'black' ? oneColor(m, '#f2f2f0', '#141414') : oneColor(m, '#111111', '#f4f4f2');
+  const teeR = renderLogo(Object.assign({}, teeLogoM, { layout: m.layout }), { pad: 0 });
+  const TP = 'M110 92c9 11 24 17 40 17s31-6 40-17l52 20 36 58-38 21-19-25v178H79V166l-19 25-38-21 36-58z';
+  const tee = `<svg viewBox="0 0 300 420" role="img" aria-label="Remera con tu logo"><defs><linearGradient id="tg" x1="0" x2="1"><stop offset="0" stop-color="#000" stop-opacity=".2"/><stop offset=".3" stop-color="#000" stop-opacity="0"/><stop offset=".7" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".22"/></linearGradient><radialGradient id="tbg" cx=".5" cy=".45" r=".7"><stop offset="0" stop-color="#f1f0ec"/><stop offset="1" stop-color="#dcdbd6"/></radialGradient></defs>
+    <rect width="300" height="420" fill="url(#tbg)"/>
+    <ellipse cx="150" cy="378" rx="96" ry="8" fill="#000" opacity=".08"/>
+    <path d="${TP}" fill="${teeFill}"/><path d="${TP}" fill="url(#tg)"/>
+    <path d="M110 92c9 11 24 17 40 17s31-6 40-17" fill="none" stroke="#000" stroke-opacity=".28" stroke-width="3"/>
+    ${embed(teeR, 104, 140, 92, 62)}</svg>`;
+  // póster
+  const pR = renderLogo(m, { pad: 0 });
+  const acc = contrast(C.accent, C.bg) > 1.8 ? C.accent : C.fg;
+  const poster = `<svg viewBox="0 0 300 420" role="img" aria-label="Póster de show"><defs><filter id="gr"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" stitchTiles="stitch"/><feColorMatrix values="0 0 0 0 .5  0 0 0 0 .5  0 0 0 0 .5  0 0 0 .5 0"/></filter></defs>
+    <rect width="300" height="420" fill="${C.bg}"/><rect width="300" height="420" filter="url(#gr)" opacity=".22"/>
+    <text x="24" y="40" font-family="Inter Tight,sans-serif" font-weight="600" font-size="10" letter-spacing="3" fill="${C.fg}" opacity=".75">EN VIVO · PRESENTACIÓN</text>
+    <rect x="24" y="52" width="252" height="1.2" fill="${C.fg}" opacity=".4"/>
+    ${embed(pR, 24, 110, 252, 150)}
+    <rect x="24" y="330" width="252" height="1.2" fill="${C.fg}" opacity=".4"/>
+    <text x="24" y="356" font-family="Inter Tight,sans-serif" font-weight="700" font-size="20" fill="${C.fg}">SÁB 14 · DIC</text>
+    <text x="24" y="376" font-family="Inter Tight,sans-serif" font-weight="500" font-size="10.5" fill="${C.fg}" opacity=".8">SALA CENTRAL · 21:00 H</text>
+    <rect x="200" y="344" width="76" height="26" rx="13" fill="${acc}"/><text x="238" y="361" text-anchor="middle" font-family="Inter Tight,sans-serif" font-weight="700" font-size="9.5" fill="${contrast(acc, '#000') > contrast(acc, '#fff') ? '#000' : '#fff'}">ENTRADAS</text>
+    <text x="24" y="402" font-family="Inter Tight,sans-serif" font-size="8.5" fill="${C.fg}" opacity=".6">@${esc(handle)}</text></svg>`;
+  // portada
+  const cR = renderLogo(Object.assign({}, m, { layout: 'line', frame: 'none' }), { pad: 0 });
+  const cv = `<svg viewBox="0 0 300 420" role="img" aria-label="Portada de single"><defs><radialGradient id="cg" cx=".7" cy=".72" r=".6"><stop offset="0" stop-color="${C.accent}" stop-opacity=".95"/><stop offset="1" stop-color="${C.accent}" stop-opacity="0"/></radialGradient><filter id="csh" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="10" stdDeviation="12" flood-opacity=".28"/></filter></defs>
+    <rect width="300" height="420" fill="#1a1a19"/>
+    <g transform="translate(30 44)"><rect width="240" height="240" fill="${C.bg}" filter="url(#csh)"/><rect width="240" height="240" fill="url(#cg)"/><circle cx="166" cy="171" r="52" fill="none" stroke="${C.fg}" stroke-opacity=".35"/>
+    ${embed(cR, 18, 18, 124, 34, 'xMinYMin')}
+    <text x="18" y="214" font-family="Inter Tight,sans-serif" font-weight="700" font-size="17" fill="${C.fg}">Nombre del single</text></g>
+    <text x="30" y="322" font-family="Inter Tight,sans-serif" font-weight="700" font-size="15" fill="#fff">Nombre del single</text>
+    <text x="30" y="341" font-family="Inter Tight,sans-serif" font-size="11" fill="#a7a7a2">Single · ${esc(m.text)} · 2026</text>
+    <rect x="30" y="362" width="240" height="3" rx="1.5" fill="#3a3a38"/><rect x="30" y="362" width="88" height="3" rx="1.5" fill="#fff"/>
+    <text x="30" y="384" font-family="Inter Tight,sans-serif" font-size="9" fill="#8d8d88">1:04</text><text x="270" y="384" text-anchor="end" font-family="Inter Tight,sans-serif" font-size="9" fill="#8d8d88">3:12</text></svg>`;
+  const lgR = renderLogo(m, { pad: 0 });
+  const igPosts = [0, 1, 2, 3, 4, 5].map(i => {
+    const b = [C.bg, C.accent, C.fg, C.fg, C.bg, C.accent][i], f = [C.fg, C.bg, C.bg, C.bg, C.accent, C.bg][i];
+    if (i === 0 || i === 4) return `<svg viewBox="0 0 100 100"><rect width="100" height="100" fill="${b}"/>${embed(lgR, 14, 30, 72, 40)}</svg>`;
+    return `<svg viewBox="0 0 100 100"><rect width="100" height="100" fill="${b}"/><circle cx="${30 + i * 9}" cy="${70 - i * 7}" r="${22 + i * 3}" fill="${f}" opacity=".35"/></svg>`;
+  }).join('');
+  $('#mocks').innerHTML = `
+  <figure class="mock m-ig"><div class="mv ig">
+    <div class="h"><div class="av"><div>${monoAv}</div></div><div class="st"><div><b>48</b>posts</div><div><b>3.214</b>seguidores</div><div><b>612</b>seguidos</div></div></div>
+    <div class="un">${esc(m.text)}</div><div class="bio">Artista · Nuevo single ya disponible 🎧<br><span>linktr.ee/${esc(handle)}</span></div>
+    <div class="hl"><div><i><span></span></i>Shows</div><div><i><span></span></i>Estudio</div><div><i><span></span></i>Prensa</div></div>
+    <div class="posts">${igPosts}</div>
+    <div class="tiny"><div class="t">${monoAv}</div><span>Así se ve en una historia o comentario (28 px)</span></div>
+  </div><figcaption>Instagram <span>Monograma en el avatar</span></figcaption></figure>
+  <figure class="mock m-sp"><div class="mv sp">
+    <div class="hd" style="background:linear-gradient(180deg,${spBg} 0%,${spBg} 55%,#121212 100%)"><div class="vf"><i>✓</i>Artista verificado</div><div class="lgw">${spR.svg}</div><div class="ls">12.480 oyentes mensuales</div></div>
+    <div class="bd"><div class="ctl"><span class="play"></span><span class="fol">Seguir</span><span style="color:#b3b3b3;letter-spacing:2px">•••</span></div>
+    <div class="pop">Populares</div>
+    <div class="tr"><span>1</span><div class="c">${cover(0)}</div><div><b>Nombre del single</b>${esc(m.text)}</div><span>3:12</span></div>
+    <div class="tr"><span>2</span><div class="c">${cover(1)}</div><div><b>Otro tema</b>${esc(m.text)}</div><span>2:47</span></div></div>
+  </div><figcaption>Spotify <span>Encabezado del perfil</span></figcaption></figure>
+  <figure class="mock m-tee"><div class="mv">${tee}</div><figcaption>Merch <span class="mtoggle" role="group" aria-label="Color de remera"><button data-t="black" style="background:#141414" class="${teeColor === 'black' ? 'on' : ''}" aria-label="Remera negra"></button><button data-t="white" style="background:#f4f4f2" class="${teeColor === 'white' ? 'on' : ''}" aria-label="Remera blanca"></button><button data-t="brand" style="background:${C.bg}" class="${teeColor === 'brand' ? 'on' : ''}" aria-label="Remera de tu color"></button></span></figcaption></figure>
+  <figure class="mock m-post"><div class="mv">${poster}</div><figcaption>Póster de show <span>A3 / historia</span></figcaption></figure>
+  <figure class="mock m-cover"><div class="mv">${cv}</div><figcaption>Portada de single <span>3000 × 3000</span></figcaption></figure>`;
+  $$('.mtoggle button').forEach(b => b.onclick = () => { teeColor = b.dataset.t; renderMocks(); });
+}
+
+/* ── versiones ── */
+function variantModels() {
+  const m = state.model;
+  const hz = Object.assign({}, m, { layout: 'line', justify: false });
+  if (hz.frame === 'circle' || hz.frame === 'oval') hz.frame = 'none';
+  if (hz.symbol !== 'none' && hz.symPos === 'top') hz.symPos = 'left';
+  const st = Object.assign({}, m, { layout: 'stack', justify: m.layout === 'stack' ? m.justify : !['script', 'gothic'].includes(FMAP[m.font].c) });
+  if (st.symbol !== 'none' && (st.symPos === 'left' || st.symPos === 'right')) st.symPos = 'top';
+  return [
+    { id: 'principal', t: 'Principal', d: 'La que usás siempre', m, bg: m.colors.bg },
+    { id: 'horizontal', t: 'Horizontal', d: 'Encabezados, web, banners', m: hz, bg: m.colors.bg },
+    { id: 'apilada', t: 'Apilada', d: 'Pósters, espacios cuadrados', m: st, bg: m.colors.bg },
+    { id: 'monograma', t: 'Monograma', d: 'Avatar, favicon, sellos', mono: true, m, bg: m.colors.bg },
+    { id: 'negativo', t: 'Negativo', d: 'Blanco sobre oscuro', m: oneColor(m, '#ffffff', '#0a0a0a'), bg: '#0a0a0a' },
+    { id: 'positivo', t: 'Positivo', d: 'Negro sobre claro', m: oneColor(m, '#0a0a0a', '#ffffff'), bg: '#ffffff' },
+  ];
+}
+function renderVersions() {
+  const V = variantModels();
+  $('#vers').innerHTML = V.map(v => `<div class="ver"><div class="vv" style="background:${v.bg}"><div>${v.mono ? renderMono(v.m).svg : renderLogo(v.m).svg}</div></div>
+    <div class="vf"><div><b>${v.t}</b><small>${v.d}</small></div><div class="bs"><button class="btn sm" data-v="${v.id}" data-k="svg">SVG</button><button class="btn sm" data-v="${v.id}" data-k="png">PNG</button></div></div></div>`).join('');
+  $$('#vers .btn').forEach(b => b.onclick = () => downloadOne(b.dataset.v, b.dataset.k, b));
+}
+function renderExpStack() {
+  const m = state.model;
+  const a = renderMono(m, { bg: true, scale: .8 }).svg, b = renderLogo(oneColor(m, '#ffffff', '#0a0a0a')).svg, c = renderLogo(m).svg;
+  $('#expstack').innerHTML = `<div style="width:62%;height:44%;left:0;top:6%;background:${m.colors.bg};transform:rotate(-5deg)">${c}</div>
+  <div style="width:58%;height:40%;right:0;top:34%;background:#1a1a19;border:1px solid #333;transform:rotate(4deg)">${b}</div>
+  <div style="width:36%;aspect-ratio:1;left:14%;bottom:2%;border-radius:50%;transform:rotate(-2deg)">${a.replace('<svg', '<svg style="width:100%;height:100%"')}</div>`;
+}
+
+/* ════════════════ EXPORTAR ════════════════ */
+const loadScript = (() => { const c = {}; return src => c[src] || (c[src] = new Promise((res, rej) => { const s = document.createElement('script'); s.src = src; s.onload = res; s.onerror = () => { delete c[src]; rej(new Error('No cargó ' + src)); }; document.head.appendChild(s); })); })();
+const OT_URL = 'https://cdnjs.cloudflare.com/ajax/libs/opentype.js/1.3.4/opentype.min.js';
+const ZIP_URL = 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js';
+const _otp = {};
+async function loadOT(fid, w) {
+  const key = fid + '|' + w;
+  if (OT[key]) return OT[key];
+  if (!_otp[key]) _otp[key] = (async () => {
+    await loadScript(OT_URL);
+    const r = await fetch(`https://cdn.jsdelivr.net/npm/@fontsource/${fid}/files/${fid}-latin-${w}-normal.woff`);
+    if (!r.ok) throw new Error('fuente');
+    const f = opentype.parse(await r.arrayBuffer());
+    OT[key] = f; return f;
+  })().catch(e => { delete _otp[key]; throw e; });
+  return _otp[key];
+}
+function hasGlyphs(font, text) { return Array.from(text.replace(/\s/g, '')).every(c => font.charToGlyph(c).index > 0); }
+// plan B: fuente embebida en el SVG
+const _emb = {};
+async function embeddedFace(F, w) {
+  const key = F.id + '|' + w;
+  if (_emb[key]) return _emb[key];
+  const css = await (await fetch(`https://fonts.googleapis.com/css2?family=${F.f.replace(/ /g, '+')}:wght@${w}&display=block`)).text();
+  const urls = Array.from(css.matchAll(/url\((https:[^)]+)\)/g)).map(x => x[1]);
+  const url = urls[urls.length - 1];
+  const b = await (await fetch(url)).blob();
+  const data = await new Promise(r => { const fr = new FileReader(); fr.onload = () => r(fr.result); fr.readAsDataURL(b); });
+  return (_emb[key] = `<style>@font-face{font-family:'${F.f}';font-weight:${w};src:url(${data}) format('woff2')}</style>`);
+}
+// devuelve SVG listo para archivo: {svg, outlined}
+async function exportSVG(v, o = {}) {
+  const m = v.m, F = FMAP[m.font];
+  const W = F.w.includes(m.weight) ? m.weight : F.w[0];
+  const txt = applyCase(m.text, m.case) + ((m.mono && m.mono.letters) || initials(m.text));
+  try {
+    const f = await loadOT(F.id, W);
+    if (!hasGlyphs(f, txt)) throw new Error('glifos');
+    const r = v.mono ? renderMono(m, Object.assign({ mode: 'outline', size: o.size }, o)) : renderLogo(m, Object.assign({ mode: 'outline', transparent: true }, o));
+    return { svg: r.svg, outlined: true };
+  } catch (e) {
+    let head = '';
+    try { head = await embeddedFace(F, W); } catch (e2) { head = `<style>@import url('https://fonts.googleapis.com/css2?family=${F.f.replace(/ /g, '+')}:wght@${W}');</style>`; }
+    await ensureModel(m);
+    const r = v.mono ? renderMono(m, Object.assign({ head }, o)) : renderLogo(m, Object.assign({ head, transparent: true }, o));
+    return { svg: r.svg, outlined: false };
+  }
+}
+function svgToPng(svg, maxSide, opts = {}) {
+  return new Promise((res, rej) => {
+    const vb = (svg.match(/viewBox="([^"]+)"/) || [])[1].split(/\s+/).map(Number);
+    const k = maxSide / Math.max(vb[2], vb[3]);
+    const W = opts.square ? maxSide : Math.round(vb[2] * k), H = opts.square ? maxSide : Math.round(vb[3] * k);
+    const s2 = svg.replace(/<svg[^>]*>/, t => t.replace(/\s(width|height)="[^"]*"/g, '').replace(/>$/, ` width="${W}" height="${H}">`));
+    const img = new Image();
+    const url = URL.createObjectURL(new Blob([s2], { type: 'image/svg+xml;charset=utf-8' }));
+    img.onload = () => { const c = document.createElement('canvas'); c.width = W; c.height = H; c.getContext('2d').drawImage(img, 0, 0, W, H); URL.revokeObjectURL(url); c.toBlob(b => b ? res(b) : rej(new Error('png')), 'image/png'); };
+    img.onerror = () => { URL.revokeObjectURL(url); rej(new Error('No se pudo dibujar el PNG')); };
+    img.src = url;
+  });
+}
+function saveBlob(blob, name) { const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1500); }
+async function variantFiles(v) {
+  const base = slug(state.model.text) + '-logo-' + v.id;
+  const o = v.mono ? { size: 1000 } : {};
+  const s = await exportSVG(v, o);
+  return { base, svg: s.svg, outlined: s.outlined };
+}
+async function downloadOne(id, kind, btn) {
+  const v = variantModels().find(x => x.id === id);
+  const old = btn.textContent; btn.textContent = '…'; btn.disabled = true;
+  try {
+    const f = await variantFiles(v);
+    if (kind === 'svg') { saveBlob(new Blob([f.svg], { type: 'image/svg+xml' }), f.base + '.svg'); if (!f.outlined) toast('Ojo: este SVG lleva la letra incrustada (no a curvas). Para imprenta pedí el PNG.', 4200); }
+    else saveBlob(await svgToPng(f.svg, v.mono ? 2000 : 2400), f.base + '.png');
+  } catch (e) { toast('No se pudo exportar: ' + e.message); }
+  btn.textContent = old; btn.disabled = false;
+}
+function prog(p) { const e = $('#prog'); e.classList.toggle('on', p !== null); $('#prog div').style.width = (p || 0) + '%'; }
+$('#zipbtn').onclick = async () => {
+  const b = $('#zipbtn'); b.disabled = true; prog(4);
+  try {
+    await loadScript(ZIP_URL);
+    const zip = new JSZip(); const V = variantModels(); const sl = slug(state.model.text);
+    let allOutlined = true, i = 0;
+    const fold = { svg: zip.folder('SVG (vector)'), png: zip.folder('PNG (transparente)') };
+    for (const v of V) {
+      const f = await variantFiles(v); allOutlined = allOutlined && f.outlined;
+      fold.svg.file(f.base + '.svg', f.svg);
+      fold.png.file(f.base + '.png', await svgToPng(f.svg, v.mono ? 2000 : 2400));
+      prog(8 + (++i / V.length) * 72);
+    }
+    const av = await exportSVG({ m: state.model, mono: true }, { bg: true, scale: .8 });
+    zip.file(sl + '-foto-de-perfil-1080.png', await svgToPng(av.svg, 1080, { square: true }));
+    const banner = await exportSVG({ m: state.model }, { bg: true, pad: .35 });
+    zip.file(sl + '-logo-con-fondo.png', await svgToPng(banner.svg, 2400));
+    prog(92);
+    zip.file('LEEME.txt', readme(allOutlined));
+    const blob = await zip.generateAsync({ type: 'blob' });
+    saveBlob(blob, sl + '-logo.zip'); prog(100);
+    toast(allOutlined ? 'Listo: bajó el ZIP con todo ✓' : 'Listo ✓ (algunas letras van incrustadas, mirá el LEEME)', 3500);
+    finalize(true);
+  } catch (e) { toast('No se pudo armar el ZIP: ' + e.message, 4000); }
+  setTimeout(() => prog(null), 1200); b.disabled = false;
+};
+function readme(outlined) {
+  const m = state.model, F = FMAP[m.font];
+  return `LOGO · ${m.text}
+Hecho con Artist OS · Larry
+
+QUÉ HAY ACÁ
+- SVG (vector): para imprenta, merch, diseñadores. Se agranda sin perder calidad.${outlined ? '\n  Las letras están convertidas a formas: no hace falta tener la tipografía instalada.' : '\n  Ojo: algunas letras van con la tipografía incrustada. Si un programa lo abre raro, usá el PNG\n  o pasale este archivo y el nombre de la tipografía al diseñador.'}
+- PNG (transparente): para redes, videos, flyers. 2400 px, sin fondo.
+- foto-de-perfil-1080.png: subila directo como foto de Instagram, TikTok, Spotify.
+- logo-con-fondo.png: el logo con su fondo, para compartir o mandar.
+
+CUÁL USO DÓNDE
+- Principal: casi siempre.
+- Horizontal: encabezados, web, banner de YouTube.
+- Apilada: pósters, espacios cuadrados o verticales.
+- Monograma: avatar, favicon, sello en esquinas de videos.
+- Negativo: sobre fotos oscuras o fondos negros.
+- Positivo: sobre fondos claros, documentos, prensa.
+
+TU LOGO
+- Tipografía: ${F.f} (${wName(m.weight)}) · Google Fonts, gratis para uso comercial.
+- Letra: ${m.colors.fg.toUpperCase()}   Fondo: ${m.colors.bg.toUpperCase()}   Acento: ${m.colors.accent.toUpperCase()}
+
+REGLAS DE ORO
+- No lo estires ni lo deformes: si no entra, usá otra versión.
+- Dejale aire alrededor (al menos el alto de una letra).
+- Sobre fotos con mucho detalle, usá negativo o positivo.
+`;
+}
+
+/* ── guardado ── */
+let _pT = 0, _fT = 0;
+function setSave(s, t) { const e = $('#save'); e.className = 'save ' + s; e.querySelector('span').textContent = t; }
+function payload() {
+  const m = state.model;
+  const base = { nombre: state.name || (m && m.text) || '', palabras: state.styles, estilo: state.styles.map(s => STYLENAME[s]).join(', '), favs: state.favs, ideasSeed: state.seed };
+  if (!m) return base;
+  const V = variantModels();
+  return Object.assign(base, {
+    nombre: m.text, fuente: FMAP[m.font].f, peso: m.weight,
+    colores: { fg: m.colors.fg, bg: m.colors.bg, acento: m.colors.accent, accent: m.colors.accent },
+    svg: state.svgFinal || renderLogo(m, { transparent: true, head: `<style>@import url('https://fonts.googleapis.com/css2?family=${FMAP[m.font].f.replace(/ /g, '+')}:wght@${m.weight}');</style>` }).svg,
+    svgVectorizado: !!state.outlineOk,
+    pngUrl: state.pngUrl || undefined,
+    variantes: Object.fromEntries(V.map(v => [v.id, v.mono ? { tipo: 'monograma', letras: (m.mono && m.mono.letters) || initials(m.text), estilo: m.mono.style } : { layout: v.m.layout, justify: !!v.m.justify, symPos: v.m.symPos, colores: v.m.colors }])),
+    modelo: m,
+  });
+}
+function persist() {
+  clearTimeout(_pT); setSave('busy', 'Guardando…');
+  _pT = setTimeout(async () => {
+    let data = payload();
+    if (JSON.stringify(data).length > 38000) { data.svg = renderLogo(state.model, { transparent: true }).svg; data.svgVectorizado = false; }
+    const r = await AOS.save('logo', data);
+    setSave(r && r.ok === false ? '' : 'ok', r && r.ok === false ? 'Sin conexión · guardado acá' : AOS.demo ? 'Guardado en este navegador ✓' : 'Guardado ✓');
+  }, 500);
+}
+// SVG final vectorizado (en segundo plano, después de editar)
+function scheduleFinal() { clearTimeout(_fT); _fT = setTimeout(async () => { const m = state.model; if (!m) return; const r = await exportSVG({ m }).catch(() => null); if (r && m === state.model) { state.svgFinal = r.outlined && r.svg.length < 30000 ? r.svg : ''; state.outlineOk = r.outlined; persist(); } }, 1800); }
+async function finalize(silent) {
+  try {
+    const f = await exportSVG({ m: state.model });
+    const png = await svgToPng(f.svg, 1600);
+    const url = await AOS.upload(new File([png], slug(state.model.text) + '-logo.png', { type: 'image/png' }));
+    state.pngUrl = /^data:/.test(String(url)) ? '' : url; // en demo la imagen queda como data URL: no la metemos en el JSON
+    if (f.outlined && f.svg.length < 30000) state.svgFinal = f.svg;
+    state.outlineOk = f.outlined; persist();
+    if (!silent) toast('Guardado como tu logo oficial ✓ Ya lo ven las otras apps', 3200);
+  } catch (e) { if (!silent) toast('No se pudo subir la imagen. Probá de nuevo en un rato.'); }
+}
+$('#officialbtn').onclick = async () => { const b = $('#officialbtn'); b.disabled = true; b.textContent = 'Guardando…'; await finalize(false); b.disabled = false; b.textContent = 'Guardar como mi logo'; };
+$('#toideas').onclick = () => { if (!state.ideas.length) { state.seed = Date.now() % 100000; show('ideas'); buildIdeas(); } else { show('ideas'); drawIdeas(); } };
+$('#toexport').onclick = () => show('export');
+
+/* ════════════════ ARRANQUE ════════════════ */
+(async function init() {
+  setSave('', 'Cargando…');
+  const q = new URLSearchParams(location.search);
+  const info = await AOS.ready;
+  const [saved, est, mood] = await Promise.all([AOS.load('logo').catch(() => null), AOS.load('estetica').catch(() => null), AOS.load('moodboard').catch(() => null)]);
+  state.est = est; state.mood = mood;
+  const man = AOS.manual() || {};
+  let name = (saved && saved.nombre) || (info.artista && info.artista.nombre) || man.p_nombre || '';
+  if (q.get('n')) name = q.get('n');
+  state.name = name; $('#nm').value = name;
+  if (saved && Array.isArray(saved.palabras)) state.styles = saved.palabras.filter(s => STYLENAME[s]).slice(0, 3);
+  if (!state.styles.length && est && Array.isArray(est.palabras)) state.styles = est.palabras.map(p => String(p).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')).filter(s => STYLENAME[s]).slice(0, 3);
+  if (q.get('s')) state.styles = q.get('s').split(',').filter(s => STYLENAME[s]).slice(0, 3);
+  if (saved && Array.isArray(saved.favs)) state.favs = saved.favs;
+  if (saved && saved.ideasSeed) state.seed = saved.ideasSeed;
+  if (saved && saved.pngUrl) state.pngUrl = saved.pngUrl;
+  renderStyleChips();
+  setSave(saved ? 'ok' : '', saved ? 'Guardado ✓' : 'Sin cambios');
+  if (saved && saved.modelo && FMAP[saved.modelo.font] && !q.get('n')) {
+    const m = saved.modelo;
+    await ensureModel(m);
+    const r = renderLogo(m);
+    $('#resume').innerHTML = `<div class="resume"><div class="th" style="background:${m.colors.bg}">${r.svg}</div><p><b>Tenés un logo en proceso</b>Seguí donde lo dejaste o empezá de nuevo abajo.</p><button class="btn pri sm" id="resumebtn">Seguir editando</button></div>`;
+    $('#resumebtn').onclick = () => openEditor(m);
+    if (q.get('go') !== 'start') openEditor(m);
+  }
+  const go = q.get('go');
+  if (go === 'ideas' || go === 'editor' || go === 'export') {
+    if (!state.name) state.name = 'Luna Vega';
+    if (!state.styles.length) state.styles = ['oscuro', 'elegante', 'callejero'];
+    $('#nm').value = state.name; renderStyleChips();
+    if (q.get('seed')) state.seed = +q.get('seed');
+    show('ideas'); await buildIdeas();
+    if (go !== 'ideas') { openEditor(JSON.parse(JSON.stringify(state.ideas[+(q.get('i') || 0)]))); if (go === 'export') setTimeout(() => show('export'), 400); }
+  }
+  updateSteps();
+  // precargamos opentype en segundo plano
+  setTimeout(() => loadScript(OT_URL).catch(() => {}), 2500);
+})();
+</script>
+</body>
+</html>

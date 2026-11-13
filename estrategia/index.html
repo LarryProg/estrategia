@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Estrategia · Artist OS</title>
+<meta name="description" content="Tu año entero: la historia que cuenta, qué canción sale cuándo y cómo se mueve tu cuenta cada semana.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🗺️</text></svg>">
+<meta name="theme-color" content="#0d0d0d">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap">
+<script src="../aos-store.js"></script>
+<style>
+:root{
+  --bg:#f2f2ef;--paper:#fff;--ink:#0d0d0d;--ink2:#2e2e2c;--mut:#686864;--mut2:#8d8d88;
+  --line:#e4e4df;--line2:#cfcfc9;--acc:#3451f5;--acc-soft:#eaedff;
+  --vir:#c2410c;--vir-soft:#fdeee4;--con:#be185d;--con-soft:#fce8f1;--cnv:#1d4ed8;--cnv-soft:#e7eefc;--ok:#1d7a45;--ok-soft:#e6f4ec;
+  --r:16px;--sh:0 1px 2px rgba(0,0,0,.04),0 6px 20px rgba(0,0,0,.05);
+  --ui:"Inter Tight",system-ui,-apple-system,"Segoe UI",sans-serif;--serif:"Instrument Serif",Georgia,serif;--top:58px;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-padding-top:120px}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 var(--ui);-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.top{position:sticky;top:0;z-index:40;height:var(--top);background:#0d0d0d;color:#fff;display:flex;align-items:center;gap:14px;padding:0 18px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:600;letter-spacing:-.01em;white-space:nowrap}
+.brand .mk{width:26px;height:26px;border-radius:7px;background:#fff;color:#0d0d0d;display:grid;place-items:center;font:italic 20px/1 var(--serif)}
+.brand small{color:#9a9a96;font-weight:500}
+.sp{flex:1}
+.save{font-size:12.5px;color:#a9a9a4;display:flex;align-items:center;gap:6px;white-space:nowrap}
+.save i{width:7px;height:7px;border-radius:50%;background:#555;display:inline-block}
+.save.ok i{background:#3ccf7a}.save.busy i{background:#f5b638;animation:pulse 1s infinite}
+@keyframes pulse{50%{opacity:.3}}
+.tbtn{min-height:36px;padding:0 14px;border-radius:10px;border:1px solid #3a3a38;background:transparent;color:#fff;font-weight:600;font-size:13.5px}
+.tbtn:hover{background:#fff;color:#0d0d0d}
+.toc{position:sticky;top:var(--top);z-index:30;background:rgba(242,242,239,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.toc div{max-width:1080px;margin:0 auto;padding:10px 20px;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+.toc a{flex:none;min-height:36px;display:inline-flex;align-items:center;padding:0 14px;border-radius:99px;border:1px solid var(--line2);background:var(--paper);color:var(--ink);text-decoration:none;font-weight:600;font-size:13.5px}
+.toc a b{margin-right:6px;color:var(--mut2)}
+.wrap{max-width:1080px;margin:0 auto;padding:28px 20px 80px}
+.hero h1{margin:0;font:400 clamp(34px,5vw,52px)/1.02 var(--serif);letter-spacing:-.01em}
+.hero h1 em{color:var(--mut)}
+.hero p{margin:10px 0 0;color:var(--mut);max-width:640px;font-size:16px}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh)}
+section.blk{margin-top:30px}
+.bh{display:flex;align-items:baseline;gap:12px;margin-bottom:12px}
+.bh .n{font:italic 400 34px/1 var(--serif);color:var(--mut2)}
+.bh h2{margin:0;font-size:22px;letter-spacing:-.015em}
+.bh p{margin:2px 0 0;color:var(--mut);font-size:14.5px}
+.fl{display:block;font-size:12.5px;color:var(--mut);font-weight:600;margin:12px 0 4px}
+.fl small{font-weight:500;color:var(--mut2)}
+.in{width:100%;min-height:44px;padding:9px 12px;border-radius:10px;border:1px solid var(--line2);background:#fbfbf9;font-weight:500}
+textarea.in{min-height:84px;resize:vertical;line-height:1.5}
+.in:focus{background:#fff;border-color:var(--acc);outline:none;box-shadow:0 0 0 3px var(--acc-soft)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.pad{padding:18px}
+
+/* narrativa */
+.era{padding:22px;display:grid;grid-template-columns:1.1fr 1fr;gap:22px;align-items:start}
+.era .big{font:400 clamp(30px,4vw,44px)/1.05 var(--serif);border:0;background:transparent;padding:0;min-height:auto;width:100%}
+.era .big:focus{box-shadow:none;outline:none;border-bottom:1px solid var(--acc)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.chips span{padding:4px 10px;border-radius:99px;background:#f0f0ec;font-weight:600;font-size:13px}
+
+/* canciones del año */
+.packsel{display:inline-flex;border:1px solid var(--line2);border-radius:12px;overflow:hidden;margin-bottom:12px;background:var(--paper)}
+.packsel button{min-height:40px;padding:0 16px;border:0;background:transparent;font-weight:600;font-size:13.5px}
+.packsel button.on{background:var(--ink);color:#fff}
+.year{display:grid;grid-template-columns:repeat(12,1fr);gap:6px;margin-bottom:12px}
+.ym{border-radius:12px;padding:8px 6px;text-align:center;border:1px solid var(--line);background:var(--paper);min-height:76px}
+.ym b{display:block;font-size:10.5px;letter-spacing:.06em;color:var(--mut2);text-transform:uppercase}
+.ym span{display:block;font-weight:700;font-size:14px;margin-top:4px}
+.ym small{display:block;font-size:11px;color:var(--mut);line-height:1.2;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ym.ys{background:var(--ink);color:#fff;border-color:var(--ink)}.ym.ys b,.ym.ys small{color:#bdbdb7}
+.ym.yc{background:#f0f0ec}
+.songs{display:grid;gap:8px}
+.song{display:grid;grid-template-columns:44px 1fr 1.4fr 120px;gap:10px;align-items:center;padding:10px 12px}
+.song .num{font:italic 400 26px/1 var(--serif);color:var(--mut2);text-align:center}
+.song .mes{font-size:12.5px;color:var(--mut);text-align:right}
+.song .mes b{display:block;color:var(--ink);font-size:13.5px;text-transform:capitalize}
+.hint{font-size:13px;color:var(--mut);margin-top:10px}
+.hint a{color:var(--acc);font-weight:600}
+
+/* semana tipo */
+.week{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}
+.day{padding:12px 10px;min-height:150px;display:flex;flex-direction:column;gap:6px}
+.day h4{margin:0;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--mut2)}
+.reel{border-radius:10px;padding:8px 9px;font-size:13px;line-height:1.3}
+.reel b{display:block;font-size:13.5px}
+.reel.vir{background:var(--vir-soft);color:var(--vir)}.reel.con{background:var(--con-soft);color:var(--con)}.reel.cnv{background:var(--cnv-soft);color:var(--cnv)}
+.reel span{color:var(--ink2)}
+.hist{margin-top:auto;font-size:12px;color:var(--mut);border-top:1px dashed var(--line2);padding-top:6px}
+.legend{display:flex;flex-wrap:wrap;gap:14px;margin-top:12px;font-size:13px;color:var(--ink2)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.nums{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+.num{padding:14px 16px}
+.num b{display:block;font-size:28px;letter-spacing:-.02em;line-height:1.1}
+.num span{font-size:13px;color:var(--mut)}
+
+/* guiones */
+.gtools{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.gtools select{min-height:44px;border-radius:10px;border:1px solid var(--line2);padding:0 10px;background:var(--paper);font-weight:600}
+.btn{min-height:44px;padding:0 16px;border-radius:11px;border:1px solid var(--ink);background:var(--ink);color:#fff;font-weight:600;display:inline-flex;align-items:center;gap:6px}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--line2)}
+.gl{display:grid;gap:8px}
+.gi{display:grid;grid-template-columns:auto 120px 1fr auto auto;gap:10px;align-items:center;padding:10px 12px}
+.gi .ty{font-size:12px;font-weight:700;padding:4px 8px;border-radius:99px;text-align:center}
+.gi .ty.vir{background:var(--vir-soft);color:var(--vir)}.gi .ty.con{background:var(--con-soft);color:var(--con)}.gi .ty.cnv{background:var(--cnv-soft);color:var(--cnv)}
+.gi select{min-height:40px;border-radius:10px;border:1px solid var(--line2);padding:0 8px;background:#fbfbf9;font-weight:600;font-size:13px}
+.gi .in{min-height:40px}
+.gi .st{min-height:40px;padding:0 10px;border-radius:10px;border:1px solid var(--line2);background:#fff;font-weight:600;font-size:12.5px;white-space:nowrap}
+.gi .st.grab{background:#fff7e6;border-color:#f2d59b}.gi .st.pub{background:var(--ok-soft);border-color:#b6dec6;color:var(--ok)}
+.gi .x{width:40px;height:40px;border-radius:10px;border:1px solid var(--line2);background:transparent;color:var(--mut)}
+.gl .empty{color:var(--mut);padding:10px 2px}
+
+/* promoción */
+.promo{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.promo .card{padding:16px}
+.promo h4{margin:0 0 6px;font-size:15px}
+.promo h4 small{display:block;font-size:12px;color:var(--mut2);font-weight:600;letter-spacing:.04em;text-transform:uppercase}
+.promo ul{margin:0;padding-left:18px;font-size:14px;color:var(--ink2)}
+.promo li{margin:3px 0}
+
+@media (max-width:900px){.year{grid-template-columns:repeat(6,1fr)}.week{grid-template-columns:repeat(4,1fr)}.era{grid-template-columns:1fr}.promo{grid-template-columns:1fr}}
+@media (max-width:640px){
+  .top{padding:0 12px;gap:10px}.brand small{display:none}.save span{display:none}
+  .wrap{padding:20px 14px 70px}.toc div{padding:8px 14px}
+  .g2{grid-template-columns:1fr}
+  .year{grid-template-columns:repeat(4,1fr)}
+  .week{grid-template-columns:1fr 1fr}.day{min-height:0}
+  .song{grid-template-columns:34px 1fr;}.song .rol{grid-column:1/-1}.song .mes{grid-column:1/-1;text-align:left}
+  .gi{grid-template-columns:auto 1fr auto}.gi .in{grid-column:1/-1;order:5}.gi select{order:2}
+  .nums{grid-template-columns:1fr}
+}
+@media print{.top,.toc,.gtools,.gi .x,.packsel{display:none!important}body{background:#fff}.card{box-shadow:none}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="brand"><span class="mk">E</span>Estrategia <small>· Artist OS</small></div>
+  <div class="sp"></div>
+  <div class="save" id="save" aria-live="polite"><i></i><span>Sin cambios</span></div>
+  <button class="tbtn" id="bPdf">PDF</button>
+</header>
+<nav class="toc" aria-label="Partes"><div>
+  <a href="#narrativa"><b>1</b>Tu año</a><a href="#canciones"><b>2</b>Canciones</a><a href="#semana"><b>3</b>Tu cuenta</a><a href="#guiones"><b>4</b>Guiones</a><a href="#promo"><b>5</b>Cada lanzamiento</a>
+</div></nav>
+
+<main class="wrap">
+  <section class="hero">
+    <h1>Tu año, <em>con un plan.</em></h1>
+    <p>Antes de sacar nada, armamos el plan entero: qué historia cuenta tu año, qué canción sale cuándo y cómo se mueve tu cuenta cada semana. Lo armamos juntos en la llamada de estrategia y acá queda para que lo mires cuando quieras.</p>
+  </section>
+
+  <section class="blk" id="narrativa">
+    <div class="bh"><span class="n">1</span><div><h2>La historia de tu año</h2><p>Todas las canciones cuentan una misma historia. Eso hace que la gente se enganche con vos y no con un tema suelto.</p></div></div>
+    <div class="card era">
+      <div>
+        <label class="fl" for="nNombre">El nombre de esta etapa</label>
+        <input class="in big" id="nNombre" data-n="nombre" placeholder="Ej.: Madrugadas">
+        <label class="fl" for="nIdea">De qué va, en una frase</label>
+        <textarea class="in" id="nIdea" data-n="idea" placeholder="Ej.: Un año saliendo de una ruptura: de la bronca a volver a disfrutar la noche."></textarea>
+      </div>
+      <div>
+        <label class="fl" for="nPal">3 palabras que lo resumen <small>· separadas por coma</small></label>
+        <input class="in" id="nPal" data-n="palabras" placeholder="nocturno, crudo, liberador">
+        <div class="chips" id="nChips"></div>
+        <label class="fl" for="nArco">Cómo arranca y cómo termina</label>
+        <textarea class="in" id="nArco" data-n="arco" placeholder="Arranca: dolido y encerrado. Termina: libre, bailando."></textarea>
+        <label class="fl" for="nOy">A quién le habla <small>· tu oyente ideal</small></label>
+        <input class="in" id="nOy" data-n="oyente" placeholder="Ej.: 18 a 25, sale de noche, escucha R&B y algo de reggaetón lento">
+      </div>
+    </div>
+  </section>
+
+  <section class="blk" id="canciones">
+    <div class="bh"><span class="n">2</span><div><h2>Canciones y orden</h2><p>Cuál sale primero, cuál después y qué papel cumple cada una en la historia.</p></div></div>
+    <div class="packsel" id="packsel" role="group" aria-label="Tu pack"><button data-pack="6">Pack 6 canciones</button><button data-pack="12">Pack 12 canciones</button></div>
+    <div class="year" id="year"></div>
+    <div class="songs" id="songs"></div>
+    <p class="hint">Las fechas exactas de cada salida se cargan en <a href="../lanzamientos/" data-app-link="lanzamientos">Lanzamientos</a>: ahí cada canción arma su plan de 7 + 21 días.</p>
+  </section>
+
+  <section class="blk" id="semana">
+    <div class="bh"><span class="n">3</span><div><h2>Tu cuenta, cada semana</h2><p>3 reels por semana en Instagram, TikTok y YouTube Shorts, más historias todos los días para que tu gente te tenga presente.</p></div></div>
+    <div class="week" id="week"></div>
+    <div class="legend"><span><i style="background:var(--vir)"></i>Viral: que te descubra gente nueva</span><span><i style="background:var(--con)"></i>Conexión: que te elijan</span><span><i style="background:var(--cnv)"></i>Conversión: que vayan a escucharte</span></div>
+    <div class="nums" id="nums"></div>
+  </section>
+
+  <section class="blk" id="guiones">
+    <div class="bh"><span class="n">4</span><div><h2>Guiones</h2><p>Qué decir y cómo grabarlo. Anotá las ideas acá y marcá cuando estén grabadas y publicadas.</p></div></div>
+    <div class="gtools"><select id="gMes" aria-label="Mes"></select><button class="btn" id="gAdd">＋ Agregar guion</button><button class="btn ghost" id="gSug">Sugerir 3 para este mes</button></div>
+    <div class="gl" id="gl"></div>
+  </section>
+
+  <section class="blk" id="promo">
+    <div class="bh"><span class="n">5</span><div><h2>Cada lanzamiento</h2><p>Qué pasa antes, durante y después de que salga cada canción.</p></div></div>
+    <div class="promo">
+      <div class="card"><h4><small>Días 1 a 13</small>Antes</h4><ul><li>Día 1: la subimos a la distribuidora.</li><li>Semana 1: grabás y preparás todo lo necesario.</li><li>Pitch a Spotify con el <a href="../prensa/" data-app-link="prensa">Kit de prensa</a>.</li><li>Día 8: arranca el contenido para calentar.</li></ul></div>
+      <div class="card"><h4><small>Día 14</small>Sale</h4><ul><li>Reel de conversión con el link.</li><li>Historias todo el día: compartí cada mención.</li><li>Las cuentas fandom pasan a la canción nueva.</li><li>Mensajes a curadores y medios.</li></ul></div>
+      <div class="card"><h4><small>Días 15 a 28 y después</small>Empuje</h4><ul><li>3 reels por semana con lo que mejor anduvo.</li><li>El videoclip, si toca, sale el mes siguiente.</li><li>Lectura del mes en <a href="../estadisticas/" data-app-link="estadisticas">Estadísticas</a> y ajuste del plan.</li></ul></div>
+    </div>
+  </section>
+</main>
+
+<script>
+(function () {
+  const $ = s => document.querySelector(s);
+  const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const MESES = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  const pad = n => String(n).padStart(2, '0');
+  const hoyM = () => { const d = new Date(); return d.getFullYear() + '-' + pad(d.getMonth() + 1); };
+  const addM = (k, n) => { const [y, m] = k.split('-').map(Number); const d = new Date(y, m - 1 + n, 1); return d.getFullYear() + '-' + pad(d.getMonth() + 1); };
+  const nomM = (k, c) => { const m = MESES[+k.split('-')[1] - 1]; return c ? m.slice(0, 3) : m + ' ' + k.slice(0, 4); };
+  const uid = () => Math.random().toString(36).slice(2, 9);
+  const TY = { vir: 'Viral', con: 'Conexión', cnv: 'Conversión' };
+  const SEM = [
+    ['Lun', 'vir', 'Gancho fuerte con el pedazo más pegadizo.'], ['Mar'], ['Mié', 'con', 'Una historia tuya o por qué existe la canción.'], ['Jue'],
+    ['Vie', 'cnv', 'Que vayan a escucharla: link y pedido claro.'], ['Sáb'], ['Dom']];
+  const SUG = {
+    vir: ['Le muestro el tema a un desconocido en la calle', 'Frase fuerte de la letra en primer plano, sin contexto', 'Antes y después: la nota de voz contra el tema terminado'],
+    con: ['«Escribí esta canción cuando…» contado a cámara', 'Detrás de escena con sentido: cómo nació el estribillo', 'Playback que recrea la escena de la letra'],
+    cnv: ['Fragmento con la letra grande + «link en mi perfil»', 'Reacción de amigos escuchándola por primera vez', 'En vivo o acústico: la parte más fuerte'],
+  };
+
+  let S = null, gMes = null;
+  const saveEl = $('#save');
+  const estado = (t, c) => { saveEl.className = 'save ' + (c || ''); saveEl.querySelector('span').textContent = t; };
+  let tmo; function guardar() { S.actualizado = Date.now(); estado('Guardando…', 'busy'); clearTimeout(tmo); tmo = setTimeout(() => AOS.save('estrategia', S).then(r => estado(r && r.ok === false ? 'No se guardó' : 'Guardado ✓', r && r.ok === false ? '' : 'ok')), 400); }
+  const meses = () => Array.from({ length: 12 }, (_, i) => addM(S.inicio, i));
+
+  /* 1 · narrativa */
+  function renderNarr() {
+    document.querySelectorAll('[data-n]').forEach(el => { el.value = S.narrativa[el.dataset.n] || ''; });
+    chips();
+  }
+  function chips() { $('#nChips').innerHTML = (S.narrativa.palabras || '').split(',').map(s => s.trim()).filter(Boolean).map(s => '<span>' + esc(s) + '</span>').join(''); }
+
+  /* 2 · canciones: Pack 6 = 1 canción cada 2 meses (el mes siguiente, videoclip); Pack 12 = 1 por mes */
+  function slots() {
+    const M = meses();
+    return S.pack === 12 ? M.map((k, i) => ({ k, song: i })) : M.map((k, i) => (i % 2 === 0 ? { k, song: i / 2 } : { k, clip: (i - 1) / 2 }));
+  }
+  function renderSongs() {
+    while (S.canciones.length < S.pack) S.canciones.push({ titulo: '', rol: '' });
+    document.querySelectorAll('#packsel button').forEach(b => b.classList.toggle('on', +b.dataset.pack === S.pack));
+    const sl = slots();
+    $('#year').innerHTML = sl.map((s, i) => {
+      const c = s.song != null ? S.canciones[s.song] : S.canciones[s.clip];
+      return '<div class="ym ' + (s.song != null ? 'ys' : 'yc') + '"><b>Mes ' + (i + 1) + '</b><span>' + (s.song != null ? '#' + (s.song + 1) : '🎬') + '</span><small>' + (s.song != null ? esc(c.titulo || nomM(s.k, true)) : 'videoclip') + '</small></div>';
+    }).join('');
+    $('#songs').innerHTML = S.canciones.slice(0, S.pack).map((c, i) => {
+      const k = sl.find(s => s.song === i).k;
+      return '<div class="card song"><span class="num">' + (i + 1) + '</span><input class="in" data-c="' + i + '" data-f="titulo" value="' + esc(c.titulo) + '" placeholder="Canción ' + (i + 1) + '" aria-label="Nombre de la canción ' + (i + 1) + '">'
+        + '<input class="in rol" data-c="' + i + '" data-f="rol" value="' + esc(c.rol) + '" placeholder="' + (i === 0 ? 'Ej.: abre la historia, la más pegadiza' : 'Qué papel cumple en la historia') + '" aria-label="Papel de la canción ' + (i + 1) + '">'
+        + '<span class="mes">Sale en<b>' + nomM(k) + '</b>' + (S.pack === 6 ? 'videoclip: ' + nomM(addM(k, 1), true) : '') + '</span></div>';
+    }).join('');
+  }
+
+  /* 3 · semana tipo */
+  function renderWeek() {
+    $('#week').innerHTML = SEM.map(d => '<div class="card day"><h4>' + d[0] + '</h4>'
+      + (d[1] ? '<div class="reel ' + d[1] + '"><b>Reel · ' + TY[d[1]] + '</b><span>' + d[2] + '</span></div>' : '')
+      + '<div class="hist">Historias' + (d[0] === 'Lun' || d[0] === 'Vie' ? ' · compartí el reel' : '') + '</div></div>').join('');
+    const sem = 52, n = S.pack === 12 ? 12 : 6;
+    $('#nums').innerHTML = '<div class="card num"><b>3</b><span>reels por semana, en 3 plataformas</span></div>'
+      + '<div class="card num"><b>' + (3 * 4 * 3) + '</b><span>publicaciones por mes en tu cuenta</span></div>'
+      + '<div class="card num"><b>' + (3 * sem * 3).toLocaleString('es-AR') + '</b><span>publicaciones en el año · ' + n + ' canciones</span></div>';
+  }
+
+  /* 4 · guiones */
+  function renderGMes() { $('#gMes').innerHTML = meses().map((k, i) => '<option value="' + k + '"' + (k === gMes ? ' selected' : '') + '>Mes ' + (i + 1) + ' · ' + nomM(k) + '</option>').join(''); }
+  function renderG() {
+    const L = S.guiones.filter(g => g.mes === gMes);
+    $('#gl').innerHTML = L.length ? L.map(g => '<div class="card gi" data-g="' + g.id + '"><span class="ty ' + g.tipo + '">' + TY[g.tipo] + '</span>'
+      + '<select data-gf="tipo" aria-label="Tipo de reel">' + Object.keys(TY).map(t => '<option value="' + t + '"' + (t === g.tipo ? ' selected' : '') + '>' + TY[t] + '</option>').join('') + '</select>'
+      + '<input class="in" data-gf="texto" value="' + esc(g.texto) + '" placeholder="Qué pasa en el video, qué decís, qué texto va arriba" aria-label="Guion">'
+      + '<button class="st ' + (g.estado === 'grabado' ? 'grab' : g.estado === 'publicado' ? 'pub' : '') + '" data-gst>' + ({ idea: 'Idea', grabado: 'Grabado', publicado: 'Publicado ✓' }[g.estado] || 'Idea') + '</button>'
+      + '<button class="x" data-gx aria-label="Borrar">✕</button></div>').join('')
+      : '<div class="empty">Todavía no hay guiones para este mes. Agregá uno o tocá «Sugerir 3».</div>';
+  }
+
+  document.addEventListener('input', e => {
+    const t = e.target;
+    if (t.dataset.n) { S.narrativa[t.dataset.n] = t.value; if (t.dataset.n === 'palabras') chips(); guardar(); }
+    if (t.dataset.c != null) { S.canciones[+t.dataset.c][t.dataset.f] = t.value; guardar(); if (t.dataset.f === 'titulo') { const sl = slots(); $('#year').querySelectorAll('.ym').forEach((el, i) => { const s = sl[i]; if (s.song === +t.dataset.c) el.querySelector('small').textContent = t.value || nomM(s.k, true); }); } }
+    if (t.dataset.gf) { const g = S.guiones.find(x => x.id === t.closest('[data-g]').dataset.g); g[t.dataset.gf] = t.value; guardar(); if (t.dataset.gf === 'tipo') renderG(); }
+  });
+  document.addEventListener('change', e => { if (e.target.dataset.gf === 'tipo') { const g = S.guiones.find(x => x.id === e.target.closest('[data-g]').dataset.g); g.tipo = e.target.value; guardar(); renderG(); } });
+  document.addEventListener('click', e => {
+    const p = e.target.closest('[data-pack]'); if (p) { S.pack = +p.dataset.pack; guardar(); renderSongs(); renderWeek(); return; }
+    const st = e.target.closest('[data-gst]'); if (st) { const g = S.guiones.find(x => x.id === st.closest('[data-g]').dataset.g); g.estado = { idea: 'grabado', grabado: 'publicado', publicado: 'idea' }[g.estado || 'idea']; guardar(); renderG(); return; }
+    const x = e.target.closest('[data-gx]'); if (x) { S.guiones = S.guiones.filter(g => g.id !== x.closest('[data-g]').dataset.g); guardar(); renderG(); return; }
+    if (e.target.id === 'gAdd') { S.guiones.push({ id: uid(), mes: gMes, tipo: 'vir', texto: '', estado: 'idea' }); guardar(); renderG(); const ins = $('#gl').querySelectorAll('[data-gf=texto]'); ins[ins.length - 1].focus(); return; }
+    if (e.target.id === 'gSug') { const n = S.guiones.filter(g => g.mes === gMes).length; ['vir', 'con', 'cnv'].forEach(t => S.guiones.push({ id: uid(), mes: gMes, tipo: t, texto: SUG[t][n % 3], estado: 'idea' })); guardar(); renderG(); return; }
+    if (e.target.id === 'bPdf') print();
+    // dentro del portal, los links a otras apps abren la app en el mismo escritorio
+    const al = e.target.closest('[data-app-link]'); if (al && window.parent !== window) { e.preventDefault(); try { window.parent.postMessage({ aos: 'open', app: al.dataset.appLink }, '*'); } catch (err) {} }
+  });
+  $('#gMes').addEventListener('change', e => { gMes = e.target.value; renderG(); });
+
+  function ejemplo() {
+    return { pack: 6, inicio: addM(hoyM(), -4), narrativa: { nombre: 'Madrugadas', idea: 'Un año saliendo de una ruptura: de la bronca a volver a disfrutar la noche.', palabras: 'nocturno, crudo, liberador', arco: 'Arranca dolido y encerrado. Termina libre, bailando con sus amigos.', oyente: '18 a 25, sale de noche, escucha R&B y reggaetón lento' },
+      canciones: [{ titulo: 'Tu calor', rol: 'Abre la historia: la más pegadiza' }, { titulo: 'Madrugada', rol: 'El momento más oscuro' }, { titulo: 'Ruido blanco', rol: 'Empieza a soltar' }, { titulo: 'Ciudad', rol: '' }, { titulo: '', rol: '' }, { titulo: '', rol: 'Cierre: la más bailable' }],
+      guiones: [] };
+  }
+
+  (async () => {
+    const who = await AOS.ready;
+    const [d, st, lz] = await Promise.all([AOS.load('estrategia'), AOS.load('estadisticas'), AOS.load('lanzamientos')]);
+    let base = d || (who.demo ? ejemplo() : null);
+    S = Object.assign({ pack: /12/.test(who.artista && who.artista.pack || '') ? 12 : 6, inicio: (st && st.inicio) || (lz && lz.inicio) || hoyM(), narrativa: {}, canciones: [], guiones: [] }, base || {});
+    if (!d && st && st.inicio) S.inicio = st.inicio;
+    const M = meses(); gMes = M.includes(hoyM()) ? hoyM() : M[0];
+    renderNarr(); renderSongs(); renderWeek(); renderGMes(); renderG();
+    estado(d ? 'Guardado ✓' : 'Sin cambios', d ? 'ok' : '');
+  })();
+})();
+</script>
+</body>
+</html>

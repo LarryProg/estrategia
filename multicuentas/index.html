@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Multicuentas · Artist OS</title>
+<meta name="description" content="Tus 3 cuentas fandom: personalidad, horarios, calentamiento y cómo vienen mes a mes.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📱</text></svg>">
+<meta name="theme-color" content="#0d0d0d">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap">
+<script src="../aos-store.js"></script>
+<style>
+:root{
+  --bg:#f2f2ef;--paper:#fff;--ink:#0d0d0d;--ink2:#2e2e2c;--mut:#686864;--mut2:#8d8d88;
+  --line:#e4e4df;--line2:#cfcfc9;--acc:#3451f5;--acc-soft:#eaedff;
+  --ok:#1d7a45;--ok-soft:#e6f4ec;--warn:#9a5b00;--warn-soft:#fdf3e1;
+  --r:16px;--sh:0 1px 2px rgba(0,0,0,.04),0 6px 20px rgba(0,0,0,.05);
+  --ui:"Inter Tight",system-ui,-apple-system,"Segoe UI",sans-serif;--serif:"Instrument Serif",Georgia,serif;--top:58px;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 var(--ui);-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.top{position:sticky;top:0;z-index:40;height:var(--top);background:#0d0d0d;color:#fff;display:flex;align-items:center;gap:14px;padding:0 18px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:600;letter-spacing:-.01em;white-space:nowrap}
+.brand .mk{width:26px;height:26px;border-radius:7px;background:#fff;color:#0d0d0d;display:grid;place-items:center;font:italic 20px/1 var(--serif)}
+.brand small{color:#9a9a96;font-weight:500}
+.sp{flex:1}
+.save{font-size:12.5px;color:#a9a9a4;display:flex;align-items:center;gap:6px;white-space:nowrap}
+.save i{width:7px;height:7px;border-radius:50%;background:#555;display:inline-block}
+.save.ok i{background:#3ccf7a}.save.busy i{background:#f5b638;animation:pulse 1s infinite}
+@keyframes pulse{50%{opacity:.3}}
+.tbtn{min-height:36px;padding:0 14px;border-radius:10px;border:1px solid #3a3a38;background:transparent;color:#fff;font-weight:600;font-size:13.5px}
+.tbtn:hover{background:#fff;color:#0d0d0d}
+.wrap{max-width:1080px;margin:0 auto;padding:28px 20px 80px}
+.hero h1{margin:0;font:400 clamp(34px,5vw,52px)/1.02 var(--serif);letter-spacing:-.01em}
+.hero h1 em{color:var(--mut)}
+.hero p{margin:10px 0 0;color:var(--mut);max-width:640px;font-size:16px}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh)}
+h2.s{margin:30px 0 4px;font-size:21px;letter-spacing:-.015em}
+p.s{margin:0 0 12px;color:var(--mut);font-size:14.5px}
+
+/* volumen */
+.vol{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:22px}
+.vol .card{padding:16px}
+.vol b{display:block;font-size:32px;letter-spacing:-.02em;line-height:1.05}
+.vol span{font-size:13px;color:var(--mut)}
+.packsel{display:inline-flex;border:1px solid var(--line2);border-radius:12px;overflow:hidden;margin-top:16px;background:var(--paper)}
+.packsel button{min-height:40px;padding:0 16px;border:0;background:transparent;font-weight:600;font-size:13.5px}
+.packsel button.on{background:var(--ink);color:#fff}
+
+/* las 3 cuentas */
+.accs{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.acc{display:flex;flex-direction:column}
+.acc .hd{padding:16px 16px 12px;border-bottom:1px solid var(--line)}
+.acc .k{font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--mut2);font-weight:600}
+.acc h3{margin:2px 0 0;font-size:19px;letter-spacing:-.01em}
+.acc .what{font-size:13.5px;color:var(--mut);margin:2px 0 0}
+.mock{margin:12px 16px 0;aspect-ratio:9/12;border-radius:14px;background:#111 center/cover;display:flex;align-items:center;justify-content:center;padding:18px;text-align:center;color:#fff;position:relative;overflow:hidden}
+.mock.m1{background:linear-gradient(#141414,#141414)}
+.mock.m1 p{font:400 26px/1.1 var(--serif)}
+.mock.m2{background:linear-gradient(180deg,#0f1b33 0%,#2b2140 55%,#5b2f3c 100%)}
+.mock.m2 p{font-size:12px;letter-spacing:.3em;text-transform:uppercase;opacity:.9}
+.mock.m2::after{content:'';position:absolute;left:0;right:0;bottom:0;height:34%;background:repeating-linear-gradient(90deg,rgba(255,214,120,.0) 0 18px,rgba(255,214,120,.55) 18px 20px,rgba(255,214,120,0) 20px 46px);opacity:.5}
+.mock.m3{background:linear-gradient(#3a3a3a,#1f1f1f)}
+.mock.m3 p{font-weight:700;font-size:17px;line-height:1.25;background:#fff;color:#000;padding:8px 10px;border-radius:6px}
+.mock .au{position:absolute;left:10px;bottom:10px;font-size:11px;opacity:.8}
+.acc .bd{padding:12px 16px 16px;display:flex;flex-direction:column;gap:2px;flex:1}
+.fl{display:block;font-size:12px;color:var(--mut);font-weight:600;margin:10px 0 3px}
+.in{width:100%;min-height:42px;padding:8px 11px;border-radius:10px;border:1px solid var(--line2);background:#fbfbf9;font-weight:500}
+.in:focus{background:#fff;border-color:var(--acc);outline:none;box-shadow:0 0 0 3px var(--acc-soft)}
+.hand{display:grid;grid-template-columns:28px 1fr;gap:6px;align-items:center}
+.hand i{font-style:normal;font-size:12px;font-weight:700;color:var(--mut);text-align:center}
+.seg{display:flex;gap:4px;flex-wrap:wrap}
+.seg button{min-height:36px;padding:0 11px;border-radius:99px;border:1px solid var(--line2);background:#fff;font-weight:600;font-size:12.5px}
+.seg button.on.cal{background:var(--warn-soft);border-color:#ecd39b;color:var(--warn)}
+.seg button.on.act{background:var(--ok-soft);border-color:#b6dec6;color:var(--ok)}
+.seg button.on.pau{background:#eee;border-color:#ccc}
+.warm{margin-top:10px;border:1px dashed var(--line2);border-radius:12px;padding:10px 12px}
+.warm h4{margin:0 0 6px;font-size:13px;display:flex;justify-content:space-between}
+.warm h4 span{color:var(--mut2);font-weight:600}
+.warm label{display:flex;gap:8px;align-items:flex-start;font-size:13px;padding:3px 0;cursor:pointer}
+.warm input{margin-top:3px;width:16px;height:16px;accent-color:var(--ink)}
+
+/* 90 / 10 */
+.split{padding:18px;display:grid;grid-template-columns:1fr 1.2fr;gap:20px;align-items:center}
+.bar{display:flex;height:48px;border-radius:12px;overflow:hidden;font-weight:700;font-size:14px}
+.bar div{display:flex;align-items:center;padding:0 14px;white-space:nowrap;overflow:hidden}
+.bar .a{background:var(--ink);color:#fff;flex:9}.bar .b{background:#e4e4df;flex:1;justify-content:center}
+.split ul{margin:0;padding-left:18px;color:var(--ink2);font-size:14px}
+.split li{margin:4px 0}
+.split .now{font-size:13.5px;color:var(--mut);margin-top:8px}
+
+/* horarios */
+.sched{padding:18px}
+.tl{position:relative;height:64px;margin:10px 0 6px;border-radius:12px;background:#f4f4f0}
+.tl .h{position:absolute;top:0;bottom:0;border-left:1px dashed #d9d9d3;font-size:10.5px;color:var(--mut2);padding:2px 0 0 4px}
+.tl .p{position:absolute;top:22px;transform:translateX(-50%);padding:6px 10px;border-radius:99px;background:var(--ink);color:#fff;font-size:12px;font-weight:700;white-space:nowrap}
+.sched .row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:8px}
+
+/* registro */
+.log{padding:18px;overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:720px;font-size:13.5px;font-variant-numeric:tabular-nums}
+th,td{padding:6px 6px;border-bottom:1px solid var(--line);text-align:left}
+th{font-size:12px;color:var(--mut);font-weight:600}
+td input{width:100%;min-height:38px;padding:0 8px;border-radius:8px;border:1px solid transparent;background:transparent;font-weight:600}
+td input:hover{border-color:var(--line2)}
+td input:focus{border-color:var(--acc);background:#fff;outline:none}
+td.m{font-weight:700;white-space:nowrap;text-transform:capitalize}
+tr.now td{background:#fafaf6}
+
+.how{padding:18px;margin-top:16px}
+.how ul{margin:0;padding-left:18px;color:var(--ink2)}
+.how li{margin:5px 0}
+
+@media (max-width:900px){.accs{grid-template-columns:1fr}.vol{grid-template-columns:1fr 1fr}.split{grid-template-columns:1fr}.mock{aspect-ratio:auto;height:200px}}
+@media (max-width:640px){.top{padding:0 12px;gap:10px}.brand small{display:none}.save span{display:none}.wrap{padding:20px 14px 70px}.sched .row{grid-template-columns:1fr}.vol b{font-size:26px}}
+@media print{.top,.packsel{display:none!important}body{background:#fff}.card{box-shadow:none}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="brand"><span class="mk">M</span>Multicuentas <small>· Artist OS</small></div>
+  <div class="sp"></div>
+  <div class="save" id="save" aria-live="polite"><i></i><span>Sin cambios</span></div>
+  <button class="tbtn" id="bPdf">PDF</button>
+</header>
+
+<main class="wrap">
+  <section class="hero">
+    <h1>3 cuentas fandom. <em>3 personalidades.</em></h1>
+    <p>Mientras tu cuenta cuenta quién sos, estas 3 cuentas suben pedacitos de tus canciones todos los días, en Instagram, TikTok y YouTube Shorts, para que lleguen a gente que todavía no te conoce. Vos no subís nada: queda todo programado.</p>
+    <div class="packsel" id="packsel" role="group" aria-label="Tu pack"><button data-pack="6">Pack 6 canciones</button><button data-pack="12">Pack 12 canciones</button></div>
+    <div class="vol" id="vol"></div>
+  </section>
+
+  <h2 class="s">Las 3 cuentas</h2>
+  <p class="s">Cada una tiene su estilo y su forma de escribir, para que no parezcan la misma cuenta repetida.</p>
+  <div class="accs" id="accs"></div>
+
+  <h2 class="s">Qué canción suena</h2>
+  <p class="s">La canción del momento va en casi todo. Las anteriores siguen apareciendo para que no se apaguen.</p>
+  <div class="card split" id="split"></div>
+
+  <h2 class="s">Horarios</h2>
+  <p class="s">Las tres cuentas no publican a la misma hora: así no compiten entre ellas.</p>
+  <div class="card sched" id="sched"></div>
+
+  <h2 class="s">Cómo vienen, mes a mes</h2>
+  <p class="s">Una vez por mes anotamos los seguidores de cada cuenta y el video que mejor anduvo.</p>
+  <div class="card log" id="log"></div>
+
+  <div class="card how">
+    <h2 class="s" style="margin-top:0">Reglas de las cuentas fandom</h2>
+    <ul>
+      <li><b>No dicen que son tuyas.</b> Son cuentas de fans: hablan de la canción, no venden.</li>
+      <li><b>Arrancan despacio.</b> La primera semana suben poco e interactúan a mano; después, un video por día, programado.</li>
+      <li><b>Siempre el mismo sonido.</b> Usan el audio oficial de tu canción en cada red, así cada video suma a tu tema.</li>
+      <li><b>Lo que pega se repite.</b> Si un video anda bien en una cuenta, se hacen variantes para las otras dos.</li>
+    </ul>
+  </div>
+</main>
+
+<script>
+(function () {
+  const $ = s => document.querySelector(s);
+  const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const MESES = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  const pad = n => String(n).padStart(2, '0');
+  const hoyM = () => { const d = new Date(); return d.getFullYear() + '-' + pad(d.getMonth() + 1); };
+  const hoyD = () => new Date().toISOString().slice(0, 10);
+  const addM = (k, n) => { const [y, m] = k.split('-').map(Number); const d = new Date(y, m - 1 + n, 1); return d.getFullYear() + '-' + pad(d.getMonth() + 1); };
+  const nomM = k => MESES[+k.split('-')[1] - 1] + ' ' + k.slice(0, 4);
+  const PERS = [
+    { k: 'Cuenta 1', t: 'Frases', what: 'La frase más fuerte de la canción, en grande, sobre fondos simples.', cls: 'm1', ej: (f) => '«' + (f || 'la frase más fuerte de tu canción') + '»' },
+    { k: 'Cuenta 2', t: 'Mood / Aesthetic', what: 'Edits visuales: noche, ciudad, ruta, auto, con el pedacito de audio.', cls: 'm2', ej: () => 'noche · ciudad · ruta' },
+    { k: 'Cuenta 3', t: 'POV / Situaciones', what: 'Texto tipo meme con una situación con la que la gente se identifica.', cls: 'm3', ej: () => 'POV: le mandás esta canción a tu ex a las 3 de la mañana' },
+  ];
+  const WARM = ['Foto, nombre y bio con la personalidad de la cuenta', 'Seguir 30 cuentas del nicho y de artistas parecidos', 'Primeros 3 videos, de a uno por día', '15 minutos por día de likes y comentarios a mano', 'Día 8: arranca el video diario programado'];
+  const HORAS = ['13:00', '19:00', '22:30'];
+
+  let S = null, cancion = { actual: '', anteriores: [] };
+  const saveEl = $('#save');
+  const estado = (t, c) => { saveEl.className = 'save ' + (c || ''); saveEl.querySelector('span').textContent = t; };
+  let tmo; function guardar() { S.actualizado = Date.now(); estado('Guardando…', 'busy'); clearTimeout(tmo); tmo = setTimeout(() => AOS.save('multicuentas', S).then(r => estado(r && r.ok === false ? 'No se guardó' : 'Guardado ✓', r && r.ok === false ? '' : 'ok')), 400); }
+
+  function renderVol() {
+    document.querySelectorAll('#packsel button').forEach(b => b.classList.toggle('on', +b.dataset.pack === S.pack));
+    const tot = S.pack === 12 ? 9720 : 4860; // números del pack (Larry)
+    $('#vol').innerHTML = [[3, 'cuentas fandom'], [3, 'plataformas: Instagram, TikTok y YouTube Shorts'], [90, 'reels por mes entre las 3 cuentas (1 por día cada una)'], [tot.toLocaleString('es-AR'), 'publicaciones en tu año · pack ' + S.pack]]
+      .map(x => '<div class="card"><b>' + x[0] + '</b><span>' + x[1] + '</span></div>').join('');
+  }
+  function renderAccs() {
+    $('#accs').innerHTML = PERS.map((p, i) => {
+      const a = S.cuentas[i], w = a.warm || [], done = w.filter(Boolean).length;
+      return '<div class="card acc" data-a="' + i + '"><div class="hd"><div class="k">' + p.k + '</div><h3>' + p.t + '</h3><p class="what">' + p.what + '</p></div>'
+        + '<div class="mock ' + p.cls + '"><p>' + esc(p.ej(S.frase)) + '</p><span class="au">♪ ' + esc(cancion.actual || 'tu canción') + '</span></div>'
+        + '<div class="bd">'
+        + '<label class="fl">Usuarios</label>'
+        + [['IG', 'ig'], ['TT', 'tt'], ['YT', 'yt']].map(([l, k]) => '<div class="hand" style="margin-bottom:4px"><i>' + l + '</i><input class="in" data-af="' + k + '" value="' + esc(a[k]) + '" placeholder="@usuario" aria-label="' + l + ' de ' + p.t + '"></div>').join('')
+        + '<label class="fl">Estado</label><div class="seg">' + [['cal', 'Calentando'], ['act', 'Activa'], ['pau', 'Pausada']].map(([k, l]) => '<button data-ast="' + k + '" class="' + k + (a.estado === k ? ' on' : '') + '">' + l + '</button>').join('') + '</div>'
+        + '<label class="fl">Cómo escribe <span style="font-weight:500;color:var(--mut2)">· el tono de los textos</span></label><input class="in" data-af="tono" value="' + esc(a.tono) + '" placeholder="' + ['corto, poético, sin emojis', 'minúsculas, vibes, 1 emoji', 'gracioso, como un amigo'][i] + '">'
+        + '<div class="warm"><h4>Primera semana<span>' + done + '/' + WARM.length + '</span></h4>' + WARM.map((t, j) => '<label><input type="checkbox" data-aw="' + j + '"' + (w[j] ? ' checked' : '') + '>' + t + '</label>').join('') + '</div>'
+        + '</div></div>';
+    }).join('');
+  }
+  function renderSplit() {
+    const a = cancion.actual, ant = cancion.anteriores;
+    $('#split').innerHTML = '<div><div class="bar"><div class="a">90 % · ' + esc(a || 'la canción del momento') + '</div><div class="b">10 %</div></div>'
+      + '<p class="now">' + (a ? 'Este mes la protagonista es <b>«' + esc(a) + '»</b>' + (ant.length ? '; el 10 % se reparte entre ' + ant.map(t => '«' + esc(t) + '»').join(', ') + '.' : '.') : 'Cuando cargues tus canciones en Lanzamientos, acá aparece cuál suena este mes.') + '</p></div>'
+      + '<ul><li>De cada 10 videos, <b>9 son de la canción nueva</b>.</li><li><b>1 de cada 10</b> es de una anterior, así siguen sonando.</li><li>Arranca a partir del <b>2.º mes</b>, cuando ya hay más de una canción.</li></ul>'
+      + '<div style="grid-column:1/-1"><label class="fl" for="fr">La frase que usa la Cuenta 1 este mes</label><input class="in" id="fr" value="' + esc(S.frase) + '" placeholder="Ej.: si la noche se acaba, que se acabe conmigo"></div>';
+  }
+  function renderSched() {
+    const H = S.horas, X = t => { const [h, m] = t.split(':').map(Number); return ((h * 60 + m) - 8 * 60) / (16 * 60) * 100; };
+    let tl = ''; for (let h = 8; h < 24; h += 2) tl += '<span class="h" style="left:' + ((h - 8) / 16 * 100) + '%">' + h + 'h</span>';
+    tl += H.map((t, i) => t ? '<span class="p" style="left:' + Math.max(4, Math.min(96, X(t))) + '%">' + (i + 1) + ' · ' + t + '</span>' : '').join('');
+    $('#sched').innerHTML = '<div class="tl">' + tl + '</div><div class="row">' + PERS.map((p, i) => '<label><span class="fl">' + p.k + ' · ' + p.t + '</span><input class="in" type="time" data-h="' + i + '" value="' + esc(H[i]) + '"></label>').join('') + '</div>';
+  }
+  function renderLog() {
+    const M = Array.from({ length: 12 }, (_, i) => addM(S.inicio, i)), h = hoyM();
+    $('#log').innerHTML = '<table><thead><tr><th>Mes</th>' + PERS.map(p => '<th>' + p.k + ' · seguidores</th>').join('') + '<th>Video que mejor anduvo</th><th>Vistas</th></tr></thead><tbody>'
+      + M.map((k, i) => { const r = S.log[k] || {}; return '<tr class="' + (k === h ? 'now' : '') + '"><td class="m">' + (i + 1) + ' · ' + nomM(k).slice(0, 3) + ' ' + k.slice(2, 4) + '</td>'
+        + [0, 1, 2].map(j => '<td><input data-l="' + k + '" data-lf="s' + j + '" inputmode="numeric" value="' + esc(r['s' + j]) + '" placeholder="—" aria-label="Seguidores ' + PERS[j].k + ' ' + nomM(k) + '"></td>').join('')
+        + '<td><input data-l="' + k + '" data-lf="top" value="' + esc(r.top) + '" placeholder="link o descripción" aria-label="Mejor video ' + nomM(k) + '"></td><td><input data-l="' + k + '" data-lf="vis" inputmode="numeric" value="' + esc(r.vis) + '" placeholder="—" aria-label="Vistas ' + nomM(k) + '"></td></tr>'; }).join('')
+      + '</tbody></table>';
+  }
+  const renderAll = () => { renderVol(); renderAccs(); renderSplit(); renderSched(); renderLog(); };
+
+  document.addEventListener('click', e => {
+    const p = e.target.closest('[data-pack]'); if (p) { S.pack = +p.dataset.pack; guardar(); renderVol(); return; }
+    const st = e.target.closest('[data-ast]'); if (st) { const i = +st.closest('[data-a]').dataset.a; S.cuentas[i].estado = st.dataset.ast; guardar(); st.parentNode.querySelectorAll('button').forEach(b => b.classList.toggle('on', b === st)); return; }
+    if (e.target.id === 'bPdf') print();
+  });
+  document.addEventListener('input', e => {
+    const t = e.target, a = t.closest('[data-a]');
+    if (t.dataset.af && a) { S.cuentas[+a.dataset.a][t.dataset.af] = t.value; guardar(); }
+    if (t.id === 'fr') { S.frase = t.value; guardar(); const m = document.querySelector('.mock.m1 p'); if (m) m.textContent = PERS[0].ej(t.value); }
+    if (t.dataset.l) { (S.log[t.dataset.l] = S.log[t.dataset.l] || {})[t.dataset.lf] = t.value; guardar(); }
+  });
+  document.addEventListener('change', e => {
+    const t = e.target, a = t.closest('[data-a]');
+    if (t.dataset.aw != null && a) { const c = S.cuentas[+a.dataset.a]; c.warm = c.warm || []; c.warm[+t.dataset.aw] = t.checked; guardar(); const h = a.querySelector('.warm h4 span'); h.textContent = c.warm.filter(Boolean).length + '/' + WARM.length; }
+    if (t.dataset.h != null) { S.horas[+t.dataset.h] = t.value; guardar(); renderSched(); }
+  });
+
+  (async () => {
+    const who = await AOS.ready;
+    const [d, lz, st, es] = await Promise.all([AOS.load('multicuentas'), AOS.load('lanzamientos'), AOS.load('estadisticas'), AOS.load('estrategia')]);
+    S = Object.assign({ pack: (es && es.pack) || (/12/.test((who.artista && who.artista.pack) || '') ? 12 : 6), inicio: (st && st.inicio) || (lz && lz.inicio) || (es && es.inicio) || hoyM(), frase: '', horas: HORAS.slice(), cuentas: [{}, {}, {}], log: {} }, d || {});
+    if (!Array.isArray(S.cuentas) || S.cuentas.length < 3) S.cuentas = [0, 1, 2].map(i => (S.cuentas && S.cuentas[i]) || {});
+    S.cuentas.forEach(c => { if (!c.estado) c.estado = 'cal'; });
+    // canción del momento: la última que ya salió (o la próxima, si todavía no salió ninguna)
+    const ts = lz && lz.temas ? lz.temas.filter(t => t.fecha && t.titulo).sort((a, b) => a.fecha < b.fecha ? -1 : 1) : [];
+    const salieron = ts.filter(t => t.fecha <= hoyD());
+    if (salieron.length) { cancion.actual = salieron[salieron.length - 1].titulo; cancion.anteriores = salieron.slice(0, -1).map(t => t.titulo).reverse().slice(0, 3); }
+    else if (ts.length) cancion.actual = ts[0].titulo;
+    else if (who.demo) { cancion.actual = 'Tu calor'; }
+    if (!d && who.demo) { S.frase = 'si la noche se acaba, que se acabe conmigo'; S.cuentas[0].ig = '@frasesdemadrugada'; S.cuentas[1].ig = '@nochedeciudad.mp3'; S.cuentas[2].ig = '@povcanciones'; S.cuentas[0].estado = 'act'; S.cuentas[1].estado = 'act'; }
+    renderAll();
+    estado(d ? 'Guardado ✓' : 'Sin cambios', d ? 'ok' : '');
+  })();
+})();
+</script>
+</body>
+</html>

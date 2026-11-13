@@ -716,7 +716,15 @@ function llamadaHTML() {
     + '<p class="note">Cuando agendes, acá te aparece el día y la hora.</p></div></div>';
 }
 
-function todas() { return [...D.apps1, ...D.apps2, ...(D.appsEra || [])]; }
+/* Pack ERA: los que no lo tienen lo ven igual, con candado (las apps las sirve la planilla solo a los ERA) */
+const ERA_LOCK = [
+  { id: 'logo', titulo: 'Logo', sub: 'Tu nombre, con diseño', bloqueada: true, era: true },
+  { id: 'estetica', titulo: 'Estética visual', sub: 'Tu manual de identidad', bloqueada: true, era: true },
+  { id: 'portfolio', titulo: 'Portfolio', sub: 'Tu EPK para shows y sellos', bloqueada: true, era: true },
+];
+function tieneEra() { return !!(D.appsEra && D.appsEra.length); }
+function appsEra() { return tieneEra() ? D.appsEra : ERA_LOCK; }
+function todas() { return [...D.apps1, ...D.apps2, ...appsEra()]; }
 
 /* ─────────── PROGRESO ─────────── */
 function tareas() {
@@ -767,7 +775,7 @@ function render() {
     + '<main class="desk"><div class="mainc">'
     +   '<section class="group"><div class="glabel px">PARTE 1 · TU MARCA <span class="tag">Disponible</span></div><div class="icons">' + D.apps1.map((a, i) => iconHTML(a, i + 1)).join('') + '</div></section>'
     +   '<section class="group"><div class="glabel px">PARTE 2 · TU LANZAMIENTO <span class="tag' + (D.parte2 ? '' : ' off') + '">' + (D.parte2 ? 'Disponible' : '🔒 Te la abro yo') + '</span></div><div class="icons">' + D.apps2.map((a, i) => iconHTML(a, D.apps1.length + i + 1)).join('') + '</div></section>'
-    +   ((D.appsEra && D.appsEra.length) ? '<section class="group era"><div class="glabel px">PACK ERA · TU IDENTIDAD <span class="tag era">💎 ERA</span></div><div class="icons">' + D.appsEra.map((a, i) => iconHTML(a, 'E' + (i + 1))).join('') + '</div></section>' : '')
+    +   '<section class="group era' + (tieneEra() ? '' : ' eralk') + '"><div class="glabel px">PACK ERA · TU IDENTIDAD <span class="tag era">' + (tieneEra() ? '💎 ERA' : '🔒 💎 Pack ERA') + '</span></div><div class="icons">' + appsEra().map((a, i) => iconHTML(a, 'E' + (i + 1))).join('') + '</div></section>'
     +   '<section class="group"><div class="glabel px">ACCESOS</div><div class="icons">' + extras + '</div></section>'
     + '</div><aside class="side">'
     +   '<div class="w whello"><div class="wt px">BIENVENIDA<i>●</i></div><div class="wb hello"><div class="av">' + LARRY_SVG.base + '</div><div><h2>' + (nombre ? 'Hola, ' + esc(nombre) : 'Hola') + '</h2><p>' + (D.parte2 ? '¡Tu Parte 2 está abierta! Seguí el orden de los números.' : 'Empezá por el <b>1</b> y el <b>2</b>. Cuando tu canción esté lista, te abro la Parte 2.') + '</p></div></div></div>'
@@ -810,6 +818,7 @@ function conToken(url) {
   if (params.get('demo') && !/^https?:/.test(url)) return url + (url.includes('?') ? '&' : '?') + 'demo=1'; if (!token || /^https?:\/\/(calendar|drive|meet)\./.test(url)) return url; return url + (url.includes('?') ? '&' : '?') + 't=' + encodeURIComponent(token); }
 function abrirApp(id) {
   const a = todas().find(x => x.id === id); if (!a) return;
+  if (a.bloqueada && a.era) return aviso('PACK ERA', '<p style="font-size:15px"><b>' + esc(a.titulo) + '</b> es parte del <b>pack ERA</b>: tu logo, tu estética visual y tu portfolio para shows y sellos, armados conmigo.</p><p style="font-size:14.5px">Si querés sumarlo a tu lanzamiento, escribime y te cuento.</p><a class="btn" href="' + waLink(D.whatsapp, 'Hola Larry! Me interesa el pack ERA (' + a.titulo + ')') + '" target="_blank" rel="noopener">Quiero el pack ERA</a>');
   if (a.bloqueada) return aviso('PARTE 2', '<p style="font-size:15px">Esta parte <b>te la abro yo</b> cuando tu canción esté lista para lanzar. Mientras tanto, lo más valioso es <b>terminar tu Manual de Marca</b>.</p><a class="btn" href="' + waLink(D.whatsapp, 'Hola Larry! Ya terminé mi Manual de Marca') + '" target="_blank" rel="noopener">Ya terminé mi manual</a>');
   const o = leer(); o['abierto_' + id] = 1; guardar(o);
   history.replaceState(null, '', '#' + id);

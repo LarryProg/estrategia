@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Estadísticas · Artist OS</title>
+<meta name="description" content="Tus números mes a mes durante los 12 meses del pack: Spotify, Instagram, TikTok y YouTube.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📈</text></svg>">
+<meta name="theme-color" content="#0d0d0d">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap">
+<script src="../aos-store.js"></script>
+<style>
+:root{
+  --bg:#f2f2ef;--paper:#fff;--ink:#0d0d0d;--ink2:#2e2e2c;--mut:#686864;--mut2:#8d8d88;
+  --line:#e4e4df;--line2:#cfcfc9;--acc:#3451f5;--acc-soft:#eaedff;
+  --ok:#1d7a45;--ok-soft:#e6f4ec;--bad:#b42318;--bad-soft:#fdecea;
+  --r:16px;--r2:12px;
+  --sh:0 1px 2px rgba(0,0,0,.04),0 6px 20px rgba(0,0,0,.05);
+  --ui:"Inter Tight",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --serif:"Instrument Serif",Georgia,serif;
+  --top:58px;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 var(--ui);-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+
+/* barra superior */
+.top{position:sticky;top:0;z-index:40;height:var(--top);background:#0d0d0d;color:#fff;display:flex;align-items:center;gap:14px;padding:0 18px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:600;letter-spacing:-.01em;white-space:nowrap}
+.brand .mk{width:26px;height:26px;border-radius:7px;background:#fff;color:#0d0d0d;display:grid;place-items:center;font:italic 20px/1 var(--serif)}
+.brand small{color:#9a9a96;font-weight:500}
+.sp{flex:1}
+.save{font-size:12.5px;color:#a9a9a4;display:flex;align-items:center;gap:6px;white-space:nowrap}
+.save i{width:7px;height:7px;border-radius:50%;background:#555;display:inline-block}
+.save.ok i{background:#3ccf7a}.save.busy i{background:#f5b638;animation:pulse 1s infinite}
+@keyframes pulse{50%{opacity:.3}}
+.tbtn{min-height:36px;padding:0 14px;border-radius:10px;border:1px solid #3a3a38;background:transparent;color:#fff;font-weight:600;font-size:13.5px}
+.tbtn:hover{background:#fff;color:#0d0d0d}
+
+.wrap{max-width:1080px;margin:0 auto;padding:28px 20px 80px}
+.hero{display:flex;flex-wrap:wrap;gap:18px 30px;align-items:flex-end;justify-content:space-between;margin-bottom:22px}
+.hero h1{margin:0;font:400 clamp(34px,5vw,52px)/1.02 var(--serif);letter-spacing:-.01em}
+.hero h1 em{color:var(--mut)}
+.hero p{margin:10px 0 0;color:var(--mut);max-width:560px;font-size:16px}
+.startbox{display:flex;flex-direction:column;gap:6px;font-size:13px;color:var(--mut)}
+.startbox select{min-height:44px;padding:0 12px;border-radius:10px;border:1px solid var(--line2);background:var(--paper);font-weight:600;color:var(--ink)}
+
+.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh)}
+
+/* línea de los 12 meses */
+.months{display:grid;grid-template-columns:repeat(12,1fr);gap:6px;margin-bottom:22px}
+.mo{position:relative;min-height:62px;border-radius:12px;border:1px solid var(--line);background:var(--paper);padding:8px 6px 7px;text-align:center;transition:border-color .2s,transform .2s}
+.mo:hover{border-color:var(--line2);transform:translateY(-1px)}
+.mo b{display:block;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--mut2);font-weight:600}
+.mo span{display:block;font-weight:600;font-size:14px;margin-top:2px;text-transform:capitalize}
+.mo i{position:absolute;left:50%;bottom:6px;width:6px;height:6px;margin-left:-3px;border-radius:50%;background:var(--line2)}
+.mo.ok i{background:var(--ok)}
+.mo.fut{opacity:.5}
+.mo.on{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink) inset;opacity:1}
+.mo.now b{color:var(--acc)}
+
+/* resumen */
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:22px}
+@media (max-width:900px){.kpis{grid-template-columns:1fr 1fr}}
+.kpi{padding:16px 16px 12px}
+.kpi .h{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--mut);font-weight:600}
+.kpi .h .dot{width:9px;height:9px;border-radius:3px}
+.kpi .v{font-size:30px;font-weight:700;letter-spacing:-.02em;margin-top:6px;line-height:1.1}
+.kpi .d{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px;font-size:12.5px}
+.pill{display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:99px;font-weight:600;background:#f0f0ec;color:var(--mut)}
+.pill.up{background:var(--ok-soft);color:var(--ok)}.pill.dn{background:var(--bad-soft);color:var(--bad)}
+.kpi svg{display:block;width:100%;height:34px;margin-top:8px}
+.kpi.empty .v{color:var(--mut2)}
+
+/* gráfico */
+.grid2{display:grid;grid-template-columns:1.35fr 1fr;gap:16px;align-items:start}
+.chartc{padding:18px}
+.chartc .hd{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:10px}
+.chartc h2,.ed h2,.tablec h2{margin:0;font-size:17px;font-weight:700;letter-spacing:-.01em}
+.chartc select{min-height:40px;padding:0 10px;border-radius:10px;border:1px solid var(--line2);background:var(--paper);font-weight:600;max-width:100%}
+#chart{width:100%;height:auto;display:block}
+.chartc .cap{font-size:13px;color:var(--mut);margin-top:6px}
+
+/* editor del mes */
+.ed{padding:18px}
+.ed .sub{color:var(--mut);font-size:13.5px;margin:2px 0 14px}
+.plat{border-top:1px solid var(--line);padding:12px 0 4px}
+.plat:first-of-type{border-top:0;padding-top:4px}
+.plat .ph{display:flex;align-items:center;gap:8px;font-weight:700;font-size:14px;margin-bottom:8px}
+.plat .ph .dot{width:9px;height:9px;border-radius:3px}
+.plat .ph small{margin-left:auto;font-weight:500;color:var(--mut2);font-size:12px;text-align:right}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.f label{display:block;font-size:12px;color:var(--mut);font-weight:600;margin-bottom:3px}
+.f input{width:100%;min-height:44px;padding:0 12px;border-radius:10px;border:1px solid var(--line2);background:#fbfbf9;font-weight:600;font-variant-numeric:tabular-nums}
+.f input:focus{background:#fff;border-color:var(--acc);outline:none;box-shadow:0 0 0 3px var(--acc-soft)}
+.f .was{font-size:11.5px;color:var(--mut2);margin-top:2px;min-height:16px}
+.ed textarea{width:100%;min-height:84px;padding:10px 12px;border-radius:10px;border:1px solid var(--line2);background:#fbfbf9;resize:vertical}
+.ed textarea:focus{background:#fff;border-color:var(--acc);outline:none;box-shadow:0 0 0 3px var(--acc-soft)}
+.ed .nl{display:block;font-size:12px;color:var(--mut);font-weight:600;margin:12px 0 4px}
+.edfoot{display:flex;gap:8px;margin-top:12px}
+.btn{min-height:44px;padding:0 16px;border-radius:11px;border:1px solid var(--ink);background:var(--ink);color:#fff;font-weight:600}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--line2)}
+.btn:disabled{opacity:.4;cursor:default}
+
+/* tabla */
+.tablec{padding:18px;margin-top:16px}
+.tw{overflow-x:auto;margin-top:10px;-webkit-overflow-scrolling:touch}
+table{border-collapse:collapse;width:100%;min-width:860px;font-size:13px;font-variant-numeric:tabular-nums}
+th,td{padding:8px 8px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}
+th:first-child,td:first-child{text-align:left;position:sticky;left:0;background:var(--paper)}
+thead th{font-size:11.5px;color:var(--mut);font-weight:600;text-transform:capitalize}
+thead th.on{color:var(--ink)}
+td.na{color:var(--line2)}
+tr.grp td{font-weight:700;color:var(--ink);padding-top:14px;border-bottom:0}
+
+.howto{margin-top:16px;padding:18px}
+.howto h2{margin:0 0 10px;font-size:17px}
+.howto ol{margin:0;padding-left:20px;color:var(--ink2)}
+.howto li{margin:4px 0}
+
+@media (max-width:900px){.grid2{grid-template-columns:1fr}.months{grid-template-columns:repeat(6,1fr)}}
+@media (max-width:560px){
+  .top{padding:0 12px;gap:10px}.brand small{display:none}.save span{display:none}
+  .wrap{padding:20px 14px 70px}
+  .months{grid-template-columns:repeat(4,1fr)}
+  .fields{grid-template-columns:1fr}
+  .kpis{grid-template-columns:1fr 1fr}
+  .kpi .v{font-size:24px}
+}
+@media print{
+  .top,.ed,.startbox,.howto,.chartc select{display:none!important}
+  body{background:#fff}.grid2{grid-template-columns:1fr}.card{box-shadow:none}
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="brand"><span class="mk">E</span>Estadísticas <small>· Artist OS</small></div>
+  <div class="sp"></div>
+  <div class="save" id="save" aria-live="polite"><i></i><span>Sin cambios</span></div>
+  <button class="tbtn" id="bCsv" title="Descargar la planilla">⬇ CSV</button>
+  <button class="tbtn" id="bPdf" title="Guardar como PDF">PDF</button>
+</header>
+
+<main class="wrap">
+  <section class="hero">
+    <div>
+      <h1>Tus números, <em>mes a mes.</em></h1>
+      <p>Tu pack dura 12 meses. Una vez por mes cargamos tus números y acá ves si estás creciendo, qué red tira más y qué funcionó.</p>
+    </div>
+    <label class="startbox">Tu pack arrancó en
+      <select id="inicio" aria-label="Mes en que arrancó el pack"></select>
+    </label>
+  </section>
+
+  <nav class="months" id="months" aria-label="Los 12 meses del pack"></nav>
+  <section class="kpis" id="kpis" aria-label="Resumen"></section>
+
+  <div class="grid2">
+    <section class="card chartc">
+      <div class="hd"><h2>Cómo venís</h2><select id="metric" aria-label="Qué número ver"></select></div>
+      <svg id="chart" viewBox="0 0 640 300" role="img" aria-label="Gráfico de los 12 meses"></svg>
+      <p class="cap" id="cap"></p>
+    </section>
+    <section class="card ed" id="ed"></section>
+  </div>
+
+  <section class="card tablec">
+    <h2>Todo el año</h2>
+    <div class="tw"><table id="tabla"></table></div>
+  </section>
+
+  <section class="card howto">
+    <h2>Cómo se carga (2 minutos por mes)</h2>
+    <ol>
+      <li>Elegí el mes arriba (el punto verde quiere decir que ya está cargado).</li>
+      <li>Abrí cada app y copiá el número. Debajo de cada red te digo dónde está.</li>
+      <li>Si una red no la usás, dejala vacía: no pasa nada.</li>
+      <li>Escribí en una línea qué hiciste ese mes (qué sacaste, qué reel pegó). Así después sabemos qué funcionó.</li>
+    </ol>
+  </section>
+</main>
+
+<script>
+(function () {
+  const MESES = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  const PLAT = [
+    { id: 'spotify', n: 'Spotify', c: '#1db954', donde: 'Spotify for Artists → Audiencia', m: [
+      { k: 'sp_oy', n: 'Oyentes mensuales', main: true }, { k: 'sp_seg', n: 'Seguidores' }, { k: 'sp_rep', n: 'Reproducciones del mes' }] },
+    { id: 'instagram', n: 'Instagram', c: '#d62976', donde: 'Panel profesional → Estadísticas (30 días)', m: [
+      { k: 'ig_seg', n: 'Seguidores', main: true }, { k: 'ig_alc', n: 'Cuentas alcanzadas' }] },
+    { id: 'tiktok', n: 'TikTok', c: '#111111', donde: 'Herramientas de creador → Analytics (28 días)', m: [
+      { k: 'tt_seg', n: 'Seguidores', main: true }, { k: 'tt_vis', n: 'Visualizaciones' }] },
+    { id: 'youtube', n: 'YouTube', c: '#e62117', donde: 'YouTube Studio → Estadísticas (28 días)', m: [
+      { k: 'yt_sub', n: 'Suscriptores', main: true }, { k: 'yt_vis', n: 'Visualizaciones' }] },
+  ];
+  const ALL = PLAT.flatMap(p => p.m.map(m => Object.assign({ p }, m)));
+  const $ = s => document.querySelector(s);
+  const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+  const hoyKey = () => { const d = new Date(); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0'); };
+  const addM = (key, n) => { const [y, m] = key.split('-').map(Number); const d = new Date(y, m - 1 + n, 1); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0'); };
+  const nomM = (key, corto) => { const [y, m] = key.split('-').map(Number); const n = MESES[m - 1]; return corto ? n.slice(0, 3) : n + ' ' + y; };
+  const fmt = v => v == null || v === '' || isNaN(v) ? '—' : Number(v).toLocaleString('es-AR');
+  const corto = v => { v = Number(v); if (isNaN(v)) return '—'; const a = Math.abs(v); return a >= 1e6 ? (v / 1e6).toLocaleString('es-AR', { maximumFractionDigits: 1 }) + ' M' : a >= 1e4 ? (v / 1e3).toLocaleString('es-AR', { maximumFractionDigits: 1 }) + ' mil' : v.toLocaleString('es-AR'); };
+  // acepta 1.234 · 1 234 · 12,5k · 1.2M · 3 mil
+  function parse(s) {
+    s = String(s || '').trim().toLowerCase().replace(/\s/g, ''); if (!s) return null;
+    let mult = 1; if (/(k|mil)$/.test(s)) { mult = 1e3; s = s.replace(/(k|mil)$/, ''); } else if (/m$/.test(s)) { mult = 1e6; s = s.slice(0, -1); }
+    if (mult > 1) s = s.replace(',', '.'); else s = s.replace(/[.,](?=\d{3}(\D|$))/g, '').replace(',', '.');
+    const n = parseFloat(s); return isNaN(n) ? null : Math.round(n * mult);
+  }
+
+  let S = null, sel = null, metric = 'sp_oy';
+  const meses = () => Array.from({ length: 12 }, (_, i) => addM(S.inicio, i));
+  const val = (mes, k) => { const r = S.meses[mes]; return r && r[k] != null && r[k] !== '' ? Number(r[k]) : null; };
+  const cargado = mes => { const r = S.meses[mes]; return !!r && ALL.some(m => r[m.k] != null && r[m.k] !== ''); };
+
+  /* guardado */
+  const saveEl = $('#save');
+  function estado(t, c) { saveEl.className = 'save ' + (c || ''); saveEl.querySelector('span').textContent = t; }
+  let tmo;
+  function guardar() {
+    S.actualizado = Date.now();
+    estado('Guardando…', 'busy');
+    clearTimeout(tmo);
+    tmo = setTimeout(() => AOS.save('estadisticas', S).then(r => estado(r && r.ok === false ? 'No se guardó · reintentá' : 'Guardado ✓', r && r.ok === false ? '' : 'ok')), 350);
+  }
+
+  /* 12 meses */
+  function renderMeses() {
+    const hoy = hoyKey();
+    $('#months').innerHTML = meses().map((k, i) =>
+      '<button class="mo' + (k === sel ? ' on' : '') + (cargado(k) ? ' ok' : '') + (k > hoy ? ' fut' : '') + (k === hoy ? ' now' : '') + '" data-m="' + k + '" aria-pressed="' + (k === sel) + '">'
+      + '<b>Mes ' + (i + 1) + '</b><span>' + nomM(k, true) + '</span><i></i></button>').join('');
+  }
+
+  /* resumen: un número principal por red */
+  function spark(serie, color) {
+    const pts = serie.map((v, i) => [i, v]).filter(p => p[1] != null);
+    if (pts.length < 2) return '<svg viewBox="0 0 120 34"></svg>';
+    const vs = pts.map(p => p[1]), mn = Math.min(...vs), mx = Math.max(...vs), r = mx - mn || 1;
+    const d = pts.map((p, j) => (j ? 'L' : 'M') + (p[0] / 11 * 118 + 1).toFixed(1) + ' ' + (31 - (p[1] - mn) / r * 28).toFixed(1)).join(' ');
+    return '<svg viewBox="0 0 120 34" preserveAspectRatio="none"><path d="' + d + '" fill="none" stroke="' + color + '" stroke-width="2" vector-effect="non-scaling-stroke" stroke-linejoin="round" stroke-linecap="round"/></svg>';
+  }
+  function renderKpis() {
+    const M = meses();
+    $('#kpis').innerHTML = PLAT.map(p => {
+      const m = p.m.find(x => x.main), serie = M.map(k => val(k, m.k));
+      const idx = serie.map((v, i) => v == null ? -1 : i).filter(i => i >= 0);
+      if (!idx.length) return '<div class="card kpi empty"><div class="h"><i class="dot" style="background:' + p.c + '"></i>' + p.n + ' · ' + m.n + '</div><div class="v">—</div><div class="d"><span class="pill">Todavía sin datos</span></div>' + spark([], p.c) + '</div>';
+      const last = idx[idx.length - 1], first = idx[0], prev = idx.length > 1 ? idx[idx.length - 2] : null;
+      const pill = (a, b, txt) => { if (b == null || a == null) return ''; const d = a - b, pc = b ? Math.round(d / b * 100) : null; return '<span class="pill ' + (d > 0 ? 'up' : d < 0 ? 'dn' : '') + '">' + (d > 0 ? '▲ +' : d < 0 ? '▼ ' : '') + corto(d) + (pc != null && d ? ' (' + (pc > 0 ? '+' : '') + pc + '%)' : '') + ' ' + txt + '</span>'; };
+      return '<div class="card kpi"><div class="h"><i class="dot" style="background:' + p.c + '"></i>' + p.n + ' · ' + m.n + '</div>'
+        + '<div class="v">' + corto(serie[last]) + '</div><div class="d">'
+        + (prev != null ? pill(serie[last], serie[prev], 'vs. mes ' + (prev + 1)) : '<span class="pill">Mes ' + (last + 1) + '</span>')
+        + (idx.length > 2 ? pill(serie[last], serie[first], 'desde el mes ' + (first + 1)) : '')
+        + '</div>' + spark(serie, p.c) + '</div>';
+    }).join('');
+  }
+
+  /* gráfico grande */
+  function renderChart() {
+    const m = ALL.find(x => x.k === metric), M = meses(), serie = M.map(k => val(k, m.k));
+    const W = 640, H = 300, L = 54, R = 14, T = 16, B = 34, w = W - L - R, h = H - T - B;
+    const vs = serie.filter(v => v != null);
+    let mx = vs.length ? Math.max(...vs) : 100, mn = vs.length ? Math.min(...vs) : 0;
+    mn = Math.max(0, mn - (mx - mn) * .25); if (mx === mn) { mx = mx * 1.2 + 10; mn = Math.max(0, mn * .8); }
+    const step = (mx - mn) / 4, X = i => L + i * w / 11, Y = v => T + h - (v - mn) / (mx - mn) * h;
+    let g = '';
+    for (let i = 0; i <= 4; i++) { const v = mn + step * i, y = Y(v); g += '<line x1="' + L + '" x2="' + (W - R) + '" y1="' + y + '" y2="' + y + '" stroke="#e4e4df"/><text x="' + (L - 8) + '" y="' + (y + 4) + '" text-anchor="end" font-size="11" fill="#8d8d88">' + esc(corto(Math.round(v))) + '</text>'; }
+    M.forEach((k, i) => { g += '<text x="' + X(i) + '" y="' + (H - 12) + '" text-anchor="middle" font-size="11" fill="' + (k === sel ? '#0d0d0d' : '#8d8d88') + '" font-weight="' + (k === sel ? 700 : 400) + '">' + nomM(k, true) + '</text>'; });
+    const pts = serie.map((v, i) => [i, v]).filter(p => p[1] != null);
+    if (pts.length) {
+      const d = pts.map((p, j) => (j ? 'L' : 'M') + X(p[0]).toFixed(1) + ' ' + Y(p[1]).toFixed(1)).join(' ');
+      if (pts.length > 1) g += '<path d="' + d + ' L' + X(pts[pts.length - 1][0]).toFixed(1) + ' ' + (T + h) + ' L' + X(pts[0][0]).toFixed(1) + ' ' + (T + h) + 'Z" fill="' + m.p.c + '" opacity=".08"/>'
+        + '<path d="' + d + '" fill="none" stroke="' + m.p.c + '" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>';
+      pts.forEach(p => { g += '<circle cx="' + X(p[0]) + '" cy="' + Y(p[1]) + '" r="' + (M[p[0]] === sel ? 6 : 4) + '" fill="#fff" stroke="' + m.p.c + '" stroke-width="2.5"><title>' + esc(nomM(M[p[0]]) + ': ' + fmt(p[1])) + '</title></circle>'; });
+    } else g += '<text x="' + (L + w / 2) + '" y="' + (T + h / 2) + '" text-anchor="middle" font-size="14" fill="#8d8d88">Cuando cargues el primer mes, acá aparece la línea.</text>';
+    $('#chart').innerHTML = g;
+    const fi = pts[0], la = pts[pts.length - 1];
+    $('#cap').textContent = pts.length > 1
+      ? m.p.n + ' · ' + m.n + ': de ' + fmt(fi[1]) + ' (mes ' + (fi[0] + 1) + ') a ' + fmt(la[1]) + ' (mes ' + (la[0] + 1) + ').'
+      : 'Elegí arriba qué número querés ver.';
+  }
+
+  /* editor del mes elegido */
+  function renderEd() {
+    const M = meses(), i = M.indexOf(sel), r = S.meses[sel] || {}, prev = i > 0 ? M[i - 1] : null;
+    $('#ed').innerHTML = '<h2>Mes ' + (i + 1) + ' · <span style="text-transform:capitalize">' + esc(nomM(sel)) + '</span></h2>'
+      + '<p class="sub">Copiá los números como aparecen en cada app. Podés escribir 12.500, 12,5k o 1,2M.</p>'
+      + PLAT.map(p => '<div class="plat"><div class="ph"><i class="dot" style="background:' + p.c + '"></i>' + p.n + '<small>' + esc(p.donde) + '</small></div><div class="fields">'
+        + p.m.map(m => { const pv = prev ? val(prev, m.k) : null; return '<div class="f"><label for="f_' + m.k + '">' + m.n + '</label><input id="f_' + m.k + '" data-k="' + m.k + '" inputmode="decimal" autocomplete="off" placeholder="—" value="' + (r[m.k] != null && r[m.k] !== '' ? esc(fmt(r[m.k])) : '') + '"><div class="was">' + (pv != null ? 'Mes anterior: ' + fmt(pv) : '') + '</div></div>'; }).join('')
+        + '</div></div>').join('')
+      + '<label class="nl" for="f_nota">Qué hicimos este mes</label><textarea id="f_nota" placeholder="Ej.: salió «Tu calor», el reel en la calle llegó a 40 mil vistas, tocamos en Palma.">' + esc(r.nota || '') + '</textarea>'
+      + '<div class="edfoot"><button class="btn ghost" id="bPrev"' + (i <= 0 ? ' disabled' : '') + '>← Mes ' + i + '</button><button class="btn" id="bNext"' + (i >= 11 ? ' disabled' : '') + '>Mes ' + (i + 2) + ' →</button></div>';
+  }
+
+  /* tabla del año */
+  function renderTabla() {
+    const M = meses();
+    let h = '<thead><tr><th>Número</th>' + M.map((k, i) => '<th class="' + (k === sel ? 'on' : '') + '">' + (i + 1) + ' · ' + nomM(k, true) + '</th>').join('') + '</tr></thead><tbody>';
+    PLAT.forEach(p => {
+      h += '<tr class="grp"><td>' + p.n + '</td><td colspan="12"></td></tr>';
+      p.m.forEach(m => { h += '<tr><td>' + m.n + '</td>' + M.map(k => { const v = val(k, m.k); return '<td class="' + (v == null ? 'na' : '') + '">' + fmt(v) + '</td>'; }).join('') + '</tr>'; });
+    });
+    $('#tabla').innerHTML = h + '</tbody>';
+  }
+
+  function renderAll() { renderMeses(); renderKpis(); renderChart(); renderEd(); renderTabla(); }
+  function renderDatos() { renderMeses(); renderKpis(); renderChart(); renderTabla(); }
+
+  /* eventos */
+  document.addEventListener('click', e => {
+    const mo = e.target.closest('.mo'); if (mo) { sel = mo.dataset.m; renderAll(); return; }
+    const M = meses(), i = M.indexOf(sel);
+    if (e.target.closest('#bPrev') && i > 0) { sel = M[i - 1]; renderAll(); }
+    if (e.target.closest('#bNext') && i < 11) { sel = M[i + 1]; renderAll(); }
+  });
+  document.addEventListener('input', e => {
+    const t = e.target;
+    if (t.dataset && t.dataset.k) { const r = S.meses[sel] || (S.meses[sel] = {}); const n = parse(t.value); if (n == null) delete r[t.dataset.k]; else r[t.dataset.k] = n; guardar(); renderDatos(); }
+    if (t.id === 'f_nota') { (S.meses[sel] || (S.meses[sel] = {})).nota = t.value; guardar(); }
+  });
+  document.addEventListener('focusout', e => { const t = e.target; if (t.dataset && t.dataset.k) { const v = val(sel, t.dataset.k); t.value = v == null ? '' : fmt(v); } });
+  $('#metric').addEventListener('change', e => { metric = e.target.value; renderChart(); });
+  $('#inicio').addEventListener('change', e => {
+    const viejo = meses(); S.inicio = e.target.value; const nuevo = meses();
+    if (!nuevo.includes(sel)) sel = nuevo[Math.max(0, Math.min(11, nuevo.indexOf(hoyKey())))] || nuevo[0];
+    if (viejo.some(k => cargado(k) && !nuevo.includes(k)) && !confirm('Hay meses cargados que quedan fuera de los 12. ¿Cambiar igual? (Los datos no se borran.)')) { S.inicio = viejo[0]; e.target.value = S.inicio; return; }
+    guardar(); renderAll();
+  });
+  $('#bPdf').addEventListener('click', () => print());
+  $('#bCsv').addEventListener('click', () => {
+    const M = meses(), rows = [['Red', 'Número', ...M.map((k, i) => 'Mes ' + (i + 1) + ' (' + nomM(k) + ')')]];
+    ALL.forEach(m => rows.push([m.p.n, m.n, ...M.map(k => { const v = val(k, m.k); return v == null ? '' : v; })]));
+    rows.push(['', 'Qué hicimos', ...M.map(k => (S.meses[k] && S.meses[k].nota) || '')]);
+    const csv = '﻿' + rows.map(r => r.map(c => '"' + String(c).replace(/"/g, '""') + '"').join(';')).join('\r\n');
+    const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' })); a.download = 'estadisticas-12-meses.csv'; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+  });
+
+  /* ejemplo para la vista de prueba */
+  function ejemplo() {
+    const ini = addM(hoyKey(), -4), m = {};
+    const base = [[820, 140, 2100, 1250, 3400, 610, 5200, 90, 700], [1430, 171, 3900, 1390, 8800, 790, 12400, 104, 1300], [1310, 188, 3500, 1480, 6100, 1020, 21900, 112, 950], [2980, 236, 8100, 1720, 15200, 1540, 48000, 131, 2600], [3650, 281, 9900, 1910, 17400, 1880, 39500, 150, 3100]];
+    const ks = ['sp_oy', 'sp_seg', 'sp_rep', 'ig_seg', 'ig_alc', 'tt_seg', 'tt_vis', 'yt_sub', 'yt_vis'];
+    const notas = ['Arrancamos: manual de marca y moodboard.', 'Salió el primer single.', 'Mes tranqui, grabamos contenido.', 'El reel en la calle pegó: 48 mil vistas en TikTok.', 'Segundo single + show en Palma.'];
+    base.forEach((r, i) => { const o = { nota: notas[i] }; ks.forEach((k, j) => o[k] = r[j]); m[addM(ini, i)] = o; });
+    return { inicio: ini, meses: m };
+  }
+
+  /* arranque */
+  (async () => {
+    const who = await AOS.ready;
+    let d = await AOS.load('estadisticas');
+    if (!d && who.demo) d = ejemplo();
+    S = Object.assign({ inicio: hoyKey(), meses: {} }, d || {});
+    if (!S.meses) S.meses = {};
+    const opts = []; for (let i = -14; i <= 2; i++) opts.push(addM(hoyKey(), i));
+    if (!opts.includes(S.inicio)) opts.unshift(S.inicio);
+    $('#inicio').innerHTML = opts.map(k => '<option value="' + k + '"' + (k === S.inicio ? ' selected' : '') + ' style="text-transform:capitalize">' + nomM(k) + '</option>').join('');
+    $('#metric').innerHTML = PLAT.map(p => '<optgroup label="' + p.n + '">' + p.m.map(m => '<option value="' + m.k + '">' + p.n + ' · ' + m.n + '</option>').join('') + '</optgroup>').join('');
+    const M = meses(), hoy = hoyKey();
+    sel = M.includes(hoy) ? hoy : (hoy > M[11] ? M[11] : M[0]);
+    // si el mes actual está vacío pero el anterior no, arranco en el actual igual (es el que toca cargar)
+    renderAll();
+    estado(d ? 'Guardado ✓' : 'Sin cambios', d ? 'ok' : '');
+  })();
+})();
+</script>
+</body>
+</html>

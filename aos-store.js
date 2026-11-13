@@ -21,6 +21,8 @@
   let token = (q.get('t') || '').trim();
   try { if (!token) token = localStorage.getItem('larryos:t') || ''; } catch (e) {}
   const demo = q.get('demo') === '1' || !token || token === 'demo';
+  // llave de Larry (la guarda su navegador): con ella se editan las apps que carga él
+  let admin = ''; try { admin = localStorage.getItem('aos:admin') || ''; } catch (e) {}
   const LK = app => 'aos:' + (demo ? 'demo' : token) + ':' + app;
 
   function lsGet(k) { try { return JSON.parse(localStorage.getItem(k)); } catch (e) { return null; } }
@@ -28,18 +30,18 @@
 
   // POST como text/plain: Apps Script no acepta preflight CORS
   async function post(body) {
-    const r = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(Object.assign({ t: token }, body)) });
+    const r = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(Object.assign({ t: token }, admin ? { admin } : {}, body)) });
     const j = await r.json();
     if (!j || j.ok === false) throw new Error((j && j.error) || 'No se pudo guardar');
     return j;
   }
 
   const ready = (async () => {
-    if (demo) return { token: '', demo: true, artista: { nombre: 'Artista Demo', pack: 'ERA' } };
+    if (demo) return { token: '', demo: true, larry: !!admin || q.get('larry') === '1', artista: { nombre: 'Artista Demo', pack: 'ERA' } };
     try {
       const j = await post({ action: 'whoami' });
-      return { token, demo: false, artista: { nombre: j.cliente || '', pack: j.pack || '' } };
-    } catch (e) { return { token, demo: false, artista: { nombre: '', pack: '' }, offline: true }; }
+      return { token, demo: false, larry: !!j.larry, artista: { nombre: j.cliente || '', pack: j.pack || '' } };
+    } catch (e) { return { token, demo: false, larry: false, artista: { nombre: '', pack: '' }, offline: true }; }
   })();
 
   async function load(app) {
@@ -114,5 +116,19 @@
 
   function manual() { try { return JSON.parse(localStorage.getItem('mm3_state')); } catch (e) { return null; } }
 
-  window.AOS = { ready, load, save, upload, compress, publish, getPublic, manual, get token() { return token; }, get demo() { return demo; } };
+  function setAdmin(k) { try { if (k) localStorage.setItem('aos:admin', k); else localStorage.removeItem('aos:admin'); } catch (e) {} admin = k || ''; }
+
+  // pie «Modo Larry» para las apps que carga Larry
+  function larryFoot(el, activo) {
+    if (!el) return;
+    el.innerHTML = activo
+      ? '<span>✎ Modo Larry: estás editando. El artista ve esto sin poder cambiarlo.</span> <button type="button" data-aos-salir>Salir</button>'
+      : '<button type="button" data-aos-larry>🔑 Soy Larry</button>';
+    el.onclick = e => {
+      if (e.target.closest('[data-aos-larry]')) { const k = prompt('Pegá tu llave de Larry'); if (k) { setAdmin(k.trim()); location.reload(); } }
+      if (e.target.closest('[data-aos-salir]')) { setAdmin(''); location.reload(); }
+    };
+  }
+
+  window.AOS = { larryFoot, setAdmin, get admin() { return admin; }, ready, load, save, upload, compress, publish, getPublic, manual, get token() { return token; }, get demo() { return demo; } };
 })();

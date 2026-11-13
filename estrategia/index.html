@@ -134,6 +134,17 @@ textarea.in{min-height:84px;resize:vertical;line-height:1.5}
   .gi{grid-template-columns:auto 1fr auto}.gi .in{grid-column:1/-1;order:5}.gi select{order:2}
   .nums{grid-template-columns:1fr}
 }
+/* el artista lo ve como documento; solo Larry edita */
+body.ro .in{border-color:transparent;background:transparent;box-shadow:none;padding-left:0;padding-right:0;resize:none;cursor:default}
+body.ro .song .in{padding-left:2px}
+body.ro textarea.in{min-height:0;overflow:hidden}
+body.ro .fl small,body.ro #nPal{display:none}
+body.ro .packsel,body.ro #gAdd,body.ro #gSug,body.ro .gi .x,body.ro .gi select{display:none!important}
+body.ro .gi{grid-template-columns:auto 1fr auto}
+body.ro .gi .st{pointer-events:none}
+.banner{margin:18px 0 0;padding:14px 16px;border-radius:14px;background:var(--acc-soft);color:#1e2d8a;font-size:14.5px}
+.lfoot{max-width:1080px;margin:0 auto;padding:0 20px 40px;display:flex;gap:10px;align-items:center;font-size:13px;color:var(--mut)}
+.lfoot button{min-height:36px;padding:0 12px;border-radius:10px;border:1px solid var(--line2);background:transparent;color:var(--mut);font-weight:600;font-size:12.5px}
 @media print{.top,.toc,.gtools,.gi .x,.packsel{display:none!important}body{background:#fff}.card{box-shadow:none}}
 </style>
 </head>
@@ -151,7 +162,8 @@ textarea.in{min-height:84px;resize:vertical;line-height:1.5}
 <main class="wrap">
   <section class="hero">
     <h1>Tu año, <em>con un plan.</em></h1>
-    <p>Antes de sacar nada, armamos el plan entero: qué historia cuenta tu año, qué canción sale cuándo y cómo se mueve tu cuenta cada semana. Lo armamos juntos en la llamada de estrategia y acá queda para que lo mires cuando quieras.</p>
+    <p>Antes de sacar nada, armamos el plan entero: qué historia cuenta tu año, qué canción sale cuándo y cómo se mueve tu cuenta cada semana. Lo armo yo después de nuestra llamada de estrategia y acá queda para que lo mires cuando quieras.</p>
+    <div class="banner" id="banner" hidden></div>
   </section>
 
   <section class="blk" id="narrativa">
@@ -205,6 +217,7 @@ textarea.in{min-height:84px;resize:vertical;line-height:1.5}
     </div>
   </section>
 </main>
+<footer class="lfoot" id="lfoot"></footer>
 
 <script>
 (function () {
@@ -226,10 +239,12 @@ textarea.in{min-height:84px;resize:vertical;line-height:1.5}
     cnv: ['Fragmento con la letra grande + «link en mi perfil»', 'Reacción de amigos escuchándola por primera vez', 'En vivo o acústico: la parte más fuerte'],
   };
 
-  let S = null, gMes = null;
+  let S = null, gMes = null, edit = false;
+  // solo lectura para el artista: los campos quedan como texto
+  function ro() { if (edit) return; document.querySelectorAll('main input, main textarea').forEach(el => { el.readOnly = true; el.placeholder = '—'; if (el.tagName === 'TEXTAREA') { el.rows = 1; el.style.height = 'auto'; el.style.height = (el.scrollHeight + 2) + 'px'; } }); }
   const saveEl = $('#save');
   const estado = (t, c) => { saveEl.className = 'save ' + (c || ''); saveEl.querySelector('span').textContent = t; };
-  let tmo; function guardar() { S.actualizado = Date.now(); estado('Guardando…', 'busy'); clearTimeout(tmo); tmo = setTimeout(() => AOS.save('estrategia', S).then(r => estado(r && r.ok === false ? 'No se guardó' : 'Guardado ✓', r && r.ok === false ? '' : 'ok')), 400); }
+  let tmo; function guardar() { if (!edit) return; S.actualizado = Date.now(); estado('Guardando…', 'busy'); clearTimeout(tmo); tmo = setTimeout(() => AOS.save('estrategia', S).then(r => estado(r && r.ok === false ? 'No se guardó' : 'Guardado ✓', r && r.ok === false ? '' : 'ok')), 400); }
   const meses = () => Array.from({ length: 12 }, (_, i) => addM(S.inicio, i));
 
   /* 1 · narrativa */
@@ -244,7 +259,7 @@ textarea.in{min-height:84px;resize:vertical;line-height:1.5}
     const M = meses();
     return S.pack === 12 ? M.map((k, i) => ({ k, song: i })) : M.map((k, i) => (i % 2 === 0 ? { k, song: i / 2 } : { k, clip: (i - 1) / 2 }));
   }
-  function renderSongs() {
+  let renderSongs = function () {
     while (S.canciones.length < S.pack) S.canciones.push({ titulo: '', rol: '' });
     document.querySelectorAll('#packsel button').forEach(b => b.classList.toggle('on', +b.dataset.pack === S.pack));
     const sl = slots();
@@ -273,7 +288,7 @@ textarea.in{min-height:84px;resize:vertical;line-height:1.5}
 
   /* 4 · guiones */
   function renderGMes() { $('#gMes').innerHTML = meses().map((k, i) => '<option value="' + k + '"' + (k === gMes ? ' selected' : '') + '>Mes ' + (i + 1) + ' · ' + nomM(k) + '</option>').join(''); }
-  function renderG() {
+  let renderG = function () {
     const L = S.guiones.filter(g => g.mes === gMes);
     $('#gl').innerHTML = L.length ? L.map(g => '<div class="card gi" data-g="' + g.id + '"><span class="ty ' + g.tipo + '">' + TY[g.tipo] + '</span>'
       + '<select data-gf="tipo" aria-label="Tipo de reel">' + Object.keys(TY).map(t => '<option value="' + t + '"' + (t === g.tipo ? ' selected' : '') + '>' + TY[t] + '</option>').join('') + '</select>'
@@ -292,7 +307,7 @@ textarea.in{min-height:84px;resize:vertical;line-height:1.5}
   document.addEventListener('change', e => { if (e.target.dataset.gf === 'tipo') { const g = S.guiones.find(x => x.id === e.target.closest('[data-g]').dataset.g); g.tipo = e.target.value; guardar(); renderG(); } });
   document.addEventListener('click', e => {
     const p = e.target.closest('[data-pack]'); if (p) { S.pack = +p.dataset.pack; guardar(); renderSongs(); renderWeek(); return; }
-    const st = e.target.closest('[data-gst]'); if (st) { const g = S.guiones.find(x => x.id === st.closest('[data-g]').dataset.g); g.estado = { idea: 'grabado', grabado: 'publicado', publicado: 'idea' }[g.estado || 'idea']; guardar(); renderG(); return; }
+    const st = e.target.closest('[data-gst]'); if (st && edit) { const g = S.guiones.find(x => x.id === st.closest('[data-g]').dataset.g); g.estado = { idea: 'grabado', grabado: 'publicado', publicado: 'idea' }[g.estado || 'idea']; guardar(); renderG(); return; }
     const x = e.target.closest('[data-gx]'); if (x) { S.guiones = S.guiones.filter(g => g.id !== x.closest('[data-g]').dataset.g); guardar(); renderG(); return; }
     if (e.target.id === 'gAdd') { S.guiones.push({ id: uid(), mes: gMes, tipo: 'vir', texto: '', estado: 'idea' }); guardar(); renderG(); const ins = $('#gl').querySelectorAll('[data-gf=texto]'); ins[ins.length - 1].focus(); return; }
     if (e.target.id === 'gSug') { const n = S.guiones.filter(g => g.mes === gMes).length; ['vir', 'con', 'cnv'].forEach(t => S.guiones.push({ id: uid(), mes: gMes, tipo: t, texto: SUG[t][n % 3], estado: 'idea' })); guardar(); renderG(); return; }
@@ -315,8 +330,14 @@ textarea.in{min-height:84px;resize:vertical;line-height:1.5}
     S = Object.assign({ pack: /12/.test(who.artista && who.artista.pack || '') ? 12 : 6, inicio: (st && st.inicio) || (lz && lz.inicio) || hoyM(), narrativa: {}, canciones: [], guiones: [] }, base || {});
     if (!d && st && st.inicio) S.inicio = st.inicio;
     const M = meses(); gMes = M.includes(hoyM()) ? hoyM() : M[0];
-    renderNarr(); renderSongs(); renderWeek(); renderGMes(); renderG();
-    estado(d ? 'Guardado ✓' : 'Sin cambios', d ? 'ok' : '');
+    edit = !!who.larry;
+    document.body.classList.toggle('ro', !edit);
+    AOS.larryFoot($('#lfoot'), edit);
+    const vacio = !d && !who.demo;
+    if (!edit && vacio) { const b = $('#banner'); b.hidden = false; b.innerHTML = '<b>Tu estrategia está en camino.</b> La armo después de nuestra llamada y aparece acá apenas la cargue.'; }
+    const _rs = renderSongs, _rg = renderG; renderSongs = () => { _rs(); ro(); }; renderG = () => { _rg(); ro(); };
+    renderNarr(); renderSongs(); renderWeek(); renderGMes(); renderG(); ro();
+    estado(edit ? (d ? 'Guardado ✓' : 'Sin cambios') : 'Solo lectura', edit && d ? 'ok' : '');
   })();
 })();
 </script>

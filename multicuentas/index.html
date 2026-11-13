@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Multicuentas · Artist OS</title>
-<meta name="description" content="Tus 3 cuentas fandom: personalidad, horarios, calentamiento y cómo vienen mes a mes.">
+<meta name="description" content="Cómo vienen tus 3 cuentas fandom, mes a mes: seguidores, vistas y el video que mejor anduvo.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📱</text></svg>">
 <meta name="theme-color" content="#0d0d0d">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,7 +14,8 @@
 :root{
   --bg:#f2f2ef;--paper:#fff;--ink:#0d0d0d;--ink2:#2e2e2c;--mut:#686864;--mut2:#8d8d88;
   --line:#e4e4df;--line2:#cfcfc9;--acc:#3451f5;--acc-soft:#eaedff;
-  --ok:#1d7a45;--ok-soft:#e6f4ec;--warn:#9a5b00;--warn-soft:#fdf3e1;
+  --ok:#1d7a45;--ok-soft:#e6f4ec;--warn:#9a5b00;--warn-soft:#fdf3e1;--bad:#b42318;--bad-soft:#fdecea;
+  --c1:#0d0d0d;--c2:#7c3aed;--c3:#ea580c;
   --r:16px;--sh:0 1px 2px rgba(0,0,0,.04),0 6px 20px rgba(0,0,0,.05);
   --ui:"Inter Tight",system-ui,-apple-system,"Segoe UI",sans-serif;--serif:"Instrument Serif",Georgia,serif;--top:58px;
 }
@@ -35,134 +36,156 @@ button{cursor:pointer}
 @keyframes pulse{50%{opacity:.3}}
 .tbtn{min-height:36px;padding:0 14px;border-radius:10px;border:1px solid #3a3a38;background:transparent;color:#fff;font-weight:600;font-size:13.5px}
 .tbtn:hover{background:#fff;color:#0d0d0d}
-.wrap{max-width:1080px;margin:0 auto;padding:28px 20px 80px}
+.wrap{max-width:1080px;margin:0 auto;padding:28px 20px 50px}
+.hero{display:flex;flex-wrap:wrap;gap:16px 30px;align-items:flex-end;justify-content:space-between}
 .hero h1{margin:0;font:400 clamp(34px,5vw,52px)/1.02 var(--serif);letter-spacing:-.01em}
 .hero h1 em{color:var(--mut)}
-.hero p{margin:10px 0 0;color:var(--mut);max-width:640px;font-size:16px}
+.hero p{margin:10px 0 0;color:var(--mut);max-width:620px;font-size:16px}
+.startbox{display:flex;flex-direction:column;gap:6px;font-size:13px;color:var(--mut)}
+.startbox select{min-height:44px;padding:0 12px;border-radius:10px;border:1px solid var(--line2);background:var(--paper);font-weight:600}
 .card{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh)}
 h2.s{margin:30px 0 4px;font-size:21px;letter-spacing:-.015em}
 p.s{margin:0 0 12px;color:var(--mut);font-size:14.5px}
+.banner{margin:18px 0 0;padding:14px 16px;border-radius:14px;background:var(--acc-soft);color:#1e2d8a;font-size:14.5px}
 
-/* volumen */
-.vol{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:22px}
-.vol .card{padding:16px}
-.vol b{display:block;font-size:32px;letter-spacing:-.02em;line-height:1.05}
-.vol span{font-size:13px;color:var(--mut)}
-.packsel{display:inline-flex;border:1px solid var(--line2);border-radius:12px;overflow:hidden;margin-top:16px;background:var(--paper)}
-.packsel button{min-height:40px;padding:0 16px;border:0;background:transparent;font-weight:600;font-size:13.5px}
-.packsel button.on{background:var(--ink);color:#fff}
+/* meses */
+.months{display:grid;grid-template-columns:repeat(12,1fr);gap:6px;margin:22px 0 18px}
+.mo{position:relative;min-height:58px;border-radius:12px;border:1px solid var(--line);background:var(--paper);padding:7px 4px 6px;text-align:center}
+.mo b{display:block;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--mut2);font-weight:600}
+.mo span{display:block;font-weight:600;font-size:13.5px;text-transform:capitalize}
+.mo i{position:absolute;left:50%;bottom:5px;width:6px;height:6px;margin-left:-3px;border-radius:50%;background:var(--line2)}
+.mo.ok i{background:var(--ok)}.mo.fut{opacity:.5}.mo.on{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink) inset;opacity:1}
+
+/* resumen del mes */
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.kpi{padding:16px}
+.kpi .h{font-size:12.5px;color:var(--mut);font-weight:600}
+.kpi .v{font-size:30px;font-weight:700;letter-spacing:-.02em;line-height:1.1;margin-top:4px;overflow-wrap:anywhere}
+.kpi .v.sm{font-size:16px;line-height:1.3;font-weight:600}
+.kpi .v a{color:var(--ink)}
+.pill{display:inline-flex;margin-top:6px;padding:2px 8px;border-radius:99px;font-weight:600;font-size:12.5px;background:#f0f0ec;color:var(--mut)}
+.pill.up{background:var(--ok-soft);color:var(--ok)}.pill.dn{background:var(--bad-soft);color:var(--bad)}
+
+/* gráfico */
+.chart{padding:18px;margin-top:12px}
+.chart .hd{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:center}
+.chart h3{margin:0;font-size:16px}
+.seg{display:inline-flex;border:1px solid var(--line2);border-radius:10px;overflow:hidden}
+.seg button{min-height:38px;padding:0 12px;border:0;background:transparent;font-weight:600;font-size:13px}
+.seg button.on{background:var(--ink);color:#fff}
+#ch{display:block;width:100%;height:auto;margin-top:8px}
+.leg{display:flex;gap:16px;flex-wrap:wrap;font-size:13px;color:var(--ink2);margin-top:4px}
+.leg i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
 
 /* las 3 cuentas */
 .accs{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-.acc{display:flex;flex-direction:column}
-.acc .hd{padding:16px 16px 12px;border-bottom:1px solid var(--line)}
-.acc .k{font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--mut2);font-weight:600}
-.acc h3{margin:2px 0 0;font-size:19px;letter-spacing:-.01em}
-.acc .what{font-size:13.5px;color:var(--mut);margin:2px 0 0}
-.mock{margin:12px 16px 0;aspect-ratio:9/12;border-radius:14px;background:#111 center/cover;display:flex;align-items:center;justify-content:center;padding:18px;text-align:center;color:#fff;position:relative;overflow:hidden}
-.mock.m1{background:linear-gradient(#141414,#141414)}
-.mock.m1 p{font:400 26px/1.1 var(--serif)}
-.mock.m2{background:linear-gradient(180deg,#0f1b33 0%,#2b2140 55%,#5b2f3c 100%)}
-.mock.m2 p{font-size:12px;letter-spacing:.3em;text-transform:uppercase;opacity:.9}
-.mock.m2::after{content:'';position:absolute;left:0;right:0;bottom:0;height:34%;background:repeating-linear-gradient(90deg,rgba(255,214,120,.0) 0 18px,rgba(255,214,120,.55) 18px 20px,rgba(255,214,120,0) 20px 46px);opacity:.5}
-.mock.m3{background:linear-gradient(#3a3a3a,#1f1f1f)}
-.mock.m3 p{font-weight:700;font-size:17px;line-height:1.25;background:#fff;color:#000;padding:8px 10px;border-radius:6px}
-.mock .au{position:absolute;left:10px;bottom:10px;font-size:11px;opacity:.8}
-.acc .bd{padding:12px 16px 16px;display:flex;flex-direction:column;gap:2px;flex:1}
-.fl{display:block;font-size:12px;color:var(--mut);font-weight:600;margin:10px 0 3px}
-.in{width:100%;min-height:42px;padding:8px 11px;border-radius:10px;border:1px solid var(--line2);background:#fbfbf9;font-weight:500}
+.acc{padding:16px;display:flex;flex-direction:column;gap:8px}
+.acc .k{display:flex;align-items:center;gap:8px;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--mut2);font-weight:600}
+.acc .k i{width:10px;height:10px;border-radius:3px}
+.acc h3{margin:0;font-size:19px;letter-spacing:-.01em}
+.acc .what{font-size:13.5px;color:var(--mut);margin:0}
+.acc .nums{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px}
+.acc .nums div{background:#f6f6f2;border-radius:10px;padding:8px 10px}
+.acc .nums b{display:block;font-size:20px;letter-spacing:-.01em}
+.acc .nums span{font-size:12px;color:var(--mut)}
+.handles{display:flex;flex-wrap:wrap;gap:6px}
+.handles a,.handles span{font-size:12.5px;font-weight:600;padding:4px 9px;border-radius:99px;background:#f0f0ec;color:var(--ink);text-decoration:none}
+.est{display:inline-flex;align-self:flex-start;font-size:12px;font-weight:700;padding:3px 9px;border-radius:99px}
+.est.cal{background:var(--warn-soft);color:var(--warn)}.est.act{background:var(--ok-soft);color:var(--ok)}.est.pau{background:#eee;color:#555}
+.edit{border-top:1px dashed var(--line2);padding-top:10px;margin-top:4px;display:grid;gap:6px}
+.edit .row{display:grid;grid-template-columns:30px 1fr;gap:6px;align-items:center}
+.edit .row i{font-style:normal;font-size:12px;font-weight:700;color:var(--mut);text-align:center}
+.in{width:100%;min-height:40px;padding:7px 10px;border-radius:10px;border:1px solid var(--line2);background:#fbfbf9;font-weight:500}
 .in:focus{background:#fff;border-color:var(--acc);outline:none;box-shadow:0 0 0 3px var(--acc-soft)}
-.hand{display:grid;grid-template-columns:28px 1fr;gap:6px;align-items:center}
-.hand i{font-style:normal;font-size:12px;font-weight:700;color:var(--mut);text-align:center}
-.seg{display:flex;gap:4px;flex-wrap:wrap}
-.seg button{min-height:36px;padding:0 11px;border-radius:99px;border:1px solid var(--line2);background:#fff;font-weight:600;font-size:12.5px}
-.seg button.on.cal{background:var(--warn-soft);border-color:#ecd39b;color:var(--warn)}
-.seg button.on.act{background:var(--ok-soft);border-color:#b6dec6;color:var(--ok)}
-.seg button.on.pau{background:#eee;border-color:#ccc}
-.warm{margin-top:10px;border:1px dashed var(--line2);border-radius:12px;padding:10px 12px}
-.warm h4{margin:0 0 6px;font-size:13px;display:flex;justify-content:space-between}
-.warm h4 span{color:var(--mut2);font-weight:600}
-.warm label{display:flex;gap:8px;align-items:flex-start;font-size:13px;padding:3px 0;cursor:pointer}
-.warm input{margin-top:3px;width:16px;height:16px;accent-color:var(--ink)}
+.edit .stsel{display:flex;gap:4px;flex-wrap:wrap}
+.edit .stsel button{min-height:34px;padding:0 10px;border-radius:99px;border:1px solid var(--line2);background:#fff;font-weight:600;font-size:12px}
+.edit .stsel button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
 
-/* 90 / 10 */
-.split{padding:18px;display:grid;grid-template-columns:1fr 1.2fr;gap:20px;align-items:center}
-.bar{display:flex;height:48px;border-radius:12px;overflow:hidden;font-weight:700;font-size:14px}
-.bar div{display:flex;align-items:center;padding:0 14px;white-space:nowrap;overflow:hidden}
+/* carga del mes (Larry) */
+.load{padding:18px;margin-top:12px}
+.load h3{margin:0 0 2px;font-size:16px}
+.load .sub{margin:0 0 10px;color:var(--mut);font-size:13.5px}
+.lg{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.lg .col{border:1px solid var(--line);border-radius:12px;padding:12px}
+.lg .col h4{margin:0 0 6px;font-size:13.5px;display:flex;align-items:center;gap:6px}
+.lg .col h4 i{width:9px;height:9px;border-radius:3px}
+.fl{display:block;font-size:12px;color:var(--mut);font-weight:600;margin:8px 0 3px}
+.was{font-size:11.5px;color:var(--mut2);margin-top:2px;min-height:15px}
+.top3{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:10px;margin-top:12px}
+
+/* tabla del año */
+.tbl{padding:18px;margin-top:12px;overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:760px;font-size:13px;font-variant-numeric:tabular-nums}
+th,td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
+th:first-child,td:first-child{text-align:left}
+th{font-size:11.5px;color:var(--mut);font-weight:600}
+td.na{color:var(--line2)}
+tr.on td{background:#fafaf6;font-weight:600}
+
+/* info: 90/10 y horarios */
+.info{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.info .card{padding:18px}
+.info h3{margin:0 0 8px;font-size:16px}
+.bar{display:flex;height:42px;border-radius:12px;overflow:hidden;font-weight:700;font-size:13.5px}
+.bar div{display:flex;align-items:center;padding:0 12px;white-space:nowrap;overflow:hidden}
 .bar .a{background:var(--ink);color:#fff;flex:9}.bar .b{background:#e4e4df;flex:1;justify-content:center}
-.split ul{margin:0;padding-left:18px;color:var(--ink2);font-size:14px}
-.split li{margin:4px 0}
-.split .now{font-size:13.5px;color:var(--mut);margin-top:8px}
+.info p{margin:8px 0 0;font-size:13.5px;color:var(--mut)}
+.hrs{display:grid;gap:6px}
+.hrs div{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:8px 10px;background:#f6f6f2;border-radius:10px;font-size:13.5px}
+.hrs b{font-variant-numeric:tabular-nums}
+.hrs input{width:110px;min-height:36px}
 
-/* horarios */
-.sched{padding:18px}
-.tl{position:relative;height:64px;margin:10px 0 6px;border-radius:12px;background:#f4f4f0}
-.tl .h{position:absolute;top:0;bottom:0;border-left:1px dashed #d9d9d3;font-size:10.5px;color:var(--mut2);padding:2px 0 0 4px}
-.tl .p{position:absolute;top:22px;transform:translateX(-50%);padding:6px 10px;border-radius:99px;background:var(--ink);color:#fff;font-size:12px;font-weight:700;white-space:nowrap}
-.sched .row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:8px}
+.lfoot{max-width:1080px;margin:0 auto;padding:0 20px 40px;display:flex;gap:10px;align-items:center;font-size:13px;color:var(--mut)}
+.lfoot button{min-height:36px;padding:0 12px;border-radius:10px;border:1px solid var(--line2);background:transparent;color:var(--mut);font-weight:600;font-size:12.5px}
+body.ro .edit,body.ro .load,body.ro .hrs input{display:none!important}
 
-/* registro */
-.log{padding:18px;overflow-x:auto}
-table{border-collapse:collapse;width:100%;min-width:720px;font-size:13.5px;font-variant-numeric:tabular-nums}
-th,td{padding:6px 6px;border-bottom:1px solid var(--line);text-align:left}
-th{font-size:12px;color:var(--mut);font-weight:600}
-td input{width:100%;min-height:38px;padding:0 8px;border-radius:8px;border:1px solid transparent;background:transparent;font-weight:600}
-td input:hover{border-color:var(--line2)}
-td input:focus{border-color:var(--acc);background:#fff;outline:none}
-td.m{font-weight:700;white-space:nowrap;text-transform:capitalize}
-tr.now td{background:#fafaf6}
-
-.how{padding:18px;margin-top:16px}
-.how ul{margin:0;padding-left:18px;color:var(--ink2)}
-.how li{margin:5px 0}
-
-@media (max-width:900px){.accs{grid-template-columns:1fr}.vol{grid-template-columns:1fr 1fr}.split{grid-template-columns:1fr}.mock{aspect-ratio:auto;height:200px}}
-@media (max-width:640px){.top{padding:0 12px;gap:10px}.brand small{display:none}.save span{display:none}.wrap{padding:20px 14px 70px}.sched .row{grid-template-columns:1fr}.vol b{font-size:26px}}
-@media print{.top,.packsel{display:none!important}body{background:#fff}.card{box-shadow:none}}
+@media (max-width:900px){.kpis{grid-template-columns:1fr 1fr}.accs,.lg,.info{grid-template-columns:1fr}.months{grid-template-columns:repeat(6,1fr)}}
+@media (max-width:640px){.top{padding:0 12px;gap:10px}.brand small{display:none}.save span{display:none}.wrap{padding:20px 14px 40px}.months{grid-template-columns:repeat(4,1fr)}.kpi .v{font-size:24px}.top3{grid-template-columns:1fr}}
+@media print{.top,.lfoot,.load,.edit{display:none!important}body{background:#fff}.card{box-shadow:none}}
 </style>
 </head>
 <body>
 <header class="top">
   <div class="brand"><span class="mk">M</span>Multicuentas <small>· Artist OS</small></div>
   <div class="sp"></div>
-  <div class="save" id="save" aria-live="polite"><i></i><span>Sin cambios</span></div>
+  <div class="save" id="save" aria-live="polite"><i></i><span></span></div>
   <button class="tbtn" id="bPdf">PDF</button>
 </header>
 
 <main class="wrap">
   <section class="hero">
-    <h1>3 cuentas fandom. <em>3 personalidades.</em></h1>
-    <p>Mientras tu cuenta cuenta quién sos, estas 3 cuentas suben pedacitos de tus canciones todos los días, en Instagram, TikTok y YouTube Shorts, para que lleguen a gente que todavía no te conoce. Vos no subís nada: queda todo programado.</p>
-    <div class="packsel" id="packsel" role="group" aria-label="Tu pack"><button data-pack="6">Pack 6 canciones</button><button data-pack="12">Pack 12 canciones</button></div>
-    <div class="vol" id="vol"></div>
+    <div>
+      <h1>Tus cuentas fandom, <em>mes a mes.</em></h1>
+      <p>Tres cuentas suben pedacitos de tus canciones todos los días, en Instagram, TikTok y YouTube Shorts, para que lleguen a gente que todavía no te conoce. Cada mes te cargo acá cómo vienen.</p>
+    </div>
+    <select id="mesSel" hidden aria-hidden="true"></select>
+  </section>
+  <div class="banner" id="banner" hidden></div>
+
+  <nav class="months" id="months" aria-label="Los 12 meses"></nav>
+  <section class="kpis" id="kpis" aria-label="Resumen del mes"></section>
+
+  <section class="card load" id="load"></section>
+
+  <section class="card chart">
+    <div class="hd"><h3>Cómo vienen</h3><div class="seg" id="chSeg"><button data-ch="s" class="on">Seguidores</button><button data-ch="v">Vistas</button></div></div>
+    <svg id="ch" viewBox="0 0 640 260" role="img" aria-label="Gráfico de las 3 cuentas"></svg>
+    <div class="leg" id="leg"></div>
   </section>
 
   <h2 class="s">Las 3 cuentas</h2>
-  <p class="s">Cada una tiene su estilo y su forma de escribir, para que no parezcan la misma cuenta repetida.</p>
+  <p class="s">Cada una tiene su estilo, para que no parezcan la misma cuenta repetida.</p>
   <div class="accs" id="accs"></div>
 
-  <h2 class="s">Qué canción suena</h2>
-  <p class="s">La canción del momento va en casi todo. Las anteriores siguen apareciendo para que no se apaguen.</p>
-  <div class="card split" id="split"></div>
+  <section class="card tbl"><h3 style="margin:0 0 6px;font-size:16px">Todo el año</h3><div id="tbl"></div></section>
 
-  <h2 class="s">Horarios</h2>
-  <p class="s">Las tres cuentas no publican a la misma hora: así no compiten entre ellas.</p>
-  <div class="card sched" id="sched"></div>
-
-  <h2 class="s">Cómo vienen, mes a mes</h2>
-  <p class="s">Una vez por mes anotamos los seguidores de cada cuenta y el video que mejor anduvo.</p>
-  <div class="card log" id="log"></div>
-
-  <div class="card how">
-    <h2 class="s" style="margin-top:0">Reglas de las cuentas fandom</h2>
-    <ul>
-      <li><b>No dicen que son tuyas.</b> Son cuentas de fans: hablan de la canción, no venden.</li>
-      <li><b>Arrancan despacio.</b> La primera semana suben poco e interactúan a mano; después, un video por día, programado.</li>
-      <li><b>Siempre el mismo sonido.</b> Usan el audio oficial de tu canción en cada red, así cada video suma a tu tema.</li>
-      <li><b>Lo que pega se repite.</b> Si un video anda bien en una cuenta, se hacen variantes para las otras dos.</li>
-    </ul>
+  <h2 class="s">Cómo funcionan</h2>
+  <div class="info">
+    <div class="card"><h3>Qué canción suena</h3><div id="split"></div></div>
+    <div class="card"><h3>Horarios</h3><div class="hrs" id="hrs"></div><p>Las tres cuentas no publican a la misma hora: así no compiten entre ellas.</p></div>
   </div>
 </main>
+<footer class="lfoot" id="lfoot"></footer>
 
 <script>
 (function () {
@@ -173,95 +196,141 @@ tr.now td{background:#fafaf6}
   const hoyM = () => { const d = new Date(); return d.getFullYear() + '-' + pad(d.getMonth() + 1); };
   const hoyD = () => new Date().toISOString().slice(0, 10);
   const addM = (k, n) => { const [y, m] = k.split('-').map(Number); const d = new Date(y, m - 1 + n, 1); return d.getFullYear() + '-' + pad(d.getMonth() + 1); };
-  const nomM = k => MESES[+k.split('-')[1] - 1] + ' ' + k.slice(0, 4);
+  const nomM = (k, c) => { const m = MESES[+k.split('-')[1] - 1]; return c ? m.slice(0, 3) : m + ' ' + k.slice(0, 4); };
+  const fmt = v => v == null || v === '' || isNaN(v) ? '—' : Number(v).toLocaleString('es-AR');
+  const corto = v => { v = Number(v); if (isNaN(v)) return '—'; const a = Math.abs(v); return a >= 1e6 ? (v / 1e6).toLocaleString('es-AR', { maximumFractionDigits: 1 }) + ' M' : a >= 1e4 ? (v / 1e3).toLocaleString('es-AR', { maximumFractionDigits: 1 }) + ' mil' : v.toLocaleString('es-AR'); };
+  function parse(s) { s = String(s || '').trim().toLowerCase().replace(/\s/g, ''); if (!s) return null; let m = 1; if (/(k|mil)$/.test(s)) { m = 1e3; s = s.replace(/(k|mil)$/, ''); } else if (/m$/.test(s)) { m = 1e6; s = s.slice(0, -1); } s = m > 1 ? s.replace(',', '.') : s.replace(/[.,](?=\d{3}(\D|$))/g, '').replace(',', '.'); const n = parseFloat(s); return isNaN(n) ? null : Math.round(n * m); }
   const PERS = [
-    { k: 'Cuenta 1', t: 'Frases', what: 'La frase más fuerte de la canción, en grande, sobre fondos simples.', cls: 'm1', ej: (f) => '«' + (f || 'la frase más fuerte de tu canción') + '»' },
-    { k: 'Cuenta 2', t: 'Mood / Aesthetic', what: 'Edits visuales: noche, ciudad, ruta, auto, con el pedacito de audio.', cls: 'm2', ej: () => 'noche · ciudad · ruta' },
-    { k: 'Cuenta 3', t: 'POV / Situaciones', what: 'Texto tipo meme con una situación con la que la gente se identifica.', cls: 'm3', ej: () => 'POV: le mandás esta canción a tu ex a las 3 de la mañana' },
+    { k: 'Cuenta 1', t: 'Frases', what: 'La frase más fuerte de la canción, en grande, sobre fondos simples.', c: 'var(--c1)', hex: '#0d0d0d' },
+    { k: 'Cuenta 2', t: 'Mood / Aesthetic', what: 'Edits visuales: noche, ciudad, ruta, auto, con el pedacito de audio.', c: 'var(--c2)', hex: '#7c3aed' },
+    { k: 'Cuenta 3', t: 'POV / Situaciones', what: 'Texto tipo meme con una situación con la que la gente se identifica.', c: 'var(--c3)', hex: '#ea580c' },
   ];
-  const WARM = ['Foto, nombre y bio con la personalidad de la cuenta', 'Seguir 30 cuentas del nicho y de artistas parecidos', 'Primeros 3 videos, de a uno por día', '15 minutos por día de likes y comentarios a mano', 'Día 8: arranca el video diario programado'];
-  const HORAS = ['13:00', '19:00', '22:30'];
+  const EST = { cal: 'Calentando', act: 'Activa', pau: 'Pausada' };
+  const NET = [['ig', 'IG', 'https://instagram.com/'], ['tt', 'TikTok', 'https://www.tiktok.com/@'], ['yt', 'YouTube', 'https://youtube.com/@']];
 
-  let S = null, cancion = { actual: '', anteriores: [] };
+  let S = null, edit = false, sel = null, chM = 's', cancion = { actual: '', anteriores: [] };
   const saveEl = $('#save');
   const estado = (t, c) => { saveEl.className = 'save ' + (c || ''); saveEl.querySelector('span').textContent = t; };
-  let tmo; function guardar() { S.actualizado = Date.now(); estado('Guardando…', 'busy'); clearTimeout(tmo); tmo = setTimeout(() => AOS.save('multicuentas', S).then(r => estado(r && r.ok === false ? 'No se guardó' : 'Guardado ✓', r && r.ok === false ? '' : 'ok')), 400); }
+  let tmo; function guardar() { if (!edit) return; S.actualizado = Date.now(); estado('Guardando…', 'busy'); clearTimeout(tmo); tmo = setTimeout(() => AOS.save('multicuentas', S).then(r => estado(r && r.ok === false ? (r.error || 'No se guardó') : 'Guardado ✓', r && r.ok === false ? '' : 'ok')), 400); }
+  const meses = () => Array.from({ length: 12 }, (_, i) => addM(S.inicio, i));
+  const M = (k) => S.meses[k] || {};
+  const g = (k, i, f) => { const r = M(k)['c' + i]; return r && r[f] != null && r[f] !== '' ? Number(r[f]) : null; };
+  const tot = (k, f) => { const v = [0, 1, 2].map(i => g(k, i, f)); return v.every(x => x == null) ? null : v.reduce((a, b) => a + (b || 0), 0); };
+  const cargado = k => [0, 1, 2].some(i => g(k, i, 's') != null || g(k, i, 'v') != null);
 
-  function renderVol() {
-    document.querySelectorAll('#packsel button').forEach(b => b.classList.toggle('on', +b.dataset.pack === S.pack));
-    const tot = S.pack === 12 ? 9720 : 4860; // números del pack (Larry)
-    $('#vol').innerHTML = [[3, 'cuentas fandom'], [3, 'plataformas: Instagram, TikTok y YouTube Shorts'], [90, 'reels por mes entre las 3 cuentas (1 por día cada una)'], [tot.toLocaleString('es-AR'), 'publicaciones en tu año · pack ' + S.pack]]
-      .map(x => '<div class="card"><b>' + x[0] + '</b><span>' + x[1] + '</span></div>').join('');
+  function pill(a, b, txt) { if (a == null || b == null) return ''; const d = a - b, pc = b ? Math.round(d / b * 100) : null; return '<span class="pill ' + (d > 0 ? 'up' : d < 0 ? 'dn' : '') + '">' + (d > 0 ? '▲ +' : d < 0 ? '▼ ' : '') + corto(d) + (pc != null && d ? ' (' + (pc > 0 ? '+' : '') + pc + '%)' : '') + ' ' + txt + '</span>'; }
+
+  function renderMeses() {
+    const h = hoyM();
+    $('#months').innerHTML = meses().map((k, i) => '<button class="mo' + (k === sel ? ' on' : '') + (cargado(k) ? ' ok' : '') + (k > h ? ' fut' : '') + '" data-m="' + k + '"><b>Mes ' + (i + 1) + '</b><span>' + nomM(k, 1) + '</span><i></i></button>').join('');
+    $('#mesSel').innerHTML = meses().map((k, i) => '<option value="' + k + '"' + (k === sel ? ' selected' : '') + '>Mes ' + (i + 1) + ' · ' + nomM(k) + '</option>').join('');
+  }
+  function renderKpis() {
+    const L = meses(), i = L.indexOf(sel), prev = i > 0 ? L[i - 1] : null, r = M(sel);
+    const s = tot(sel, 's'), v = tot(sel, 'v'), n = tot(sel, 'n');
+    $('#kpis').innerHTML =
+      '<div class="card kpi"><div class="h">Seguidores · las 3 cuentas</div><div class="v">' + corto(s) + '</div>' + (prev ? pill(s, tot(prev, 's'), 'vs. mes ' + i) : '') + '</div>'
+      + '<div class="card kpi"><div class="h">Vistas del mes</div><div class="v">' + corto(v) + '</div>' + (prev ? pill(v, tot(prev, 'v'), 'vs. mes ' + i) : '') + '</div>'
+      + '<div class="card kpi"><div class="h">Videos publicados</div><div class="v">' + corto(n) + '</div>' + (n != null ? '<span class="pill">de ' + (3 * 30 * 3).toLocaleString('es-AR') + ' previstos</span>' : '') + '</div>'
+      + '<div class="card kpi"><div class="h">El que mejor anduvo</div><div class="v sm">' + (r.top ? (/^https?:/.test(r.top) ? '<a href="' + esc(r.top) + '" target="_blank" rel="noopener">Ver el video ↗</a>' : esc(r.top)) : '—') + '</div>' + (r.topv ? '<span class="pill up">' + corto(r.topv) + ' vistas</span>' : '') + '</div>';
+  }
+  function renderLoad() {
+    if (!edit) { $('#load').innerHTML = ''; return; }
+    const L = meses(), i = L.indexOf(sel), prev = i > 0 ? L[i - 1] : null, r = M(sel);
+    const f = (ci, k, lab) => { const pv = prev ? g(prev, ci, k) : null, val = g(sel, ci, k); return '<label class="fl">' + lab + '</label><input class="in" inputmode="decimal" data-ci="' + ci + '" data-k="' + k + '" value="' + (val == null ? '' : esc(fmt(val))) + '" placeholder="—"><div class="was">' + (pv != null ? 'Mes anterior: ' + fmt(pv) : '') + '</div>'; };
+    $('#load').innerHTML = '<h3>Cargar el mes ' + (i + 1) + ' · <span style="text-transform:capitalize">' + nomM(sel) + '</span></h3><p class="sub">Sumá las 3 plataformas de cada cuenta. Podés escribir 12.500, 12,5k o 1,2M.</p>'
+      + '<div class="lg">' + PERS.map((p, ci) => '<div class="col"><h4><i style="background:' + p.c + '"></i>' + p.k + ' · ' + p.t + '</h4>' + f(ci, 's', 'Seguidores (total)') + f(ci, 'v', 'Vistas del mes') + f(ci, 'n', 'Videos publicados') + '</div>').join('') + '</div>'
+      + '<div class="top3"><label><span class="fl">El video que mejor anduvo <span style="font-weight:500">· link</span></span><input class="in" data-top="top" value="' + esc(r.top) + '" placeholder="https://www.tiktok.com/@…"></label>'
+      + '<label><span class="fl">Sus vistas</span><input class="in" inputmode="decimal" data-top="topv" value="' + (r.topv ? esc(fmt(r.topv)) : '') + '" placeholder="—"></label>'
+      + '<label><span class="fl">Nota del mes</span><input class="in" data-top="nota" value="' + esc(r.nota) + '" placeholder="Qué anduvo, qué cambiamos"></label></div>';
+  }
+  function renderChart() {
+    const L = meses(), W = 640, H = 260, l = 50, rr = 12, t = 14, b = 30, w = W - l - rr, h = H - t - b;
+    const series = PERS.map((p, ci) => L.map(k => g(k, ci, chM)));
+    const all = series.flat().filter(v => v != null);
+    let mx = all.length ? Math.max(...all) : 100; mx = mx * 1.1 || 10;
+    const X = i => l + i * w / 11, Y = v => t + h - v / mx * h;
+    let s = '';
+    for (let i = 0; i <= 4; i++) { const v = mx * i / 4, y = Y(v); s += '<line x1="' + l + '" x2="' + (W - rr) + '" y1="' + y + '" y2="' + y + '" stroke="#e4e4df"/><text x="' + (l - 8) + '" y="' + (y + 4) + '" text-anchor="end" font-size="11" fill="#8d8d88">' + esc(corto(Math.round(v))) + '</text>'; }
+    L.forEach((k, i) => { s += '<text x="' + X(i) + '" y="' + (H - 9) + '" text-anchor="middle" font-size="11" fill="' + (k === sel ? '#0d0d0d' : '#8d8d88') + '" font-weight="' + (k === sel ? 700 : 400) + '">' + nomM(k, 1) + '</text>'; });
+    series.forEach((ser, ci) => { const pts = ser.map((v, i) => [i, v]).filter(p => p[1] != null); if (!pts.length) return;
+      s += '<path d="' + pts.map((p, j) => (j ? 'L' : 'M') + X(p[0]).toFixed(1) + ' ' + Y(p[1]).toFixed(1)).join(' ') + '" fill="none" stroke="' + PERS[ci].hex + '" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>';
+      pts.forEach(p => { s += '<circle cx="' + X(p[0]) + '" cy="' + Y(p[1]) + '" r="3.5" fill="#fff" stroke="' + PERS[ci].hex + '" stroke-width="2"><title>' + esc(PERS[ci].t + ' · ' + nomM(L[p[0]]) + ': ' + fmt(p[1])) + '</title></circle>'; }); });
+    if (!all.length) s += '<text x="' + (l + w / 2) + '" y="' + (t + h / 2) + '" text-anchor="middle" font-size="14" fill="#8d8d88">Cuando cargue el primer mes, acá aparecen las líneas.</text>';
+    $('#ch').innerHTML = s;
+    $('#leg').innerHTML = PERS.map(p => '<span><i style="background:' + p.c + '"></i>' + p.k + ' · ' + p.t + '</span>').join('');
+    document.querySelectorAll('#chSeg button').forEach(x => x.classList.toggle('on', x.dataset.ch === chM));
   }
   function renderAccs() {
-    $('#accs').innerHTML = PERS.map((p, i) => {
-      const a = S.cuentas[i], w = a.warm || [], done = w.filter(Boolean).length;
-      return '<div class="card acc" data-a="' + i + '"><div class="hd"><div class="k">' + p.k + '</div><h3>' + p.t + '</h3><p class="what">' + p.what + '</p></div>'
-        + '<div class="mock ' + p.cls + '"><p>' + esc(p.ej(S.frase)) + '</p><span class="au">♪ ' + esc(cancion.actual || 'tu canción') + '</span></div>'
-        + '<div class="bd">'
-        + '<label class="fl">Usuarios</label>'
-        + [['IG', 'ig'], ['TT', 'tt'], ['YT', 'yt']].map(([l, k]) => '<div class="hand" style="margin-bottom:4px"><i>' + l + '</i><input class="in" data-af="' + k + '" value="' + esc(a[k]) + '" placeholder="@usuario" aria-label="' + l + ' de ' + p.t + '"></div>').join('')
-        + '<label class="fl">Estado</label><div class="seg">' + [['cal', 'Calentando'], ['act', 'Activa'], ['pau', 'Pausada']].map(([k, l]) => '<button data-ast="' + k + '" class="' + k + (a.estado === k ? ' on' : '') + '">' + l + '</button>').join('') + '</div>'
-        + '<label class="fl">Cómo escribe <span style="font-weight:500;color:var(--mut2)">· el tono de los textos</span></label><input class="in" data-af="tono" value="' + esc(a.tono) + '" placeholder="' + ['corto, poético, sin emojis', 'minúsculas, vibes, 1 emoji', 'gracioso, como un amigo'][i] + '">'
-        + '<div class="warm"><h4>Primera semana<span>' + done + '/' + WARM.length + '</span></h4>' + WARM.map((t, j) => '<label><input type="checkbox" data-aw="' + j + '"' + (w[j] ? ' checked' : '') + '>' + t + '</label>').join('') + '</div>'
-        + '</div></div>';
+    const L = meses(), i = L.indexOf(sel);
+    $('#accs').innerHTML = PERS.map((p, ci) => {
+      const a = S.cuentas[ci], s = g(sel, ci, 's'), v = g(sel, ci, 'v'), ps = i > 0 ? g(L[i - 1], ci, 's') : null;
+      const hs = NET.filter(n => a[n[0]]).map(n => { const u = a[n[0]].replace(/^@/, ''); return /^https?:/.test(a[n[0]]) ? '<a href="' + esc(a[n[0]]) + '" target="_blank" rel="noopener">' + n[1] + '</a>' : '<a href="' + n[2] + esc(u) + '" target="_blank" rel="noopener">' + n[1] + ' · @' + esc(u) + '</a>'; }).join('');
+      return '<div class="card acc" data-a="' + ci + '"><div class="k"><i style="background:' + p.c + '"></i>' + p.k + '</div><h3>' + p.t + '</h3><p class="what">' + p.what + '</p>'
+        + '<span class="est ' + (a.estado || 'cal') + '">' + EST[a.estado || 'cal'] + '</span>'
+        + (hs ? '<div class="handles">' + hs + '</div>' : '')
+        + '<div class="nums"><div><b>' + corto(s) + '</b><span>seguidores' + (s != null && ps != null ? ' · ' + (s - ps >= 0 ? '+' : '') + corto(s - ps) : '') + '</span></div><div><b>' + corto(v) + '</b><span>vistas del mes</span></div></div>'
+        + '<div class="edit">' + NET.map(n => '<div class="row"><i>' + n[1].slice(0, 2).toUpperCase() + '</i><input class="in" data-af="' + n[0] + '" value="' + esc(a[n[0]]) + '" placeholder="@usuario"></div>').join('')
+        + '<div class="stsel">' + Object.keys(EST).map(k => '<button data-ast="' + k + '" class="' + ((a.estado || 'cal') === k ? 'on' : '') + '">' + EST[k] + '</button>').join('') + '</div></div></div>';
     }).join('');
   }
-  function renderSplit() {
+  function renderTbl() {
+    const L = meses();
+    const fila = (lab, fn) => '<tr><td>' + lab + '</td>' + L.map(k => { const v = fn(k); return '<td class="' + (v == null ? 'na' : '') + '">' + fmt(v) + '</td>'; }).join('') + '</tr>';
+    $('#tbl').innerHTML = '<table><thead><tr><th></th>' + L.map((k, i) => '<th>' + (i + 1) + ' · ' + nomM(k, 1) + '</th>').join('') + '</tr></thead><tbody>'
+      + fila('<b>Seguidores (3 cuentas)</b>', k => tot(k, 's')) + PERS.map((p, ci) => fila('· ' + p.t, k => g(k, ci, 's'))).join('')
+      + fila('<b>Vistas del mes</b>', k => tot(k, 'v')) + fila('<b>Videos publicados</b>', k => tot(k, 'n')) + '</tbody></table>';
+  }
+  function renderInfo() {
     const a = cancion.actual, ant = cancion.anteriores;
-    $('#split').innerHTML = '<div><div class="bar"><div class="a">90 % · ' + esc(a || 'la canción del momento') + '</div><div class="b">10 %</div></div>'
-      + '<p class="now">' + (a ? 'Este mes la protagonista es <b>«' + esc(a) + '»</b>' + (ant.length ? '; el 10 % se reparte entre ' + ant.map(t => '«' + esc(t) + '»').join(', ') + '.' : '.') : 'Cuando cargues tus canciones en Lanzamientos, acá aparece cuál suena este mes.') + '</p></div>'
-      + '<ul><li>De cada 10 videos, <b>9 son de la canción nueva</b>.</li><li><b>1 de cada 10</b> es de una anterior, así siguen sonando.</li><li>Arranca a partir del <b>2.º mes</b>, cuando ya hay más de una canción.</li></ul>'
-      + '<div style="grid-column:1/-1"><label class="fl" for="fr">La frase que usa la Cuenta 1 este mes</label><input class="in" id="fr" value="' + esc(S.frase) + '" placeholder="Ej.: si la noche se acaba, que se acabe conmigo"></div>';
+    $('#split').innerHTML = '<div class="bar"><div class="a">90 % · ' + esc(a || 'la canción del momento') + '</div><div class="b">10 %</div></div>'
+      + '<p>De cada 10 videos, <b>9 son de la canción del momento</b>' + (a ? ' («' + esc(a) + '»)' : '') + ' y 1 de una anterior' + (ant.length ? ' (' + ant.map(t => '«' + esc(t) + '»').join(', ') + ')' : '') + ', así siguen sonando.</p>';
+    $('#hrs').innerHTML = PERS.map((p, i) => '<div><span>' + p.k + ' · ' + p.t + '</span><b>' + esc(S.horas[i]) + '</b><input class="in" type="time" data-h="' + i + '" value="' + esc(S.horas[i]) + '" aria-label="Horario ' + p.t + '"></div>').join('');
   }
-  function renderSched() {
-    const H = S.horas, X = t => { const [h, m] = t.split(':').map(Number); return ((h * 60 + m) - 8 * 60) / (16 * 60) * 100; };
-    let tl = ''; for (let h = 8; h < 24; h += 2) tl += '<span class="h" style="left:' + ((h - 8) / 16 * 100) + '%">' + h + 'h</span>';
-    tl += H.map((t, i) => t ? '<span class="p" style="left:' + Math.max(4, Math.min(96, X(t))) + '%">' + (i + 1) + ' · ' + t + '</span>' : '').join('');
-    $('#sched').innerHTML = '<div class="tl">' + tl + '</div><div class="row">' + PERS.map((p, i) => '<label><span class="fl">' + p.k + ' · ' + p.t + '</span><input class="in" type="time" data-h="' + i + '" value="' + esc(H[i]) + '"></label>').join('') + '</div>';
-  }
-  function renderLog() {
-    const M = Array.from({ length: 12 }, (_, i) => addM(S.inicio, i)), h = hoyM();
-    $('#log').innerHTML = '<table><thead><tr><th>Mes</th>' + PERS.map(p => '<th>' + p.k + ' · seguidores</th>').join('') + '<th>Video que mejor anduvo</th><th>Vistas</th></tr></thead><tbody>'
-      + M.map((k, i) => { const r = S.log[k] || {}; return '<tr class="' + (k === h ? 'now' : '') + '"><td class="m">' + (i + 1) + ' · ' + nomM(k).slice(0, 3) + ' ' + k.slice(2, 4) + '</td>'
-        + [0, 1, 2].map(j => '<td><input data-l="' + k + '" data-lf="s' + j + '" inputmode="numeric" value="' + esc(r['s' + j]) + '" placeholder="—" aria-label="Seguidores ' + PERS[j].k + ' ' + nomM(k) + '"></td>').join('')
-        + '<td><input data-l="' + k + '" data-lf="top" value="' + esc(r.top) + '" placeholder="link o descripción" aria-label="Mejor video ' + nomM(k) + '"></td><td><input data-l="' + k + '" data-lf="vis" inputmode="numeric" value="' + esc(r.vis) + '" placeholder="—" aria-label="Vistas ' + nomM(k) + '"></td></tr>'; }).join('')
-      + '</tbody></table>';
-  }
-  const renderAll = () => { renderVol(); renderAccs(); renderSplit(); renderSched(); renderLog(); };
+  function renderAll() { renderMeses(); renderKpis(); renderLoad(); renderChart(); renderAccs(); renderTbl(); renderInfo(); }
+  function renderDatos() { renderMeses(); renderKpis(); renderChart(); renderAccs(); renderTbl(); }
 
   document.addEventListener('click', e => {
-    const p = e.target.closest('[data-pack]'); if (p) { S.pack = +p.dataset.pack; guardar(); renderVol(); return; }
-    const st = e.target.closest('[data-ast]'); if (st) { const i = +st.closest('[data-a]').dataset.a; S.cuentas[i].estado = st.dataset.ast; guardar(); st.parentNode.querySelectorAll('button').forEach(b => b.classList.toggle('on', b === st)); return; }
+    const mo = e.target.closest('.mo'); if (mo) { sel = mo.dataset.m; renderAll(); return; }
+    const c = e.target.closest('[data-ch]'); if (c) { chM = c.dataset.ch; renderChart(); return; }
+    const st = e.target.closest('[data-ast]'); if (st && edit) { S.cuentas[+st.closest('[data-a]').dataset.a].estado = st.dataset.ast; guardar(); renderAccs(); return; }
     if (e.target.id === 'bPdf') print();
   });
   document.addEventListener('input', e => {
-    const t = e.target, a = t.closest('[data-a]');
-    if (t.dataset.af && a) { S.cuentas[+a.dataset.a][t.dataset.af] = t.value; guardar(); }
-    if (t.id === 'fr') { S.frase = t.value; guardar(); const m = document.querySelector('.mock.m1 p'); if (m) m.textContent = PERS[0].ej(t.value); }
-    if (t.dataset.l) { (S.log[t.dataset.l] = S.log[t.dataset.l] || {})[t.dataset.lf] = t.value; guardar(); }
+    if (!edit) return;
+    const t = e.target;
+    if (t.dataset.ci != null) { const r = S.meses[sel] || (S.meses[sel] = {}); const c = r['c' + t.dataset.ci] || (r['c' + t.dataset.ci] = {}); const n = parse(t.value); if (n == null) delete c[t.dataset.k]; else c[t.dataset.k] = n; guardar(); renderDatos(); }
+    if (t.dataset.top) { const r = S.meses[sel] || (S.meses[sel] = {}); r[t.dataset.top] = t.dataset.top === 'topv' ? parse(t.value) : t.value; guardar(); renderKpis(); }
+    if (t.dataset.af) { S.cuentas[+t.closest('[data-a]').dataset.a][t.dataset.af] = t.value.trim(); guardar(); }
   });
-  document.addEventListener('change', e => {
-    const t = e.target, a = t.closest('[data-a]');
-    if (t.dataset.aw != null && a) { const c = S.cuentas[+a.dataset.a]; c.warm = c.warm || []; c.warm[+t.dataset.aw] = t.checked; guardar(); const h = a.querySelector('.warm h4 span'); h.textContent = c.warm.filter(Boolean).length + '/' + WARM.length; }
-    if (t.dataset.h != null) { S.horas[+t.dataset.h] = t.value; guardar(); renderSched(); }
-  });
+  document.addEventListener('focusout', e => { const t = e.target; if (edit && t.dataset && t.dataset.af) renderAccs(); if (edit && t.dataset && t.dataset.ci != null) { const v = g(sel, +t.dataset.ci, t.dataset.k); t.value = v == null ? '' : fmt(v); } });
+  document.addEventListener('change', e => { const t = e.target; if (edit && t.dataset.h != null) { S.horas[+t.dataset.h] = t.value; guardar(); renderInfo(); } });
+  $('#mesSel').addEventListener('change', e => { sel = e.target.value; renderAll(); });
+
+  function ejemplo(ini) {
+    const m = {}; const base = [[[120, 800, 20], [90, 650, 18], [60, 400, 15]], [[900, 21000, 88], [640, 15800, 86], [1100, 32000, 90]], [[2400, 64000, 90], [1500, 38000, 90], [3900, 118000, 90]], [[4100, 92000, 90], [2300, 51000, 89], [7600, 204000, 90]], [[5200, 87000, 90], [2900, 49000, 90], [10400, 236000, 90]]];
+    base.forEach((r, i) => { const o = {}; r.forEach((c, ci) => o['c' + ci] = { s: c[0], v: c[1], n: c[2] }); m[addM(ini, i)] = o; });
+    m[addM(ini, 3)].top = 'https://www.tiktok.com/'; m[addM(ini, 3)].topv = 182000;
+    return m;
+  }
 
   (async () => {
     const who = await AOS.ready;
+    edit = !!who.larry;
+    document.body.classList.toggle('ro', !edit);
+    AOS.larryFoot($('#lfoot'), edit);
     const [d, lz, st, es] = await Promise.all([AOS.load('multicuentas'), AOS.load('lanzamientos'), AOS.load('estadisticas'), AOS.load('estrategia')]);
-    S = Object.assign({ pack: (es && es.pack) || (/12/.test((who.artista && who.artista.pack) || '') ? 12 : 6), inicio: (st && st.inicio) || (lz && lz.inicio) || (es && es.inicio) || hoyM(), frase: '', horas: HORAS.slice(), cuentas: [{}, {}, {}], log: {} }, d || {});
+    S = Object.assign({ inicio: (st && st.inicio) || (es && es.inicio) || (lz && lz.inicio) || hoyM(), horas: ['13:00', '19:00', '22:30'], cuentas: [{}, {}, {}], meses: {} }, d || {});
+    if (!S.meses) S.meses = {};
     if (!Array.isArray(S.cuentas) || S.cuentas.length < 3) S.cuentas = [0, 1, 2].map(i => (S.cuentas && S.cuentas[i]) || {});
-    S.cuentas.forEach(c => { if (!c.estado) c.estado = 'cal'; });
-    // canción del momento: la última que ya salió (o la próxima, si todavía no salió ninguna)
+    if (!d && who.demo) { S.meses = ejemplo(S.inicio); S.cuentas = [{ ig: '@frasesdemadrugada', tt: '@frasesdemadrugada', estado: 'act' }, { ig: '@nochedeciudad.mp3', estado: 'act' }, { ig: '@povcanciones', tt: '@povcanciones', estado: 'act' }]; }
     const ts = lz && lz.temas ? lz.temas.filter(t => t.fecha && t.titulo).sort((a, b) => a.fecha < b.fecha ? -1 : 1) : [];
-    const salieron = ts.filter(t => t.fecha <= hoyD());
-    if (salieron.length) { cancion.actual = salieron[salieron.length - 1].titulo; cancion.anteriores = salieron.slice(0, -1).map(t => t.titulo).reverse().slice(0, 3); }
-    else if (ts.length) cancion.actual = ts[0].titulo;
-    else if (who.demo) { cancion.actual = 'Tu calor'; }
-    if (!d && who.demo) { S.frase = 'si la noche se acaba, que se acabe conmigo'; S.cuentas[0].ig = '@frasesdemadrugada'; S.cuentas[1].ig = '@nochedeciudad.mp3'; S.cuentas[2].ig = '@povcanciones'; S.cuentas[0].estado = 'act'; S.cuentas[1].estado = 'act'; }
+    const sal = ts.filter(t => t.fecha <= hoyD());
+    if (sal.length) { cancion.actual = sal[sal.length - 1].titulo; cancion.anteriores = sal.slice(0, -1).map(t => t.titulo).reverse().slice(0, 3); } else if (ts.length) cancion.actual = ts[0].titulo;
+    const L = meses(), h = hoyM(); sel = L.includes(h) ? h : (h > L[11] ? L[11] : L[0]);
+    if (!edit && !d && !who.demo) { const b = $('#banner'); b.hidden = false; b.innerHTML = '<b>Tus cuentas fandom se están armando.</b> Cuando arranquen, cada mes te cargo acá cómo vienen.'; }
     renderAll();
-    estado(d ? 'Guardado ✓' : 'Sin cambios', d ? 'ok' : '');
+    estado(edit ? (d ? 'Guardado ✓' : 'Sin cambios') : 'Solo lectura', edit && d ? 'ok' : '');
   })();
 })();
 </script>

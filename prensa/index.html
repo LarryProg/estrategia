@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kit de prensa · Artist OS</title>
+<meta name="description" content="Textos listos para mandar a playlists, medios y bookers, armados con tus datos.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📣</text></svg>">
+<meta name="theme-color" content="#0d0d0d">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap">
+<script src="../aos-store.js"></script>
+<style>
+:root{
+  --bg:#f2f2ef;--paper:#fff;--ink:#0d0d0d;--ink2:#2e2e2c;--mut:#686864;--mut2:#8d8d88;
+  --line:#e4e4df;--line2:#cfcfc9;--acc:#3451f5;--acc-soft:#eaedff;
+  --ok:#1d7a45;--ok-soft:#e6f4ec;--warn:#9a5b00;--warn-soft:#fdf3e1;--bad:#b42318;
+  --r:16px;--sh:0 1px 2px rgba(0,0,0,.04),0 6px 20px rgba(0,0,0,.05);
+  --ui:"Inter Tight",system-ui,-apple-system,"Segoe UI",sans-serif;--serif:"Instrument Serif",Georgia,serif;--top:58px;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 var(--ui);-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.top{position:sticky;top:0;z-index:40;height:var(--top);background:#0d0d0d;color:#fff;display:flex;align-items:center;gap:14px;padding:0 18px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:600;letter-spacing:-.01em;white-space:nowrap}
+.brand .mk{width:26px;height:26px;border-radius:7px;background:#fff;color:#0d0d0d;display:grid;place-items:center;font:italic 20px/1 var(--serif)}
+.brand small{color:#9a9a96;font-weight:500}
+.sp{flex:1}
+.save{font-size:12.5px;color:#a9a9a4;display:flex;align-items:center;gap:6px;white-space:nowrap}
+.save i{width:7px;height:7px;border-radius:50%;background:#555;display:inline-block}
+.save.ok i{background:#3ccf7a}.save.busy i{background:#f5b638;animation:pulse 1s infinite}
+@keyframes pulse{50%{opacity:.3}}
+.wrap{max-width:1180px;margin:0 auto;padding:28px 20px 80px}
+.hero{margin-bottom:20px}
+.hero h1{margin:0;font:400 clamp(34px,5vw,52px)/1.02 var(--serif);letter-spacing:-.01em}
+.hero h1 em{color:var(--mut)}
+.hero p{margin:10px 0 0;color:var(--mut);max-width:640px;font-size:16px}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh)}
+.lay{display:grid;grid-template-columns:380px 1fr;gap:16px;align-items:start}
+
+/* datos */
+.data{padding:6px 18px 16px;position:sticky;top:calc(var(--top) + 14px);max-height:calc(100vh - var(--top) - 28px);overflow:auto}
+.data details{border-top:1px solid var(--line)}
+.data details:first-child{border-top:0}
+.data summary{list-style:none;display:flex;align-items:center;gap:10px;padding:14px 0;font-weight:700;cursor:pointer}
+.data summary::-webkit-details-marker{display:none}
+.data summary .n{width:24px;height:24px;border-radius:7px;background:var(--ink);color:#fff;display:grid;place-items:center;font-size:12px}
+.data summary .st{margin-left:auto;font-size:12px;font-weight:600;color:var(--mut2)}
+.data summary .st.ok{color:var(--ok)}
+.data summary::after{content:'+';font-weight:400;font-size:20px;color:var(--mut);transition:transform .3s}
+.data details[open] summary::after{transform:rotate(45deg)}
+.fl{display:block;font-size:12.5px;color:var(--mut);font-weight:600;margin:10px 0 4px}
+.fl small{font-weight:500;color:var(--mut2)}
+.in,textarea.in{width:100%;min-height:44px;padding:9px 12px;border-radius:10px;border:1px solid var(--line2);background:#fbfbf9;font-weight:500}
+textarea.in{min-height:76px;resize:vertical;line-height:1.45}
+.in:focus{background:#fff;border-color:var(--acc);outline:none;box-shadow:0 0 0 3px var(--acc-soft)}
+.from{font-size:12px;color:var(--mut);background:#f4f4f0;border-radius:10px;padding:8px 10px;margin:4px 0 6px}
+.from b{color:var(--ink2)}
+.pick{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 2px}
+.pick button{min-height:34px;padding:0 10px;border-radius:99px;border:1px solid var(--line2);background:#fff;font-size:12.5px;font-weight:600}
+.pick button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+
+/* textos */
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.tabs button{min-height:40px;padding:0 14px;border-radius:99px;border:1px solid var(--line2);background:var(--paper);font-weight:600;font-size:13.5px}
+.tabs button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.tx{padding:18px;margin-bottom:14px}
+.tx .hd{display:flex;align-items:flex-start;gap:12px;margin-bottom:8px}
+.tx .hd .ic{flex:none;width:38px;height:38px;border-radius:10px;background:#f0f0ec;display:grid;place-items:center;font-size:18px}
+.tx h2{margin:0;font-size:17px;letter-spacing:-.01em}
+.tx .why{margin:2px 0 0;font-size:13.5px;color:var(--mut)}
+.tx .where{font-size:12.5px;color:var(--ink2);background:var(--acc-soft);border-radius:10px;padding:8px 10px;margin:10px 0}
+.tx .where b{color:var(--acc)}
+.tx .subj{display:flex;gap:8px;align-items:center;margin:6px 0}
+.tx .subj span{font-size:12.5px;color:var(--mut);font-weight:600;flex:none}
+.tx .subj input{flex:1}
+.tx textarea.out{width:100%;min-height:200px;padding:14px;border-radius:12px;border:1px solid var(--line2);background:#fff;line-height:1.55;resize:vertical;font-size:14.5px}
+.tx textarea.out:focus{border-color:var(--acc);outline:none;box-shadow:0 0 0 3px var(--acc-soft)}
+.tx .ft{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:10px}
+.cnt{font-size:12.5px;color:var(--mut);font-variant-numeric:tabular-nums}
+.cnt.over{color:var(--bad);font-weight:700}
+.edited{font-size:12px;color:var(--warn);background:var(--warn-soft);padding:2px 8px;border-radius:99px;font-weight:600}
+.btn{min-height:42px;padding:0 16px;border-radius:11px;border:1px solid var(--ink);background:var(--ink);color:#fff;font-weight:600;display:inline-flex;align-items:center;gap:6px;text-decoration:none;font-size:14px}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--line2)}
+.btn.done{background:var(--ok);border-color:var(--ok)}
+.tipbox{padding:16px 18px}
+.tipbox h3{margin:0 0 8px;font-size:15px}
+.tipbox ul{margin:0;padding-left:18px;color:var(--ink2);font-size:14px}
+.tipbox li{margin:4px 0}
+.missing{font-size:12.5px;color:var(--warn);margin-top:8px}
+
+/* nota de prensa para imprimir */
+#np{display:none}
+@media print{
+  body{background:#fff}
+  .top,.wrap{display:none!important}
+  #np{display:block;max-width:680px;margin:0 auto;padding:20px 10px;font:15px/1.6 var(--ui);color:#000}
+  #np h1{font:400 40px/1.05 var(--serif);margin:6px 0 4px}
+  #np .k{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#555}
+  #np p{margin:0 0 12px;white-space:pre-wrap}
+  #np .ct{border-top:1px solid #ccc;margin-top:18px;padding-top:10px;font-size:13px;color:#333}
+}
+@media (max-width:900px){.lay{grid-template-columns:1fr}.data{position:static;max-height:none;order:2}.lay > section{order:1}}
+@media (max-width:560px){.top{padding:0 12px}.brand small{display:none}.save span{display:none}.wrap{padding:20px 14px 70px}.tx{padding:14px}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="brand"><span class="mk">K</span>Kit de prensa <small>· Artist OS</small></div>
+  <div class="sp"></div>
+  <div class="save" id="save" aria-live="polite"><i></i><span>Sin cambios</span></div>
+</header>
+
+<main class="wrap">
+  <section class="hero">
+    <h1>Que hablen de <em>tu tema.</em></h1>
+    <p>Completá los datos una vez y te armo los textos para Spotify, curadores de playlists, medios y bookers. Los podés retocar, copiar y mandar.</p>
+  </section>
+  <div class="lay">
+    <aside class="card data" id="data"></aside>
+    <section>
+      <nav class="tabs" id="tabs" aria-label="Para quién"></nav>
+      <div id="outs"></div>
+      <div class="card tipbox">
+        <h3>Antes de mandar</h3>
+        <ul>
+          <li><b>Personalizá la primera línea</b> con el nombre de la persona y algo de su playlist o su medio. Un mensaje copiado se nota.</li>
+          <li><b>Mandá con tiempo:</b> a Spotify y medios, de 1 a 3 semanas antes de que salga. A curadores, el día que sale o la semana siguiente.</li>
+          <li><b>Mejor 20 mensajes bien elegidos que 200 a cualquiera.</b> Buscá playlists y medios donde ya suenen artistas parecidos a vos.</li>
+          <li><b>Si no contestan, insistí una sola vez</b>, a la semana, corto y con buena onda.</li>
+        </ul>
+      </div>
+    </section>
+  </div>
+</main>
+<article id="np"></article>
+
+<script>
+(function () {
+  const $ = s => document.querySelector(s);
+  const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const MESES = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  const fFecha = s => { if (!s) return ''; const [y, m, d] = s.split('-').map(Number); return d + ' de ' + MESES[m - 1]; };
+  const TIPOS = { single: 'single', colab: 'colaboración', acustico: 'versión acústica', remix: 'remix', ep: 'EP', album: 'álbum' };
+
+  // campos: [clave, etiqueta, ayuda, multilínea]
+  const G = [
+    { id: 'tema', t: 'El tema', f: [
+      ['titulo', 'Nombre del tema', '', 0], ['tipo', 'Qué es', '', 'pick'], ['fecha', 'Fecha de salida', '', 'date'], ['link', 'Link para escucharlo', 'Spotify, o un link privado de SoundCloud o Drive si todavía no salió', 0],
+      ['genero', 'Género', 'Ej.: pop urbano, R&B alternativo', 0], ['mood', 'Cómo suena, en 3 palabras', 'Ej.: nostálgica, nocturna, bailable', 0],
+      ['parecidos', 'Artistas parecidos', 'Ej.: Bizarrap, Nathy Peluso, Feid', 0], ['historia', 'De qué habla y por qué la hiciste', '2 o 3 frases, en primera persona, como a un amigo', 1], ['frase', 'La frase de la letra que más pega', '', 0]] },
+    { id: 'vos', t: 'Vos como artista', f: [
+      ['nombre', 'Nombre artístico', '', 0], ['ciudad', 'De dónde sos', '', 0], ['bio', 'Quién sos en 2 o 3 frases', '', 1],
+      ['logros', 'Lo mejor que te pasó hasta ahora', 'Uno por línea: shows, playlists, números, colaboraciones', 1], ['oyentes', 'Oyentes mensuales en Spotify', '', 0]] },
+    { id: 'contacto', t: 'Contacto y links', f: [
+      ['mail', 'Mail de contacto', '', 0], ['whatsapp', 'WhatsApp', '', 0], ['instagram', 'Instagram', '@usuario o link', 0], ['spotify', 'Tu perfil de Spotify', '', 0], ['epk', 'Tu portfolio (EPK)', 'Se completa solo si lo publicaste', 0]] },
+  ];
+
+  let S = null, fuente = {}, tab = 'spotify';
+  // «Rels B, Nathy Peluso, Feid» → «Rels B, Nathy Peluso y Feid»
+  const v = k => { const s = String(S.d[k] || '').trim(); return k === 'parecidos' ? s.split(/\s*,\s*/).filter(Boolean).join(', ').replace(/, ([^,]*)$/, ' y $1') : s; };
+  const art = () => v('nombre') || 'tu nombre artístico';
+  const tit = () => v('titulo') ? '«' + v('titulo') + '»' : '«el tema»';
+  const tipo = () => TIPOS[v('tipo')] || 'single';
+  const un = () => ({ colaboración: 'una', 'versión acústica': 'una' }[tipo()] || 'un');
+  const logros = () => v('logros').split(/\n+/).map(s => s.replace(/^[-•·\s]+/, '').trim()).filter(Boolean);
+  const ig = () => { const s = v('instagram'); return !s ? '' : /^https?:/.test(s) ? s : 'instagram.com/' + s.replace(/^@/, ''); };
+  const punto = s => s && !/[.!?…]$/.test(s) ? s + '.' : s;
+  const firma = () => [art(), v('mail'), v('whatsapp') && 'WhatsApp ' + v('whatsapp'), ig()].filter(Boolean).join('\n');
+
+  const T = {
+    spotify: { ic: '🎧', t: 'Pitch a Spotify', why: 'Lo que lee el equipo editorial de Spotify para elegir temas para sus playlists.', max: 500,
+      where: '<b>Dónde:</b> Spotify for Artists → Música → Próximamente → «Pitch a song». Se manda al menos 7 días antes de que salga (si tu distribuidora te deja ver el tema antes).',
+      gen: () => [
+        tit() + ' es ' + un() + ' ' + tipo() + (v('genero') ? ' de ' + v('genero') : '') + (v('mood') ? ': ' + v('mood') : '') + '.',
+        punto(v('historia')),
+        v('parecidos') ? 'Para quien escucha a ' + v('parecidos') + '.' : '',
+        v('frase') ? 'La línea que la resume: «' + v('frase') + '».' : '',
+        art() + (v('ciudad') ? ', desde ' + v('ciudad') : '') + (logros()[0] ? '. ' + punto(logros()[0]) : '.'),
+      ].filter(Boolean).join(' ') },
+    curador: { ic: '📋', t: 'Curadores de playlists', why: 'Mensaje corto para el dueño de una playlist independiente (por mail o Instagram).', max: 700,
+      where: '<b>Tip:</b> cambiá [nombre] y [playlist] en cada mensaje. Que se note que la escuchaste.',
+      subj: () => 'Para [playlist]: ' + tit() + ' de ' + art(),
+      gen: () => 'Hola, [nombre]!\n\n'
+        + 'Soy ' + art() + (v('genero') ? ', hago ' + v('genero') : '') + (v('ciudad') ? ' desde ' + v('ciudad') : '') + '. Sigo [playlist] y creo que ' + tit() + ' puede encajar ahí'
+        + (v('mood') ? ': es ' + v('mood').replace(/,\s*([^,]*)$/, ' y $1') : '') + (v('parecidos') ? ', en la línea de ' + v('parecidos') : '') + '.\n\n'
+        + (v('historia') ? punto(v('historia')) + '\n\n' : '')
+        + (v('fecha') ? 'Sale el ' + fFecha(v('fecha')) + '. ' : '') + 'Te dejo el link: ' + (v('link') || '[link]') + '\n\n'
+        + 'Gracias por escucharla, sea cual sea la respuesta.\n' + art() },
+    medios: { ic: '📰', t: 'Medios y blogs', why: 'Mail con la nota de prensa para revistas, blogs, radios y podcasts.', max: 0,
+      where: '<b>Tip:</b> mandalo 1 a 3 semanas antes de que salga, con la portada y una foto tuya adjuntas. Bajalo en PDF con el botón de abajo.',
+      subj: () => art() + ' presenta ' + tit() + (v('fecha') ? ' · sale el ' + fFecha(v('fecha')) : ''),
+      gen: () => art().toUpperCase() + ' PRESENTA ' + tit().toUpperCase() + '\n\n'
+        + (v('ciudad') ? v('ciudad') + ', ' : '') + (v('fecha') ? fFecha(v('fecha')) : '[fecha]') + '. ' + art() + ' lanza ' + tit() + ', ' + un() + ' ' + tipo() + (v('genero') ? ' de ' + v('genero') : '') + (v('mood') ? ' ' + v('mood').split(',')[0].trim() : '') + '.'
+        + (v('historia') ? ' «' + v('historia').replace(/[.\s]+$/, '') + '», cuenta ' + art() + '.' : '') + '\n\n'
+        + (v('frase') ? '«' + v('frase') + '», dice el estribillo. ' : '') + (v('parecidos') ? 'Con un sonido que dialoga con ' + v('parecidos') + ', ' : '') + (v('parecidos') ? 'la canción ' : 'La canción ') + 'muestra a ' + art() + ' en su mejor momento.\n\n'
+        + (v('bio') ? 'Sobre ' + art() + '\n' + punto(v('bio')) + (logros().length ? ' ' + logros().map(punto).join(' ') : '') + '\n\n' : '')
+        + 'Escuchala: ' + (v('link') || '[link]') + '\n' + (v('epk') ? 'EPK, fotos y prensa: ' + v('epk') + '\n' : '')
+        + '\nContacto\n' + firma() },
+    booker: { ic: '🎤', t: 'Bookers y salas', why: 'Para pedir fecha en una sala, un festival o un ciclo.', max: 900,
+      where: '<b>Tip:</b> decí qué fecha o qué mes buscás y con qué formato (solo, con banda, DJ set). Cuanto más fácil se lo hacés, más chances.',
+      subj: () => 'Propuesta de show: ' + art() + (v('genero') ? ' (' + v('genero') + ')' : ''),
+      gen: () => 'Hola, [nombre]!\n\n'
+        + 'Soy ' + art() + (v('genero') ? ', artista de ' + v('genero') : '') + (v('ciudad') ? ' de ' + v('ciudad') : '') + '. Me encantaría tocar en [sala / ciclo] en [mes].\n\n'
+        + [v('oyentes') ? v('oyentes') + ' oyentes mensuales en Spotify' : '', ...logros()].filter(Boolean).map(s => '• ' + s).join('\n') + (v('oyentes') || logros().length ? '\n\n' : '')
+        + (v('titulo') ? 'Estoy presentando ' + tit() + (v('link') ? ' (' + v('link') + ')' : '') + '. ' : '') + 'El show es [formato: solo / con banda / DJ set], de [duración] minutos.\n\n'
+        + (v('epk') ? 'Te dejo mi EPK con fotos, videos en vivo y contacto: ' + v('epk') + '\n\n' : '')
+        + '¿Te puedo mandar más info o pasarte fechas?\n\n' + firma() },
+    bios: { ic: '✍️', t: 'Tus bios', why: 'Tres largos para cada lugar: redes, plataformas y prensa.', max: 0,
+      where: '<b>Corta</b> para Instagram y TikTok · <b>media</b> para Spotify y la distribuidora · <b>larga</b> para prensa y el EPK.',
+      gen: () => {
+        const g = v('genero'), c = v('ciudad'), L = logros();
+        const corta = [art(), g && '· ' + g, c && '· ' + c].filter(Boolean).join(' ') + (v('titulo') ? '\n' + tit() + (v('fecha') > new Date().toISOString().slice(0, 10) ? ' · sale el ' + fFecha(v('fecha')) : ' ya disponible') + ' 👇' : '');
+        const media = art() + ' es ' + (g ? 'artista de ' + g : 'artista') + (c ? ' de ' + c : '') + '. ' + (v('bio') ? punto(v('bio')) + ' ' : '') + (L[0] ? punto(L[0]) : '');
+        const larga = media + (L.length > 1 ? ' ' + L.slice(1).map(punto).join(' ') : '') + (v('parecidos') ? ' Su música conversa con artistas como ' + v('parecidos') + '.' : '') + (v('titulo') ? ' Su ' + tipo() + ' más reciente es ' + tit() + (v('mood') ? ', una canción ' + v('mood').split(',')[0].trim() : '') + '.' : '');
+        return 'CORTA (redes)\n' + corta + '\n\nMEDIA (Spotify y plataformas)\n' + media.trim() + '\n\nLARGA (prensa y EPK)\n' + larga.trim();
+      } },
+  };
+
+  /* guardado */
+  const saveEl = $('#save');
+  const estado = (t, c) => { saveEl.className = 'save ' + (c || ''); saveEl.querySelector('span').textContent = t; };
+  let tmo; function guardar() { S.actualizado = Date.now(); estado('Guardando…', 'busy'); clearTimeout(tmo); tmo = setTimeout(() => AOS.save('prensa', S).then(r => estado(r && r.ok === false ? 'No se guardó' : 'Guardado ✓', r && r.ok === false ? '' : 'ok')), 400); }
+
+  function renderData() {
+    $('#data').innerHTML = G.map((g, i) => {
+      const fill = g.f.filter(f => v(f[0])).length;
+      return '<details' + (i === 0 ? ' open' : '') + '><summary><span class="n">' + (i + 1) + '</span>' + g.t + '<span class="st' + (fill === g.f.length ? ' ok' : '') + '">' + fill + '/' + g.f.length + '</span></summary>'
+        + (i === 0 && fuente.temas && fuente.temas.length ? '<div class="from">De tus <b>Lanzamientos</b>:<div class="pick">' + fuente.temas.map(t => '<button type="button" data-tema="' + esc(t.id) + '" class="' + (t.titulo === v('titulo') ? 'on' : '') + '">' + esc(t.titulo) + '</button>').join('') + '</div></div>' : '')
+        + (i === 1 && fuente.portfolio ? '<div class="from">Lo que pusiste en tu <b>Portfolio</b> ya está cargado.</div>' : '')
+        + g.f.map(f => {
+          const [k, l, h, m] = f;
+          if (m === 'pick') return '<label class="fl">' + l + '</label><div class="pick" data-pick="' + k + '">' + Object.keys(TIPOS).map(t => '<button type="button" data-v="' + t + '" class="' + ((v(k) || 'single') === t ? 'on' : '') + '">' + TIPOS[t] + '</button>').join('') + '</div>';
+          const id = 'd_' + k;
+          return '<label class="fl" for="' + id + '">' + l + (h ? ' <small>· ' + esc(h) + '</small>' : '') + '</label>'
+            + (m === 1 ? '<textarea class="in" id="' + id + '" data-k="' + k + '">' + esc(S.d[k] || '') + '</textarea>' : '<input class="in" id="' + id + '" data-k="' + k + '"' + (m === 'date' ? ' type="date"' : '') + ' value="' + esc(S.d[k] || '') + '">');
+        }).join('') + '</details>';
+    }).join('');
+  }
+  function renderTabs() { $('#tabs').innerHTML = Object.keys(T).map(k => '<button data-tab="' + k + '" class="' + (k === tab ? 'on' : '') + '">' + T[k].ic + ' ' + T[k].t + '</button>').join(''); }
+  const texto = k => S.ed[k] != null ? S.ed[k] : T[k].gen();
+  const asunto = k => T[k].subj ? (S.ed[k + '_s'] != null ? S.ed[k + '_s'] : T[k].subj()) : '';
+  function faltan(k) {
+    const need = { spotify: ['titulo', 'genero', 'historia'], curador: ['titulo', 'link', 'nombre'], medios: ['titulo', 'fecha', 'bio', 'mail'], booker: ['nombre', 'mail'], bios: ['nombre', 'genero', 'bio'] }[k];
+    const lab = {}; G.forEach(g => g.f.forEach(f => lab[f[0]] = f[1].toLowerCase()));
+    return need.filter(n => !v(n)).map(n => lab[n]);
+  }
+  function renderOut() {
+    const k = tab, t = T[k], txt = texto(k), f = faltan(k);
+    $('#outs').innerHTML = '<div class="card tx"><div class="hd"><span class="ic">' + t.ic + '</span><div><h2>' + t.t + '</h2><p class="why">' + t.why + '</p></div></div>'
+      + '<div class="where">' + t.where + '</div>'
+      + (t.subj ? '<div class="subj"><span>Asunto</span><input class="in" id="oS" value="' + esc(asunto(k)) + '"></div>' : '')
+      + '<textarea class="out" id="oT" spellcheck="true">' + esc(txt) + '</textarea>'
+      + (f.length ? '<div class="missing">Para que quede mejor, completá: ' + f.join(', ') + '. <a href="#data" style="color:inherit;font-weight:700">Ir a los datos ↓</a></div>' : '')
+      + '<div class="ft"><button class="btn" id="bCopy">Copiar</button>'
+      + (t.subj && v('mail') !== '' ? '<a class="btn ghost" id="bMail" href="#">Abrir en el mail</a>' : '')
+      + (k === 'medios' ? '<button class="btn ghost" id="bNp">Nota de prensa en PDF</button>' : '')
+      + (S.ed[k] != null || S.ed[k + '_s'] != null ? '<span class="edited">Lo editaste a mano</span><button class="btn ghost" id="bReset">Volver al automático</button>' : '')
+      + '<span class="sp"></span><span class="cnt" id="cnt"></span></div></div>';
+    cuenta();
+  }
+  function cuenta() { const t = T[tab], n = ($('#oT') || {}).value.length, c = $('#cnt'); c.textContent = n + (t.max ? ' / ' + t.max : '') + ' caracteres'; c.classList.toggle('over', !!t.max && n > t.max); }
+
+  document.addEventListener('click', async e => {
+    const tb = e.target.closest('[data-tab]'); if (tb) { tab = tb.dataset.tab; renderTabs(); renderOut(); return; }
+    const pk = e.target.closest('[data-pick] button'); if (pk) { S.d[pk.parentNode.dataset.pick] = pk.dataset.v; pk.parentNode.querySelectorAll('button').forEach(b => b.classList.toggle('on', b === pk)); guardar(); renderOut(); return; }
+    const tm = e.target.closest('[data-tema]'); if (tm) { const t = fuente.temas.find(x => x.id === tm.dataset.tema); Object.assign(S.d, { titulo: t.titulo, fecha: t.fecha || '', tipo: t.tipo || 'single', link: t.link || S.d.link || '' }); guardar(); renderData(); renderOut(); return; }
+    if (e.target.id === 'bCopy') {
+      const s = (asunto(tab) ? 'Asunto: ' + $('#oS').value + '\n\n' : '') + $('#oT').value;
+      try { await navigator.clipboard.writeText(s); } catch (err) { $('#oT').select(); document.execCommand('copy'); }
+      e.target.textContent = 'Copiado ✓'; e.target.classList.add('done'); setTimeout(() => { e.target.textContent = 'Copiar'; e.target.classList.remove('done'); }, 1600);
+    }
+    if (e.target.id === 'bMail') { e.preventDefault(); window.open('mailto:?subject=' + encodeURIComponent($('#oS').value) + '&body=' + encodeURIComponent($('#oT').value), '_blank'); }
+    if (e.target.id === 'bReset') { delete S.ed[tab]; delete S.ed[tab + '_s']; guardar(); renderOut(); }
+    if (e.target.id === 'bNp') {
+      const lines = $('#oT').value.split('\n'), head = lines.shift();
+      $('#np').innerHTML = '<div class="k">Nota de prensa' + (v('fecha') ? ' · ' + fFecha(v('fecha')) : '') + '</div><h1>' + esc(head) + '</h1><p>' + esc(lines.join('\n').trim()) + '</p>';
+      print();
+    }
+  });
+  document.addEventListener('input', e => {
+    const t = e.target;
+    if (t.dataset.k) { S.d[t.dataset.k] = t.value; guardar(); renderOut(); const st = t.closest('details').querySelector('.st'); const g = G.find(x => x.f.some(f => f[0] === t.dataset.k)); const n = g.f.filter(f => v(f[0])).length; st.textContent = n + '/' + g.f.length; st.classList.toggle('ok', n === g.f.length); }
+    if (t.id === 'oT') { S.ed[tab] = t.value; guardar(); cuenta(); if (!document.querySelector('.edited')) { const ft = $('.ft'); ft.querySelector('.sp').insertAdjacentHTML('beforebegin', '<span class="edited">Lo editaste a mano</span><button class="btn ghost" id="bReset">Volver al automático</button>'); } }
+    if (t.id === 'oS') { S.ed[tab + '_s'] = t.value; guardar(); }
+  });
+
+  function ejemplo() {
+    return { titulo: 'Madrugada', tipo: 'colab', fecha: '', link: 'https://open.spotify.com/', genero: 'R&B alternativo', mood: 'nocturna, íntima, bailable', parecidos: 'Rels B, Nathy Peluso, Feid',
+      historia: 'La escribí volviendo a casa a las 5 de la mañana después de cortar con alguien. Habla de esa hora en la que todavía no sabés si estás bien o no.', frase: 'Si la noche se acaba, que se acabe conmigo',
+      nombre: 'Lía Mar', ciudad: 'Palma de Mallorca', bio: 'Canta desde los 14 y produce sus propias maquetas en el cuarto. Mezcla R&B, pop y algo de flamenco.',
+      logros: 'Sold out en Sala Rex (Palma), 300 personas\nEntró en la playlist «Fresh Finds España»\nTelonera de un artista nacional en 2026', oyentes: '3.650', mail: 'liamar.musica@gmail.com', whatsapp: '+34 600 000 000', instagram: '@liamar', spotify: '', epk: '' };
+  }
+
+  (async () => {
+    const who = await AOS.ready;
+    const [d, pf, lz, st] = await Promise.all([AOS.load('prensa'), AOS.load('portfolio'), AOS.load('lanzamientos'), AOS.load('estadisticas')]);
+    S = Object.assign({ d: {}, ed: {} }, d || {}); S.d = S.d || {}; S.ed = S.ed || {};
+    const hoy = new Date().toISOString().slice(0, 10);
+    fuente.temas = lz && lz.temas ? lz.temas.filter(t => t.titulo).sort((a, b) => (a.fecha || '9') < (b.fecha || '9') ? -1 : 1) : [];
+    fuente.portfolio = !!pf;
+    if (!d) {
+      if (who.demo && !pf) S.d = ejemplo();
+      // lo que ya está en otras apps, para no pedirlo dos veces
+      if (pf) Object.assign(S.d, { nombre: pf.nombre || '', ciudad: pf.ciudad || '', genero: pf.genero || '', bio: pf.bioCorta || pf.bio || '', logros: (pf.logros || []).join('\n'),
+        mail: (pf.contacto || {}).mail || '', whatsapp: (pf.contacto || {}).whatsapp || '', instagram: (pf.links || {}).instagram || '', spotify: (pf.links || {}).spotify || '',
+        epk: pf.publicado ? pf.publicadoUrl || '' : '', oyentes: (pf.stats || {}).oyentes || '' });
+      const prox = fuente.temas.find(t => (t.fecha || '') >= hoy) || fuente.temas[fuente.temas.length - 1];
+      if (prox) Object.assign(S.d, { titulo: prox.titulo, tipo: prox.tipo || 'single', fecha: prox.fecha || '', link: prox.link || '' });
+    }
+    if (st && st.meses) { const ks = Object.keys(st.meses).sort().reverse(); const k = ks.find(k => st.meses[k].sp_oy); if (k && !S.d.oyentes) S.d.oyentes = Number(st.meses[k].sp_oy).toLocaleString('es-AR'); }
+    renderData(); renderTabs(); renderOut();
+    estado(d ? 'Guardado ✓' : 'Sin cambios', d ? 'ok' : '');
+  })();
+})();
+</script>
+</body>
+</html>

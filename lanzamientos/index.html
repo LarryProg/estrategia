@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lanzamientos · Artist OS</title>
+<meta name="description" content="Tu año de lanzamientos: qué tema sale cuándo, para que no haya meses sin música.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🗓️</text></svg>">
+<meta name="theme-color" content="#0d0d0d">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap">
+<script src="../aos-store.js"></script>
+<style>
+:root{
+  --bg:#f2f2ef;--paper:#fff;--ink:#0d0d0d;--ink2:#2e2e2c;--mut:#686864;--mut2:#8d8d88;
+  --line:#e4e4df;--line2:#cfcfc9;--acc:#3451f5;--acc-soft:#eaedff;
+  --ok:#1d7a45;--ok-soft:#e6f4ec;--warn:#9a5b00;--warn-soft:#fdf3e1;--bad:#b42318;--bad-soft:#fdecea;
+  --r:16px;--sh:0 1px 2px rgba(0,0,0,.04),0 6px 20px rgba(0,0,0,.05);--sh2:0 2px 6px rgba(0,0,0,.06),0 18px 40px rgba(0,0,0,.14);
+  --ui:"Inter Tight",system-ui,-apple-system,"Segoe UI",sans-serif;--serif:"Instrument Serif",Georgia,serif;--top:58px;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 var(--ui);-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.top{position:sticky;top:0;z-index:40;height:var(--top);background:#0d0d0d;color:#fff;display:flex;align-items:center;gap:14px;padding:0 18px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:600;letter-spacing:-.01em;white-space:nowrap}
+.brand .mk{width:26px;height:26px;border-radius:7px;background:#fff;color:#0d0d0d;display:grid;place-items:center;font:italic 20px/1 var(--serif)}
+.brand small{color:#9a9a96;font-weight:500}
+.sp{flex:1}
+.save{font-size:12.5px;color:#a9a9a4;display:flex;align-items:center;gap:6px;white-space:nowrap}
+.save i{width:7px;height:7px;border-radius:50%;background:#555;display:inline-block}
+.save.ok i{background:#3ccf7a}.save.busy i{background:#f5b638;animation:pulse 1s infinite}
+@keyframes pulse{50%{opacity:.3}}
+.tbtn{min-height:36px;padding:0 14px;border-radius:10px;border:1px solid #3a3a38;background:transparent;color:#fff;font-weight:600;font-size:13.5px}
+.tbtn:hover{background:#fff;color:#0d0d0d}
+.wrap{max-width:1080px;margin:0 auto;padding:28px 20px 80px}
+.hero{display:flex;flex-wrap:wrap;gap:18px 30px;align-items:flex-end;justify-content:space-between;margin-bottom:20px}
+.hero h1{margin:0;font:400 clamp(34px,5vw,52px)/1.02 var(--serif);letter-spacing:-.01em}
+.hero h1 em{color:var(--mut)}
+.hero p{margin:10px 0 0;color:var(--mut);max-width:580px;font-size:16px}
+.hero .acts{display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap}
+.startbox{display:flex;flex-direction:column;gap:6px;font-size:13px;color:var(--mut)}
+select,.in{min-height:44px;padding:0 12px;border-radius:10px;border:1px solid var(--line2);background:var(--paper);font-weight:600;color:var(--ink)}
+.btn{min-height:44px;padding:0 18px;border-radius:11px;border:1px solid var(--ink);background:var(--ink);color:#fff;font-weight:600;display:inline-flex;align-items:center;gap:8px;justify-content:center}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--line2)}
+.btn.danger{background:transparent;color:var(--bad);border-color:#f1c7c2}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh)}
+
+/* salud del año */
+.health{display:grid;grid-template-columns:auto 1fr;gap:6px 22px;align-items:center;padding:18px 20px;margin-bottom:18px}
+.ring{width:84px;height:84px;grid-row:span 2}
+.health h2{margin:0;font-size:19px;letter-spacing:-.01em}
+.health p{margin:0;color:var(--mut);font-size:14.5px}
+.bar12{grid-column:1/-1;display:grid;grid-template-columns:repeat(12,1fr);gap:4px;margin-top:10px}
+.bar12 i{height:8px;border-radius:4px;background:#ecece7}
+.bar12 i.on{background:var(--ink)}.bar12 i.r{background:var(--acc)}
+
+/* calendario */
+.cal{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:22px}
+.mc{position:relative;min-width:0;min-height:150px;padding:12px 12px 10px;display:flex;flex-direction:column;gap:6px}
+.mc .mh{display:flex;align-items:baseline;gap:8px}
+.mc .mh b{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--mut2);font-weight:600}
+.mc .mh span{font-weight:700;font-size:15px;text-transform:capitalize}
+.mc.now{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink) inset,var(--sh)}
+.mc.now .mh b{color:var(--acc)}
+.mc.gap{background:repeating-linear-gradient(135deg,#fff,#fff 8px,#fafaf7 8px,#fafaf7 16px)}
+.mc .gapt{font-size:12.5px;color:var(--warn);font-weight:600}
+.mc .run{font-size:12px;color:var(--mut)}
+.rel{display:flex;gap:8px;align-items:center;text-align:left;padding:7px 9px;border-radius:10px;border:1px solid var(--line);background:#fbfbf9;width:100%;transition:border-color .2s,transform .2s}
+.rel:hover{border-color:var(--ink);transform:translateY(-1px)}
+.rel .cv{flex:none;width:30px;height:30px;border-radius:7px;background:#e9e9e4 center/cover;display:grid;place-items:center;font-size:13px}
+.rel .tx{min-width:0;flex:1}
+.rel .tx b{display:block;font-size:13.5px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rel .tx small{font-size:11.5px;color:var(--mut)}
+.add{margin-top:auto;min-height:36px;border:1px dashed var(--line2);border-radius:10px;background:transparent;color:var(--mut);font-weight:600;font-size:13px}
+.add:hover{border-color:var(--ink);color:var(--ink)}
+
+/* próximos */
+.list{padding:18px;margin-bottom:16px}
+.list h2,.tips h2{margin:0 0 12px;font-size:17px}
+.row{display:grid;grid-template-columns:52px 1fr auto;gap:14px;align-items:center;padding:12px 0;border-top:1px solid var(--line)}
+.row:first-of-type{border-top:0}
+.row .dt{text-align:center;border:1px solid var(--line);border-radius:10px;padding:4px 0;line-height:1.1}
+.row .dt b{display:block;font-size:20px}.row .dt small{font-size:11px;text-transform:uppercase;color:var(--mut);letter-spacing:.05em}
+.row h3{margin:0;font-size:15.5px}
+.row .nx{font-size:13.5px;color:var(--ink2);margin-top:2px}
+.row .nx b{font-weight:700}
+.tag{display:inline-block;font-size:11.5px;font-weight:600;padding:2px 8px;border-radius:99px;background:#f0f0ec;color:var(--mut);margin-right:4px}
+.tag.ok{background:var(--ok-soft);color:var(--ok)}.tag.warn{background:var(--warn-soft);color:var(--warn)}.tag.bad{background:var(--bad-soft);color:var(--bad)}.tag.acc{background:var(--acc-soft);color:var(--acc)}
+.empty{color:var(--mut);padding:8px 0 4px}
+.tips{padding:18px}
+.tips ul{margin:0;padding-left:18px;color:var(--ink2)}
+.tips li{margin:5px 0}
+
+/* editor (hoja) */
+.scrim{position:fixed;inset:0;background:rgba(10,10,10,.42);z-index:60;opacity:0;pointer-events:none;transition:opacity .25s}
+.scrim.on{opacity:1;pointer-events:auto}
+.sheet{position:fixed;z-index:61;right:0;top:0;bottom:0;width:min(460px,100%);background:var(--paper);box-shadow:var(--sh2);transform:translateX(105%);transition:transform .35s cubic-bezier(.16,1,.3,1);display:flex;flex-direction:column}
+.sheet.on{transform:none}
+.sheet header{display:flex;align-items:center;gap:10px;padding:16px 18px;border-bottom:1px solid var(--line)}
+.sheet header h2{margin:0;font-size:18px;flex:1}
+.sheet .x{width:40px;height:40px;border-radius:10px;border:1px solid var(--line2);background:transparent;font-size:18px}
+.sheet .bd{padding:16px 18px;overflow:auto;flex:1}
+.fl{display:block;font-size:12.5px;color:var(--mut);font-weight:600;margin:14px 0 5px}
+.fl:first-child{margin-top:0}
+.sheet .in,.sheet select,.sheet textarea{width:100%}
+.sheet textarea{min-height:80px;padding:10px 12px;border-radius:10px;border:1px solid var(--line2);resize:vertical}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button{min-height:38px;padding:0 12px;border-radius:99px;border:1px solid var(--line2);background:#fff;font-weight:600;font-size:13px}
+.seg button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.plan{margin-top:16px;border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:#fbfbf9}
+.plan h4{margin:0 0 8px;font-size:13.5px}
+.plan ol{margin:0;padding:0;list-style:none}
+.plan li{display:flex;gap:10px;padding:4px 0;font-size:13.5px}
+.plan li b{flex:none;width:88px;font-variant-numeric:tabular-nums}
+.plan a{color:var(--acc);font-weight:600}
+.sheet footer{display:flex;gap:8px;padding:14px 18px;border-top:1px solid var(--line)}
+.sheet footer .sp{flex:1}
+.cvup{display:flex;gap:12px;align-items:center}
+.cvup .pv{width:64px;height:64px;border-radius:10px;background:#ecece7 center/cover;flex:none;display:grid;place-items:center;color:var(--mut2);font-size:22px}
+
+@media (max-width:900px){.cal{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:640px){
+  .top{padding:0 12px;gap:10px}.brand small{display:none}.save span{display:none}
+  .wrap{padding:20px 14px 70px}
+  .cal{grid-template-columns:1fr 1fr;gap:8px}
+  .mc{min-height:130px;padding:10px}
+  .health{grid-template-columns:1fr}.ring{display:none}
+  .row{grid-template-columns:46px 1fr}.row .go{grid-column:1/-1}
+}
+@media print{.top,.add,.hero .acts,.tips,.scrim,.sheet{display:none!important}body{background:#fff}.card{box-shadow:none}.cal{grid-template-columns:repeat(4,1fr)}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="brand"><span class="mk">L</span>Lanzamientos <small>· Artist OS</small></div>
+  <div class="sp"></div>
+  <div class="save" id="save" aria-live="polite"><i></i><span>Sin cambios</span></div>
+  <button class="tbtn" id="bIcs" title="Pasar las fechas a tu calendario">＋ Calendario</button>
+  <button class="tbtn" id="bPdf">PDF</button>
+</header>
+
+<main class="wrap">
+  <section class="hero">
+    <div>
+      <h1>Tu año de <em>lanzamientos.</em></h1>
+      <p>Doce meses, una regla: que nunca haya un mes sin música tuya sonando. Cada tema trae su plan de 7 + 21 días, así que acá ves qué sale cuándo y qué toca hacer hoy.</p>
+    </div>
+    <div class="acts">
+      <label class="startbox">Tu pack arrancó en <select id="inicio" aria-label="Mes en que arrancó el pack"></select></label>
+      <button class="btn" data-new="">＋ Nuevo lanzamiento</button>
+    </div>
+  </section>
+
+  <section class="card health" id="health"></section>
+  <section class="cal" id="cal" aria-label="Calendario de 12 meses"></section>
+  <section class="card list" id="list"></section>
+  <section class="card tips">
+    <h2>Cómo armar un buen año</h2>
+    <ul>
+      <li><b>Un tema cada 4 a 6 semanas.</b> El algoritmo premia al que no desaparece: cada salida empuja a las anteriores.</li>
+      <li><b>Subilo a la distribuidora 13 días antes</b> (el Día 1 del plan). Si esperás al último momento, no llegás.</li>
+      <li><b>No todo tiene que ser un tema nuevo:</b> una versión acústica, un remix o una colaboración también cuentan y cuestan menos.</li>
+      <li><b>Dejá aire entre lanzamientos grandes.</b> Un EP o un álbum necesita más preparación: arrancalo con 2 o 3 meses de tiempo.</li>
+    </ul>
+  </section>
+</main>
+
+<div class="scrim" id="scrim"></div>
+<aside class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="shT"></aside>
+
+<script>
+(function () {
+  const MESES = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  const TIPOS = { single: 'Single', colab: 'Colaboración', acustico: 'Acústico / en vivo', remix: 'Remix', ep: 'EP', album: 'Álbum' };
+  const ESTADOS = [['idea', 'Idea'], ['produccion', 'Producción'], ['mezcla', 'Mezcla y máster'], ['listo', 'Listo'], ['distribuido', 'En la distribuidora'], ['salio', 'Salió']];
+  const ICO = { single: '♪', colab: '⇄', acustico: '◎', remix: '↻', ep: '◫', album: '◉' };
+  const $ = s => document.querySelector(s);
+  const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const pad = n => String(n).padStart(2, '0');
+  const ymd = d => d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
+  const parseD = s => { const [y, m, d] = s.split('-').map(Number); return new Date(y, m - 1, d); };
+  const addD = (s, n) => { const d = parseD(s); d.setDate(d.getDate() + n); return ymd(d); };
+  const hoy = () => ymd(new Date());
+  const mesKey = s => s.slice(0, 7);
+  const addM = (key, n) => { const [y, m] = key.split('-').map(Number); const d = new Date(y, m - 1 + n, 1); return d.getFullYear() + '-' + pad(d.getMonth() + 1); };
+  const nomM = (key, c) => { const [y, m] = key.split('-').map(Number); return c ? MESES[m - 1] : MESES[m - 1] + ' ' + y; };
+  const fCorta = s => { const d = parseD(s); return d.getDate() + ' ' + MESES[d.getMonth()].slice(0, 3); };
+  const fLarga = s => { const d = parseD(s); return ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'][d.getDay()] + ' ' + d.getDate() + ' de ' + MESES[d.getMonth()]; };
+  const dias = (a, b) => Math.round((parseD(b) - parseD(a)) / 86400000);
+  const uid = () => Math.random().toString(36).slice(2, 9);
+
+  let S = null, edit = null;
+  const meses = () => Array.from({ length: 12 }, (_, i) => addM(S.inicio, i));
+  // el plan de cada tema: Día 1 = sale − 13, Día 8 = sale − 6, Día 14 = sale, Día 28 = sale + 14
+  const plan = t => ({ subir: addD(t.fecha, -13), calentar: addD(t.fecha, -6), sale: t.fecha, fin: addD(t.fecha, 14) });
+  const conFecha = () => S.temas.filter(t => t.fecha).sort((a, b) => a.fecha < b.fecha ? -1 : 1);
+  // un mes "suena" si algún plan de 28 días lo toca
+  const suena = k => conFecha().some(t => { const p = plan(t); return mesKey(p.subir) <= k && mesKey(p.fin) >= k; });
+  const salenEn = k => conFecha().filter(t => mesKey(t.fecha) === k);
+
+  /* guardado */
+  const saveEl = $('#save');
+  const estado = (t, c) => { saveEl.className = 'save ' + (c || ''); saveEl.querySelector('span').textContent = t; };
+  let tmo;
+  function guardar() { S.actualizado = Date.now(); estado('Guardando…', 'busy'); clearTimeout(tmo); tmo = setTimeout(() => AOS.save('lanzamientos', S).then(r => estado(r && r.ok === false ? 'No se guardó' : 'Guardado ✓', r && r.ok === false ? '' : 'ok')), 300); }
+
+  /* qué toca hacer con cada tema */
+  function siguiente(t) {
+    if (!t.fecha) return { tag: ['', 'Sin fecha'], txt: 'Ponele una fecha de salida para armar el plan.' };
+    const p = plan(t), h = hoy();
+    if (t.estado === 'salio' || h > p.fin) return { tag: ['ok', 'Salió'], txt: t.link ? 'Ya está afuera. Seguí compartiéndolo en historias.' : 'Ya salió: pegá el link para tenerlo a mano.' };
+    if (h >= p.sale) return { tag: ['acc', 'Empujando'], txt: 'Día ' + (dias(p.subir, h) + 1) + ' de 28: <b>3 reels por semana</b> para que lo escuchen.' };
+    if (h >= p.calentar) return { tag: ['acc', 'Calentando'], txt: 'Faltan ' + dias(h, p.sale) + ' días: <b>contenido para calentar</b>, todavía sin decir el nombre del tema.' };
+    if (h >= p.subir) return t.estado === 'distribuido' ? { tag: ['acc', 'Preparando'], txt: 'Semana de preparación: <b>grabá y prepará todo</b>. El contenido arranca el ' + fCorta(p.calentar) + '.' }
+      : { tag: ['bad', 'Atrasado'], txt: '<b>Subilo hoy a la distribuidora.</b> El Día 1 era el ' + fCorta(p.subir) + '.' };
+    const f = dias(h, p.subir);
+    const ok = ['listo', 'distribuido'].includes(t.estado);
+    return ok ? { tag: ['ok', 'En camino'], txt: 'Subilo a la distribuidora el <b>' + fLarga(p.subir) + '</b>.' }
+      : { tag: [f < 21 ? 'warn' : '', ESTADOS.find(e => e[0] === t.estado)[1]], txt: 'Tiene que estar terminado antes del <b>' + fLarga(p.subir) + '</b> (faltan ' + f + ' días).' };
+  }
+
+  function renderHealth() {
+    const M = meses(), on = M.filter(suena).length, nT = conFecha().filter(t => M.includes(mesKey(t.fecha))).length;
+    const pct = on / 12, R = 36, C = 2 * Math.PI * R;
+    const huecos = M.map((k, i) => !suena(k) && k >= mesKey(hoy()) ? i + 1 : 0).filter(Boolean);
+    $('#health').innerHTML = '<svg class="ring" viewBox="0 0 84 84"><circle cx="42" cy="42" r="' + R + '" fill="none" stroke="#ecece7" stroke-width="8"/><circle cx="42" cy="42" r="' + R + '" fill="none" stroke="#0d0d0d" stroke-width="8" stroke-linecap="round" stroke-dasharray="' + (C * pct).toFixed(1) + ' ' + C.toFixed(1) + '" transform="rotate(-90 42 42)"/><text x="42" y="47" text-anchor="middle" font-size="17" font-weight="700" font-family="Inter Tight,sans-serif">' + on + '/12</text></svg>'
+      + '<h2>' + (on >= 10 ? 'Año completo: casi no hay meses en silencio.' : on >= 6 ? 'Vas bien: ' + on + ' de 12 meses con música sonando.' : nT ? on + ' de 12 meses con música sonando.' : 'Todavía no hay lanzamientos cargados.') + '</h2>'
+      + '<p>' + nT + ' lanzamiento' + (nT === 1 ? '' : 's') + ' en el año. ' + (huecos.length ? 'Meses sin nada por delante: <b>' + huecos.map(n => 'mes ' + n).join(', ') + '</b>. Con un acústico o un remix los tapás.' : nT ? 'No te queda ningún mes vacío por delante. 🔥' : 'Empezá por el próximo tema: tocá «Nuevo lanzamiento».') + '</p>'
+      + '<div class="bar12">' + M.map(k => '<i class="' + (salenEn(k).length ? 'r' : suena(k) ? 'on' : '') + '" title="' + nomM(k) + '"></i>').join('') + '</div>';
+  }
+
+  function relBtn(t) {
+    return '<button class="rel" data-edit="' + t.id + '"><span class="cv"' + (t.portadaUrl ? ' style="background-image:url(\'' + esc(t.portadaUrl) + '\')"' : '') + '>' + (t.portadaUrl ? '' : ICO[t.tipo] || '♪') + '</span><span class="tx"><b>' + esc(t.titulo || 'Sin título') + '</b><small>' + fCorta(t.fecha) + ' · ' + TIPOS[t.tipo] + '</small></span></button>';
+  }
+  function renderCal() {
+    const M = meses(), now = mesKey(hoy());
+    $('#cal').innerHTML = M.map((k, i) => {
+      const rs = salenEn(k), s = suena(k);
+      const run = !rs.length && s ? conFecha().find(t => { const p = plan(t); return mesKey(p.subir) <= k && mesKey(p.fin) >= k; }) : null;
+      return '<div class="card mc' + (k === now ? ' now' : '') + (!s && k >= now ? ' gap' : '') + '"><div class="mh"><b>Mes ' + (i + 1) + '</b><span>' + nomM(k, true) + '</span></div>'
+        + rs.map(relBtn).join('')
+        + (run ? '<div class="run">' + (mesKey(run.fecha) > k ? 'Preparando «' : 'Sigue sonando «') + esc(run.titulo || 'tu tema') + '»</div>' : '')
+        + (!s && k >= now ? '<div class="gapt">Mes sin música</div>' : '')
+        + '<button class="add" data-new="' + k + '">＋ Agregar</button></div>';
+    }).join('');
+  }
+
+  function renderList() {
+    const h = hoy(), ts = conFecha(), sin = S.temas.filter(t => !t.fecha);
+    const prox = ts.filter(t => plan(t).fin >= h), pas = ts.filter(t => plan(t).fin < h);
+    const row = t => { const n = siguiente(t), d = t.fecha ? parseD(t.fecha) : null;
+      return '<div class="row"><div class="dt">' + (d ? '<b>' + d.getDate() + '</b><small>' + MESES[d.getMonth()].slice(0, 3) + '</small>' : '<b>?</b><small>fecha</small>') + '</div>'
+        + '<div><h3>' + esc(t.titulo || 'Sin título') + '</h3><div class="nx"><span class="tag ' + n.tag[0] + '">' + n.tag[1] + '</span><span class="tag">' + TIPOS[t.tipo] + '</span> ' + n.txt + '</div></div>'
+        + '<button class="btn ghost go" data-edit="' + t.id + '">Abrir</button></div>'; };
+    $('#list').innerHTML = '<h2>Qué toca hacer</h2>'
+      + (prox.length || sin.length ? [...prox, ...sin].map(row).join('') : '<p class="empty">No hay nada en marcha. Cargá tu próximo tema y te armo las fechas.</p>')
+      + (pas.length ? '<h2 style="margin-top:18px">Ya salieron</h2>' + pas.reverse().map(row).join('') : '');
+  }
+  function renderAll() { renderHealth(); renderCal(); renderList(); }
+
+  /* hoja para crear / editar */
+  function abrir(t) {
+    edit = JSON.parse(JSON.stringify(t));
+    const nuevo = !S.temas.some(x => x.id === t.id);
+    const p = edit.fecha ? plan(edit) : null;
+    $('#sheet').innerHTML = '<header><h2 id="shT">' + (nuevo ? 'Nuevo lanzamiento' : 'Editar lanzamiento') + '</h2><button class="x" data-close aria-label="Cerrar">✕</button></header><div class="bd">'
+      + '<label class="fl" for="eT">Nombre del tema</label><input class="in" id="eT" value="' + esc(edit.titulo) + '" placeholder="Ej.: Tu calor">'
+      + '<label class="fl">Qué es</label><div class="seg" data-f="tipo">' + Object.keys(TIPOS).map(k => '<button type="button" data-v="' + k + '" class="' + (edit.tipo === k ? 'on' : '') + '">' + TIPOS[k] + '</button>').join('') + '</div>'
+      + '<label class="fl" for="eF">Fecha de salida</label><input class="in" type="date" id="eF" value="' + esc(edit.fecha) + '">'
+      + '<label class="fl">Cómo viene</label><div class="seg" data-f="estado">' + ESTADOS.map(e => '<button type="button" data-v="' + e[0] + '" class="' + (edit.estado === e[0] ? 'on' : '') + '">' + e[1] + '</button>').join('') + '</div>'
+      + '<label class="fl">Portada</label><div class="cvup"><div class="pv" id="ePv"' + (edit.portadaUrl ? ' style="background-image:url(\'' + esc(edit.portadaUrl) + '\')"' : '') + '>' + (edit.portadaUrl ? '' : '♪') + '</div><label class="btn ghost" style="cursor:pointer">Subir imagen<input type="file" id="eC" accept="image/*" hidden></label></div>'
+      + '<label class="fl" for="eL">Link (cuando salga)</label><input class="in" id="eL" value="' + esc(edit.link) + '" placeholder="https://open.spotify.com/…">'
+      + '<label class="fl" for="eN">Notas</label><textarea id="eN" placeholder="Con quién, qué falta, idea del videoclip…">' + esc(edit.nota) + '</textarea>'
+      + '<div class="plan" id="ePlan">' + planHTML(p) + '</div>'
+      + '</div><footer>' + (nuevo ? '' : '<button class="btn danger" data-del>Borrar</button>') + '<span class="sp"></span><button class="btn ghost" data-close>Cancelar</button><button class="btn" data-ok>' + (nuevo ? 'Agregar' : 'Guardar') + '</button></footer>';
+    $('#scrim').classList.add('on'); $('#sheet').classList.add('on');
+    setTimeout(() => $('#eT').focus(), 300);
+  }
+  function planHTML(p) {
+    if (!p) return '<h4>Tu plan de 7 + 21 días</h4><p style="margin:0;font-size:13.5px;color:var(--mut)">Poné la fecha de salida y te calculo los días clave.</p>';
+    return '<h4>Tu plan de 7 + 21 días</h4><ol>'
+      + '<li><b>' + fCorta(p.subir) + '</b><span>Día 1 · lo subís a la distribuidora</span></li>'
+      + '<li><b>' + fCorta(p.subir) + ' – ' + fCorta(addD(p.subir, 6)) + '</b><span>Grabás y preparás todo</span></li>'
+      + '<li><b>' + fCorta(p.calentar) + '</b><span>Día 8 · arranca el contenido</span></li>'
+      + '<li><b>' + fCorta(p.sale) + '</b><span>Día 14 · sale el tema 🎉</span></li>'
+      + '<li><b>' + fCorta(p.fin) + '</b><span>Día 28 · termina el empujón</span></li></ol>'
+      + '<p style="margin:8px 0 0;font-size:13px"><a href="https://larryprog.github.io/Plan-de-Lanzamiento/" target="_blank" rel="noopener">Armar el plan día por día →</a></p>';
+  }
+  function cerrar() { $('#scrim').classList.remove('on'); $('#sheet').classList.remove('on'); edit = null; }
+
+  document.addEventListener('click', async e => {
+    const n = e.target.closest('[data-new]');
+    if (n) { const k = n.dataset.new; let f = ''; if (k) { const base = k === mesKey(hoy()) ? addD(hoy(), 21) : k + '-15'; f = mesKey(base) === k ? base : k + '-28'; } return abrir({ id: uid(), titulo: '', tipo: 'single', fecha: f, estado: 'produccion', portadaUrl: '', link: '', nota: '' }); }
+    const ed = e.target.closest('[data-edit]'); if (ed) return abrir(S.temas.find(t => t.id === ed.dataset.edit));
+    if (e.target.closest('[data-close]') || e.target.id === 'scrim') return cerrar();
+    const sb = e.target.closest('.seg button'); if (sb && edit) { const f = sb.parentNode.dataset.f; edit[f] = sb.dataset.v; sb.parentNode.querySelectorAll('button').forEach(b => b.classList.toggle('on', b === sb)); return; }
+    if (e.target.closest('[data-del]') && edit) { if (!confirm('¿Borrar «' + (edit.titulo || 'este lanzamiento') + '»?')) return; S.temas = S.temas.filter(t => t.id !== edit.id); guardar(); cerrar(); renderAll(); return; }
+    if (e.target.closest('[data-ok]') && edit) {
+      edit.titulo = $('#eT').value.trim(); edit.fecha = $('#eF').value; edit.link = $('#eL').value.trim(); edit.nota = $('#eN').value;
+      if (!edit.titulo) { $('#eT').focus(); $('#eT').style.borderColor = 'var(--bad)'; return; }
+      const i = S.temas.findIndex(t => t.id === edit.id); if (i >= 0) S.temas[i] = edit; else S.temas.push(edit);
+      guardar(); cerrar(); renderAll();
+    }
+  });
+  document.addEventListener('input', e => { if (e.target.id === 'eF' && edit) { edit.fecha = e.target.value; $('#ePlan').innerHTML = planHTML(edit.fecha ? plan(edit) : null); } });
+  document.addEventListener('change', async e => {
+    if (e.target.id === 'eC' && edit && e.target.files[0]) {
+      const pv = $('#ePv'); pv.textContent = '…';
+      try { const f = e.target.files[0]; const blob = await AOS.compress(f, 600, .85); edit.portadaUrl = await AOS.upload(new File([blob], f.name, { type: blob.type })); pv.style.backgroundImage = 'url("' + edit.portadaUrl + '")'; pv.textContent = ''; }
+      catch (err) { pv.textContent = '!'; alert('No se pudo subir la imagen: ' + err.message); }
+    }
+  });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && edit) cerrar(); });
+  $('#inicio').addEventListener('change', e => { S.inicio = e.target.value; guardar(); renderAll(); });
+  $('#bPdf').addEventListener('click', () => print());
+  $('#bIcs').addEventListener('click', () => {
+    const ts = conFecha(); if (!ts.length) return alert('Primero cargá algún lanzamiento con fecha.');
+    const d8 = s => s.replace(/-/g, ''), now = new Date().toISOString().replace(/[-:]/g, '').slice(0, 15) + 'Z';
+    const ev = (id, f, t, desc) => ['BEGIN:VEVENT', 'UID:' + id + '@artistos', 'DTSTAMP:' + now, 'DTSTART;VALUE=DATE:' + d8(f), 'DTEND;VALUE=DATE:' + d8(addD(f, 1)), 'SUMMARY:' + t.replace(/[,;]/g, '\\$&'), 'DESCRIPTION:' + desc.replace(/[,;]/g, '\\$&'), 'END:VEVENT'].join('\r\n');
+    const L = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Artist OS//Lanzamientos//ES', 'CALSCALE:GREGORIAN'];
+    ts.forEach(t => { const p = plan(t), n = t.titulo || 'tu tema';
+      L.push(ev(t.id + '-1', p.subir, '⬆ Subir «' + n + '» a la distribuidora', 'Día 1 del plan de lanzamiento'));
+      L.push(ev(t.id + '-8', p.calentar, '🎬 Arranca el contenido de «' + n + '»', 'Día 8: contenido para calentar'));
+      L.push(ev(t.id + '-14', p.sale, '🎉 Sale «' + n + '»', 'Día 14: sale el tema')); });
+    L.push('END:VCALENDAR');
+    const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([L.join('\r\n')], { type: 'text/calendar' })); a.download = 'lanzamientos.ics'; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+  });
+
+  function ejemplo() {
+    const ini = addM(mesKey(hoy()), -4);
+    const t = (titulo, tipo, mOff, dia, estado, link) => ({ id: uid(), titulo, tipo, fecha: addM(ini, mOff) + '-' + pad(dia), estado, portadaUrl: '', link: link || '', nota: '' });
+    return { inicio: ini, temas: [t('Tu calor', 'single', 1, 12, 'salio', 'https://open.spotify.com/'), t('Tu calor (acústico)', 'acustico', 2, 20, 'salio'), t('Madrugada', 'colab', 4, 26, 'mezcla'), t('Ruido blanco', 'single', 6, 14, 'produccion'), t('Ciudad', 'ep', 9, 10, 'idea')] };
+  }
+
+  (async () => {
+    const who = await AOS.ready;
+    let d = await AOS.load('lanzamientos');
+    if (!d && who.demo) d = ejemplo();
+    if (!d) { const st = await AOS.load('estadisticas'); d = { inicio: (st && st.inicio) || mesKey(hoy()), temas: [] }; }
+    S = Object.assign({ inicio: mesKey(hoy()), temas: [] }, d);
+    const opts = []; for (let i = -14; i <= 2; i++) opts.push(addM(mesKey(hoy()), i));
+    if (!opts.includes(S.inicio)) opts.unshift(S.inicio);
+    $('#inicio').innerHTML = opts.map(k => '<option value="' + k + '"' + (k === S.inicio ? ' selected' : '') + '>' + nomM(k) + '</option>').join('');
+    renderAll();
+    estado(S.temas.length ? 'Guardado ✓' : 'Sin cambios', S.temas.length ? 'ok' : '');
+  })();
+})();
+</script>
+</body>
+</html>

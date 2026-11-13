@@ -786,7 +786,7 @@ function render() {
     + '<main class="desk"><div class="mainc">'
     +   '<section class="group"><div class="glabel px">PARTE 1 · TU MARCA <span class="tag">Disponible</span></div><div class="icons">' + D.apps1.map((a, i) => iconHTML(a, i + 1)).join('') + '</div></section>'
     +   '<section class="group"><div class="glabel px">PARTE 2 · TU LANZAMIENTO <span class="tag' + (D.parte2 ? '' : ' off') + '">' + (D.parte2 ? 'Disponible' : '🔒 Te la abro yo') + '</span></div><div class="icons">' + D.apps2.map((a, i) => iconHTML(a, D.apps1.length + i + 1)).join('') + '</div></section>'
-    +   '<section class="group era' + (tieneEra() ? '' : ' eralk') + '"><div class="glabel px">PACK SELLO · TU IDENTIDAD <span class="tag era">' + (tieneEra() ? '💎 SELLO' : '🔒 💎 Pack SELLO') + '</span></div><div class="icons">' + appsEra().map((a, i) => iconHTML(a, 'E' + (i + 1))).join('') + '</div></section>'
+    +   '<section class="group era' + (tieneEra() ? '' : ' eralk') + '"><div class="glabel px">PACK SELLO · ESCALADO <span class="tag era">' + (tieneEra() ? '💎 SELLO' : '🔒 💎 Pack SELLO') + '</span></div><div class="icons">' + appsEra().map((a, i) => iconHTML(a, 'E' + (i + 1))).join('') + '</div></section>'
     +   '<section class="group"><div class="glabel px">ACCESOS</div><div class="icons">' + extras + '</div></section>'
     + '</div><aside class="side">'
     +   '<div class="w whello"><div class="wt px">BIENVENIDA<i>●</i></div><div class="wb hello"><div class="av">' + LARRY_SVG.base + '</div><div><h2>' + (nombre ? 'Hola, ' + esc(nombre) : 'Hola') + '</h2><p>' + (D.parte2 ? '¡Tu Parte 2 está abierta! Seguí el orden de los números.' : 'Empezá por el <b>1</b> y el <b>2</b>. Cuando tu canción esté lista, te abro la Parte 2.') + '</p></div></div></div>'

@@ -693,6 +693,18 @@ function compat(d) {
 const KEY = 'larryos:' + (token || params.get('demo') || 'x');
 function leer() { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) { return {}; } }
 function guardar(o) { try { localStorage.setItem(KEY, JSON.stringify(o)); } catch (e) {} }
+// La Bienvenida destraba el resto: hasta que le den play, la Parte 1 queda bloqueada (salvo el video).
+// Los que ya avanzaron (manual hecho o Parte 2 activa) no se bloquean.
+function vioBienvenida() { const o = leer(); return !!o.visto_video1 || !!o.video1 || !!D.manualOk || !!D.parte2; }
+function apps1() { const ok = vioBienvenida(); return D.apps1.map(a => (ok || a.id === 'video1') ? a : Object.assign({}, a, { bloqueada: true, primero: true })); }
+function marcarVisto() { const o = leer(); if (o.visto_video1) return; o.visto_video1 = 1; guardar(o); render(); }
+// el reproductor de YouTube avisa cuando empieza a sonar (playerState 1 = reproduciendo, 3 = cargando)
+addEventListener('message', e => {
+  if (!/youtube(-nocookie)?\.com$/.test((e.origin || '').replace(/^https?:\/\//, '').replace(/^www\./, ''))) return;
+  let d; try { d = typeof e.data === 'string' ? JSON.parse(e.data) : e.data; } catch (err) { return; }
+  const st = d && (d.event === 'onStateChange' ? d.info : (d.info && d.info.playerState));
+  if (st === 1 || st === 3) marcarVisto();
+});
 
 let D = null;
 function estado(titulo, texto, num, txt) {
@@ -744,7 +756,7 @@ function tieneEra() { return !!(D.appsEra && D.appsEra.length); }
 const ERA_ORDEN = ['vip', 'estrategia', 'multicuentas', 'lanzamientos', 'estadisticas', 'prensa', 'logo', 'estetica', 'portfolio'];
 const ordenEra = L => L.slice().sort((a, b) => (ERA_ORDEN.indexOf(a.id) + 1 || 99) - (ERA_ORDEN.indexOf(b.id) + 1 || 99));
 function appsEra() { return ordenEra(tieneEra() ? D.appsEra.concat(ERA_EXTRA.filter(x => !D.appsEra.some(a => a.id === x.id))) : ERA_LOCK); }
-function todas() { return [...D.apps1, ...D.apps2, ...appsEra()]; }
+function todas() { return [...apps1(), ...D.apps2, ...appsEra()]; }
 
 /* ─────────── PROGRESO ─────────── */
 function tareas() {
@@ -793,12 +805,12 @@ function render() {
   $('#app').innerHTML =
     '<div class="top"><span class="logo px">ARTIST OS</span><span class="by">by @larry.prod</span><span class="who">' + (nombre ? 'Espacio de ' + esc(D.cliente) : 'Tu espacio de artista') + '</span><span class="sp"></span><button class="fbtn" data-open="fondo" title="Cambiar fondo">🖼 Fondo</button><span class="clock" id="clock"></span></div>'
     + '<main class="desk"><div class="mainc">'
-    +   '<section class="group"><div class="glabel px">PARTE 1 · TU MARCA <span class="tag">Disponible</span></div><div class="icons">' + D.apps1.map((a, i) => iconHTML(a, i + 1)).join('') + '</div></section>'
+    +   '<section class="group"><div class="glabel px">PARTE 1 · TU MARCA <span class="tag' + (vioBienvenida() ? '' : ' off') + '">' + (vioBienvenida() ? 'Disponible' : '▶ Empezá por la Bienvenida') + '</span></div><div class="icons">' + apps1().map((a, i) => iconHTML(a, i + 1)).join('') + '</div></section>'
     +   '<section class="group"><div class="glabel px">PARTE 2 · TU LANZAMIENTO <span class="tag' + (D.parte2 ? '' : ' off') + '">' + (D.parte2 ? 'Disponible' : '🔒 Yo te la habilito') + '</span></div><div class="icons">' + D.apps2.map((a, i) => iconHTML(a, D.apps1.length + i + 1)).join('') + '</div></section>'
     +   '<section class="group era' + (tieneEra() ? '' : ' eralk') + '"><div class="glabel px">PACK SELLO · PROFESIONALIZACIÓN <span class="tag era">' + (tieneEra() ? '💎 SELLO' : '🔒 💎 Pack SELLO') + '</span></div><div class="icons">' + appsEra().map((a, i) => iconHTML(a, 'E' + (i + 1))).join('') + '</div></section>'
     +   '<section class="group"><div class="glabel px">ACCESOS</div><div class="icons">' + extras + '</div></section>'
     + '</div><aside class="side">'
-    +   '<div class="w whello"><div class="wt px">BIENVENIDA<i>●</i></div><div class="wb hello"><div class="av">' + LARRY_SVG.base + '</div><div><h2>' + (nombre ? 'Hola, ' + esc(nombre) : 'Hola') + '</h2><p>' + (D.parte2 ? '¡Tu Parte 2 está abierta! Seguí el orden de los números.' : 'Empezá por el <b>1</b> y el <b>2</b>. Cuando tu canción esté lista, te habilito la Parte 2.') + '</p></div></div></div>'
+    +   '<div class="w whello"><div class="wt px">BIENVENIDA<i>●</i></div><div class="wb hello"><div class="av">' + LARRY_SVG.base + '</div><div><h2>' + (nombre ? 'Hola, ' + esc(nombre) : 'Hola') + '</h2><p>' + (D.parte2 ? '¡Tu Parte 2 está abierta! Seguí el orden de los números.' : !vioBienvenida() ? 'Dale <b>play</b> al video de <b>Bienvenida</b> (el 1) y se te habilita todo lo demás.' : 'Empezá por el <b>1</b> y el <b>2</b>. Cuando tu canción esté lista, te habilito la Parte 2.') + '</p></div></div></div>'
     +   '<div id="wCall">' + llamadaHTML() + '</div>'
     +   '<div id="wProg">' + progresoHTML() + '</div>'
     + '</aside></main>'
@@ -841,6 +853,7 @@ addEventListener('message', e => { if (e.origin === location.origin && e.data &&
 function abrirApp(id) {
   const a = todas().find(x => x.id === id); if (!a) return;
   if (a.bloqueada && a.era) return aviso('PACK SELLO', '<p style="font-size:15px"><b>' + esc(a.titulo) + '</b> es parte de la <b>Profesionalización</b> del pack SELLO: la estrategia de tu año, tus 3 cuentas fandom, tus lanzamientos planificados, tu kit de prensa, tu logo, tu estética visual, tu portfolio y el seguimiento de tus números mes a mes durante 12 meses. Todo armado conmigo.</p><p style="font-size:14.5px">Si querés sumarlo a tu lanzamiento, escribime y te cuento.</p><a class="btn" href="' + waLink(D.whatsapp, 'Hola Larry! Me interesa el pack SELLO (' + a.titulo + ')') + '" target="_blank" rel="noopener">Quiero el pack SELLO</a>');
+  if (a.primero) return aviso('PRIMERO, LA BIENVENIDA', '<p style="font-size:15px">Dale <b>play</b> al video de <b>Bienvenida</b> y se te habilita todo. No hace falta verlo entero para arrancar.</p><button class="btn" data-app="video1">▶ Ver la Bienvenida</button>');
   if (a.bloqueada) return aviso('PARTE 2', '<p style="font-size:15px">Esta parte <b>yo te la habilito</b> cuando tu canción esté lista para lanzar. Mientras tanto, lo más valioso es <b>terminar tu Manual de Marca</b>.</p><a class="btn" href="' + waLink(D.whatsapp, 'Hola Larry! Ya terminé mi Manual de Marca') + '" target="_blank" rel="noopener">Ya terminé mi manual</a>');
   const o = leer(); o['abierto_' + id] = 1; guardar(o);
   history.replaceState(null, '', '#' + id);
@@ -855,7 +868,17 @@ function abrirApp(id) {
       const cmd = (func, args) => f.contentWindow.postMessage(JSON.stringify({ event: 'command', func, args }), '*');
       cmd('seekTo', [Number(b.dataset.t), true]); cmd('playVideo', []);
       w.querySelectorAll('.chap').forEach(c => c.classList.toggle('on', c === b));
+      if (id === 'video1') marcarVisto();
     });
+    // Bienvenida: le pido al reproductor que avise cuando arranca (ahí se habilita todo)
+    if (id === 'video1' && !leer().visto_video1) {
+      const f = w.querySelector('#yt');
+      if (f) {
+        let n = 0;
+        const hola = () => { try { f.contentWindow.postMessage(JSON.stringify({ event: 'listening', id: 'yt', channel: 'widget' }), '*'); } catch (err) {} if (++n < 60 && !leer().visto_video1 && document.body.contains(f)) setTimeout(hola, 700); };
+        f.addEventListener('load', hola);
+      }
+    }
     return;
   }
   // links que se abren afuera (zcal no se deja mostrar en una ventana)

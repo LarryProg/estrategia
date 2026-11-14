@@ -712,7 +712,7 @@ function llamadaHTML() {
       + '<div class="vt when">' + DIAS[d.getDay()].replace(/^./, c => c.toUpperCase()) + ' ' + d.getDate() + ' de ' + MESES[d.getMonth()] + ' · ' + hh + '</div>'
       + '<div class="cd">' + cuando + ' · en tu horario</div>'
       + (L.meet ? '<a class="btn full" href="' + esc(L.meet) + '" target="_blank" rel="noopener">Entrar a la llamada ↗</a>' : '')
-      + ((L.reprogramar || D.llamadaUrl) ? '<p class="note">¿No podés? <a href="' + esc(L.reprogramar || D.llamadaUrl) + '" target="_blank" rel="noopener">Cambiá el horario</a> o escribime.</p>' : '')
+      + '<p class="note">¿No podés? ' + (L.reprogramar ? '<a href="' + esc(L.reprogramar) + '" target="_blank" rel="noopener">Cambiá el horario</a> o escribime.' : '<a href="' + waLink(D.whatsapp, 'Hola Larry! Necesito cambiar el horario de mi llamada') + '" target="_blank" rel="noopener">Escribime y la cambiamos</a>.') + '</p>'
       + '</div></div>';
   }
   if (!D.manualOk) return '<div class="w call"><div class="wt px">LLAMADA DE ARTISTA<i>🔒</i></div><div class="wb">'
@@ -721,7 +721,7 @@ function llamadaHTML() {
     + '<p class="note">Cuando lo envíes desde el último paso del manual, acá se abre la agenda.</p></div></div>';
   return '<div class="w call"><div class="wt px">LLAMADA DE ARTISTA<i>●</i></div><div class="wb">'
     + '<p style="font-size:14.5px">Una charla 1 a 1 conmigo para revisar tu marca y tu lanzamiento. Elegí el día que te quede cómodo.</p>'
-    + (D.llamadaUrl ? '<button class="btn full" data-open="agenda">📅 Agendar mi llamada</button>'
+    + (agendaUrl() ? '<button class="btn full" data-open="agenda">📅 Agendar mi llamada</button>'
                     : '<a class="btn full" href="' + waLink(D.whatsapp, 'Hola Larry! Quiero agendar mi llamada de artista') + '" target="_blank" rel="noopener">Agendar por WhatsApp</a>')
     + '<p class="note">Cuando agendes, acá te aparece el día y la hora.</p></div></div>';
 }
@@ -861,11 +861,13 @@ function abrirApp(id) {
   ventana(a.titulo, '<div class="load">Cargando…</div><iframe class="app" src="' + esc(url) + '" title="' + esc(a.titulo) + '" allow="clipboard-write; fullscreen; autoplay" onload="this.previousElementSibling&&this.previousElementSibling.remove()"></iframe>', url);
   window.__app = id;   // después de abrir: ventana() cierra la anterior primero
 }
+// La llamada se agenda en la Agenda Larry (zcal quedó atrás: si el script todavía lo manda, uso la agenda)
+const AGENDA_URL = 'https://larryprog.github.io/agenda/?t=artista-46fb8efc';
+function agendaUrl() { return !D.llamadaUrl || /zcal\.co/.test(D.llamadaUrl) ? AGENDA_URL : D.llamadaUrl; }
 function abrirAgenda() {
-  if (!D.llamadaUrl || !D.manualOk) return;
-  // zcal no se deja mostrar adentro de una ventana: se abre en una pestaña nueva
-  if (/zcal\.co/.test(D.llamadaUrl)) { window.open(D.llamadaUrl, '_blank', 'noopener'); return; }
-  ventana('Agendar llamada', '<div class="load">Cargando la agenda…</div><iframe class="app" src="' + esc(D.llamadaUrl) + '" title="Agenda de Larry" onload="this.previousElementSibling&&this.previousElementSibling.remove()"></iframe>', D.llamadaUrl);
+  if (!D.manualOk) return;
+  const url = agendaUrl();
+  ventana('Agendar llamada', '<div class="load">Cargando la agenda…</div><iframe class="app" src="' + esc(url) + '" title="Agenda de Larry" onload="this.previousElementSibling&&this.previousElementSibling.remove()"></iframe>', url);
 }
 function instalar() {
   const ios = /iphone|ipad|ipod/i.test(navigator.userAgent);
@@ -880,12 +882,19 @@ window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); window
 document.addEventListener('click', e => {
   const t = e.target.closest('[data-app],[data-open],[data-home],[data-close]'); if (!t) return;
   if (t.dataset.app) { abrirApp(t.dataset.app); return; }
-  if (t.dataset.home || t.dataset.close) { cerrar(); return; }
+  if (t.dataset.close) { cerrar(); return; }
+  // Inicio: cierra lo que esté abierto y vuelve arriba del escritorio
+  if (t.dataset.home) { cerrar(); window.scrollTo({ top: 0, behavior: 'smooth' }); return; }
   const o = t.dataset.open; e.preventDefault();
   if (o === 'agenda') abrirAgenda();
   else if (o === 'instalar') instalar();
   else if (o === 'fondo') elegirFondo();
-  else if (o === 'llamada') { if (D.llamada || !D.llamadaUrl || !D.manualOk) { cerrar(); const el = $('#wCall'); el.scrollIntoView({ behavior: 'smooth', block: 'center' }); el.animate([{ transform: 'scale(1.03)' }, { transform: 'none' }], 400); } else abrirAgenda(); }
+  else if (o === 'llamada') {
+    // sin llamada y habilitado → directo a agendar; sin manual → le explico; con llamada → le muestro su llamada
+    if (D.manualOk && !D.llamada) { abrirAgenda(); return; }
+    if (!D.manualOk) { aviso('LLAMADA DE ARTISTA', '<p style="font-size:15px">La llamada conmigo se habilita cuando <b>completes tu Manual de Marca</b>: así llegamos con todo lo tuyo armado.</p><button class="btn" data-app="manual">📘 Ir a mi Manual de Marca</button>'); return; }
+    cerrar(); const el = $('#wCall'); el.scrollIntoView({ behavior: 'smooth', block: 'center' }); el.animate([{ transform: 'scale(1.03)' }, { transform: 'none' }], 400);
+  }
 });
 document.addEventListener('change', e => {
   const i = e.target; if (!i.dataset || !i.dataset.k) return;

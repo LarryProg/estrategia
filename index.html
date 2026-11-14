@@ -576,7 +576,7 @@ function ico(name) {
 const APP_LOOK = {
   video1: { i: 'play', c: '#2a3766' }, manual: { i: 'flag', c: '#123d2a' },
   video2: { i: 'camera', c: '#2a3766' }, maestra: { i: 'fire', c: '#4a1f1a' },
-  distro: { i: 'disc', c: '#3a2a10' }, spotify: { i: 'spot', c: '#0f3a24' }, monetizacion: { i: 'coin', c: '#3a3010' }, moodboard: { i: 'board', c: '#3a2a10' }, logo: { i: 'pen', c: '#2b1f4a' }, estetica: { i: 'brush', c: '#4a1f3a' }, portfolio: { i: 'folio', c: '#1f3a4a' }, estadisticas: { i: 'chart', c: '#1d2a22' }, lanzamientos: { i: 'cal', c: '#3a1f22' }, estrategia: { i: 'mapa', c: '#2a2a14' }, multicuentas: { i: 'phones', c: '#1f2440' }, prensa: { i: 'mega', c: '#22303a' }, plan: { i: 'rocket', c: '#1f2d5c' },
+  distro: { i: 'disc', c: '#3a2a10' }, spotify: { i: 'spot', c: '#0f3a24' }, monetizacion: { i: 'coin', c: '#3a3010' }, moodboard: { i: 'board', c: '#3a2a10' }, logo: { i: 'pen', c: '#2b1f4a' }, estetica: { i: 'brush', c: '#4a1f3a' }, portfolio: { i: 'folio', c: '#1f3a4a' }, estadisticas: { i: 'chart', c: '#1d2a22' }, lanzamientos: { i: 'cal', c: '#3a1f22' }, estrategia: { i: 'mapa', c: '#2a2a14' }, vip: { i: 'phone', c: '#5c4a10' }, multicuentas: { i: 'phones', c: '#1f2440' }, prensa: { i: 'mega', c: '#22303a' }, plan: { i: 'rocket', c: '#1f2d5c' },
 };
 const LOCK = '<svg viewBox="0 0 8 8" width="16" height="16" shape-rendering="crispEdges"><rect x="2" y="0" width="4" height="1"/><rect x="1" y="1" width="1" height="3"/><rect x="6" y="1" width="1" height="3"/><rect x="0" y="3" width="8" height="5"/><rect x="3" y="5" width="2" height="2" fill="#ffd86b"/></svg>';
 
@@ -728,6 +728,7 @@ function llamadaHTML() {
 
 /* Pack SELLO (internamente sigue siendo «era»): los que no lo tienen lo ven igual, con candado (las apps las sirve la planilla solo a los ERA) */
 const ERA_LOCK = [
+  { id: 'vip', titulo: 'Llamada VIP', sub: 'Con Larry, 1 a 1', bloqueada: true, era: true },
   { id: 'estrategia', titulo: 'Estrategia', sub: 'Tu año, con un plan', bloqueada: true, era: true },
   { id: 'multicuentas', titulo: 'Multicuentas', sub: 'Tus 3 cuentas fandom', bloqueada: true, era: true },
   { id: 'logo', titulo: 'Logo', sub: 'Tu nombre, con diseño', bloqueada: true, era: true },
@@ -738,9 +739,9 @@ const ERA_LOCK = [
   { id: 'prensa', titulo: 'Kit de prensa', sub: 'Playlists, medios y shows', bloqueada: true, era: true },
 ];
 // si el script de la planilla todavía no manda Estadísticas, la agrego acá
-const ERA_EXTRA = [{ id: 'estrategia', tipo: 'web', titulo: 'Estrategia', sub: 'Tu año, con un plan', url: 'estrategia/index.html' }, { id: 'multicuentas', tipo: 'web', titulo: 'Multicuentas', sub: 'Tus 3 cuentas fandom', url: 'multicuentas/index.html' }, { id: 'lanzamientos', tipo: 'web', titulo: 'Lanzamientos', sub: 'Tu año, tema por tema', url: 'lanzamientos/index.html' }, { id: 'estadisticas', tipo: 'web', titulo: 'Estadísticas', sub: 'Tus números, 12 meses', url: 'estadisticas/index.html' }, { id: 'prensa', tipo: 'web', titulo: 'Kit de prensa', sub: 'Playlists, medios y shows', url: 'prensa/index.html' }];
+const ERA_EXTRA = [{ id: 'vip', tipo: 'link', titulo: 'Llamada VIP', sub: 'Con Larry, 1 a 1', url: 'https://zcal.co/larry/vip' }, { id: 'estrategia', tipo: 'web', titulo: 'Estrategia', sub: 'Tu año, con un plan', url: 'estrategia/index.html' }, { id: 'multicuentas', tipo: 'web', titulo: 'Multicuentas', sub: 'Tus 3 cuentas fandom', url: 'multicuentas/index.html' }, { id: 'lanzamientos', tipo: 'web', titulo: 'Lanzamientos', sub: 'Tu año, tema por tema', url: 'lanzamientos/index.html' }, { id: 'estadisticas', tipo: 'web', titulo: 'Estadísticas', sub: 'Tus números, 12 meses', url: 'estadisticas/index.html' }, { id: 'prensa', tipo: 'web', titulo: 'Kit de prensa', sub: 'Playlists, medios y shows', url: 'prensa/index.html' }];
 function tieneEra() { return !!(D.appsEra && D.appsEra.length); }
-const ERA_ORDEN = ['estrategia', 'multicuentas', 'lanzamientos', 'estadisticas', 'prensa', 'logo', 'estetica', 'portfolio'];
+const ERA_ORDEN = ['vip', 'estrategia', 'multicuentas', 'lanzamientos', 'estadisticas', 'prensa', 'logo', 'estetica', 'portfolio'];
 const ordenEra = L => L.slice().sort((a, b) => (ERA_ORDEN.indexOf(a.id) + 1 || 99) - (ERA_ORDEN.indexOf(b.id) + 1 || 99));
 function appsEra() { return ordenEra(tieneEra() ? D.appsEra.concat(ERA_EXTRA.filter(x => !D.appsEra.some(a => a.id === x.id))) : ERA_LOCK); }
 function todas() { return [...D.apps1, ...D.apps2, ...appsEra()]; }
@@ -857,16 +858,20 @@ function abrirApp(id) {
     });
     return;
   }
+  // links que se abren afuera (zcal no se deja mostrar en una ventana)
+  if (a.tipo === 'link') { window.open(a.url, '_blank', 'noopener'); return; }
   const url = conToken(a.url);
   ventana(a.titulo, '<div class="load">Cargando…</div><iframe class="app" src="' + esc(url) + '" title="' + esc(a.titulo) + '" allow="clipboard-write; fullscreen; autoplay" onload="this.previousElementSibling&&this.previousElementSibling.remove()"></iframe>', url);
   window.__app = id;   // después de abrir: ventana() cierra la anterior primero
 }
-// La llamada se agenda en la Agenda Larry (zcal quedó atrás: si el script todavía lo manda, uso la agenda)
-const AGENDA_URL = 'https://larryprog.github.io/agenda/?t=artista-46fb8efc';
-function agendaUrl() { return !D.llamadaUrl || /zcal\.co/.test(D.llamadaUrl) ? AGENDA_URL : D.llamadaUrl; }
+// La llamada de artista se agenda en zcal (zcal no se deja mostrar adentro de una ventana: se abre en una pestaña nueva)
+const AGENDA_URL = 'https://zcal.co/larry/artista';
+const VIP_URL = 'https://zcal.co/larry/vip';
+function agendaUrl() { return D.llamadaUrl || AGENDA_URL; }
 function abrirAgenda() {
   if (!D.manualOk) return;
   const url = agendaUrl();
+  if (/zcal\.co/.test(url)) { window.open(url, '_blank', 'noopener'); return; }
   ventana('Agendar llamada', '<div class="load">Cargando la agenda…</div><iframe class="app" src="' + esc(url) + '" title="Agenda de Larry" onload="this.previousElementSibling&&this.previousElementSibling.remove()"></iframe>', url);
 }
 function instalar() {

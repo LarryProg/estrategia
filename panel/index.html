@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Panel de Larry · Artist OS</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎛️</text></svg>">
+<meta name="theme-color" content="#0d0d0d">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap">
+<style>
+:root{
+  --bg:#f2f2ef;--paper:#fff;--ink:#0d0d0d;--ink2:#2e2e2c;--mut:#686864;--mut2:#8d8d88;
+  --line:#e4e4df;--line2:#cfcfc9;--acc:#3451f5;--acc-soft:#eaedff;
+  --ok:#1d7a45;--ok-soft:#e6f4ec;--warn:#9a5b00;--warn-soft:#fdf3e1;--bad:#b42318;--bad-soft:#fdecea;--gold:#8a6a00;--gold-soft:#fbf3d6;
+  --r:16px;--sh:0 1px 2px rgba(0,0,0,.04),0 6px 20px rgba(0,0,0,.05);--sh2:0 2px 6px rgba(0,0,0,.06),0 18px 40px rgba(0,0,0,.16);
+  --ui:"Inter Tight",system-ui,-apple-system,"Segoe UI",sans-serif;--serif:"Instrument Serif",Georgia,serif;--top:58px;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 var(--ui);-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.top{position:sticky;top:0;z-index:40;height:var(--top);background:#0d0d0d;color:#fff;display:flex;align-items:center;gap:12px;padding:0 18px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:600;letter-spacing:-.01em;white-space:nowrap}
+.brand .mk{width:26px;height:26px;border-radius:7px;background:#fff;color:#0d0d0d;display:grid;place-items:center;font:italic 20px/1 var(--serif)}
+.brand small{color:#9a9a96;font-weight:500}
+.sp{flex:1}
+.stat{font-size:12.5px;color:#a9a9a4;display:flex;align-items:center;gap:6px;white-space:nowrap}
+.stat i{width:7px;height:7px;border-radius:50%;background:#3ccf7a;display:inline-block}
+.stat.busy i{background:#f5b638;animation:pulse 1s infinite}.stat.err i{background:#f04438}
+@keyframes pulse{50%{opacity:.3}}
+.tbtn{min-height:38px;padding:0 14px;border-radius:10px;border:1px solid #3a3a38;background:transparent;color:#fff;font-weight:600;font-size:13.5px;white-space:nowrap}
+.tbtn:hover{background:#fff;color:#0d0d0d}
+.tbtn.pri{background:#fff;color:#0d0d0d;border-color:#fff}
+.wrap{max-width:1180px;margin:0 auto;padding:26px 20px 70px}
+.hero{display:flex;flex-wrap:wrap;gap:14px 24px;align-items:flex-end;justify-content:space-between;margin-bottom:18px}
+.hero h1{margin:0;font:400 clamp(32px,4.6vw,48px)/1.02 var(--serif);letter-spacing:-.01em}
+.hero h1 em{color:var(--mut)}
+.hero p{margin:8px 0 0;color:var(--mut);max-width:560px}
+.search{position:relative;min-width:260px}
+.search input{width:100%;min-height:44px;padding:0 14px 0 38px;border-radius:12px;border:1px solid var(--line2);background:var(--paper);font-weight:500}
+.search svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:16px;height:16px;stroke:var(--mut2)}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh)}
+
+/* filtros */
+.filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.filters button{min-height:38px;padding:0 14px;border-radius:99px;border:1px solid var(--line2);background:var(--paper);font-weight:600;font-size:13.5px;display:inline-flex;gap:6px;align-items:center}
+.filters button b{font-size:12px;color:var(--mut);font-weight:700}
+.filters button.on{background:var(--ink);color:#fff;border-color:var(--ink)}.filters button.on b{color:#bdbdb7}
+
+/* tarjetas de artistas */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:12px}
+.cl{padding:16px;display:flex;flex-direction:column;gap:12px}
+.cl.off{opacity:.62}
+.cl .hd{display:flex;gap:12px;align-items:flex-start}
+.av{flex:none;width:42px;height:42px;border-radius:12px;background:#0d0d0d;color:#fff;display:grid;place-items:center;font:italic 22px/1 var(--serif)}
+.cl.sello .av{background:linear-gradient(135deg,#d9b44a,#8a6a00)}
+.cl h3{margin:0;font-size:17px;letter-spacing:-.01em;line-height:1.25}
+.cl .meta{font-size:12.5px;color:var(--mut);margin-top:2px;overflow-wrap:anywhere}
+.stage{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:3px 9px;border-radius:99px;background:#f0f0ec;color:var(--ink2);margin-top:6px}
+.stage.p2{background:var(--acc-soft);color:var(--acc)}.stage.off{background:var(--bad-soft);color:var(--bad)}
+.next{font-size:13.5px;background:#f6f6f2;border-radius:10px;padding:9px 11px;color:var(--ink2)}
+.next b{color:var(--ink)}
+.tg{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.sw{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:44px;padding:6px 10px 6px 12px;border:1px solid var(--line);border-radius:12px;background:#fff;text-align:left}
+.sw span{font-size:13px;font-weight:600;line-height:1.2}
+.sw span small{display:block;font-weight:500;font-size:11.5px;color:var(--mut2)}
+.sw i{flex:none;position:relative;width:38px;height:22px;border-radius:99px;background:#d6d6d0;transition:background .2s}
+.sw i::after{content:'';position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.25);transition:transform .25s cubic-bezier(.16,1,.3,1)}
+.sw.on i{background:var(--ok)}.sw.on i::after{transform:translateX(16px)}
+.sw.on.gold i{background:#b8901c}.sw.on.blue i{background:var(--acc)}
+.sw.saving{opacity:.6;pointer-events:none}
+.acts{display:flex;flex-wrap:wrap;gap:6px}
+.btn{min-height:40px;padding:0 13px;border-radius:10px;border:1px solid var(--ink);background:var(--ink);color:#fff;font-weight:600;font-size:13.5px;display:inline-flex;align-items:center;gap:6px;text-decoration:none;white-space:nowrap}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--line2)}
+.btn.wa{background:#1fa855;border-color:#1fa855}
+.btn.done{background:var(--ok);border-color:var(--ok);color:#fff}
+.btn.danger{background:transparent;color:var(--bad);border-color:#f1c7c2}
+.empty{padding:40px 20px;text-align:center;color:var(--mut)}
+
+/* ayuda */
+.help{margin-top:22px;padding:18px 20px}
+.help h2{margin:0 0 10px;font-size:18px}
+.steps{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.steps div{background:#f6f6f2;border-radius:12px;padding:12px}
+.steps b{display:block;font:italic 400 28px/1 var(--serif);color:var(--mut2);margin-bottom:4px}
+.steps h4{margin:0 0 4px;font-size:14px}
+.steps p{margin:0;font-size:13px;color:var(--ink2)}
+
+/* hoja lateral */
+.scrim{position:fixed;inset:0;background:rgba(10,10,10,.42);z-index:60;opacity:0;pointer-events:none;transition:opacity .25s}
+.scrim.on{opacity:1;pointer-events:auto}
+.sheet{position:fixed;z-index:61;right:0;top:0;bottom:0;width:min(460px,100%);background:var(--paper);box-shadow:var(--sh2);transform:translateX(105%);transition:transform .35s cubic-bezier(.16,1,.3,1);display:flex;flex-direction:column}
+.sheet.on{transform:none}
+.sheet header{display:flex;align-items:center;gap:10px;padding:16px 18px;border-bottom:1px solid var(--line)}
+.sheet header h2{margin:0;font-size:18px;flex:1}
+.sheet .x{width:40px;height:40px;border-radius:10px;border:1px solid var(--line2);background:transparent;font-size:18px}
+.sheet .bd{padding:16px 18px;overflow:auto;flex:1}
+.sheet footer{display:flex;gap:8px;padding:14px 18px;border-top:1px solid var(--line)}
+.fl{display:block;font-size:12.5px;color:var(--mut);font-weight:600;margin:14px 0 5px}
+.fl:first-child{margin-top:0}
+.fl small{font-weight:500;color:var(--mut2)}
+.in{width:100%;min-height:44px;padding:9px 12px;border-radius:10px;border:1px solid var(--line2);background:#fbfbf9;font-weight:500}
+.in:focus{background:#fff;border-color:var(--acc);outline:none;box-shadow:0 0 0 3px var(--acc-soft)}
+.linkbox{display:flex;gap:6px;margin-top:6px}
+.linkbox input{flex:1;font-size:13px}
+.ok-box{background:var(--ok-soft);border-radius:12px;padding:14px;margin-bottom:12px;color:#14532d}
+.ok-box b{display:block;font-size:16px;margin-bottom:2px}
+.note{font-size:12.5px;color:var(--mut);margin-top:8px}
+.danger-zone{margin-top:22px;padding-top:14px;border-top:1px dashed var(--line2)}
+
+/* llave */
+.gate{max-width:440px;margin:12vh auto 0;padding:28px}
+.gate h1{margin:0 0 6px;font:400 38px/1.05 var(--serif)}
+.gate p{color:var(--mut);margin:0 0 16px}
+.gate .err{color:var(--bad);font-size:13.5px;min-height:20px;margin-top:8px}
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(20px);background:#0d0d0d;color:#fff;padding:11px 16px;border-radius:12px;font-weight:600;font-size:14px;opacity:0;transition:all .3s;z-index:80;pointer-events:none;max-width:90vw}
+.toast.on{opacity:1;transform:translateX(-50%)}
+
+@media (max-width:1000px){.steps{grid-template-columns:1fr 1fr}}
+@media (max-width:640px){
+  .top{padding:0 12px;gap:8px}.brand small,.stat span{display:none}
+  .wrap{padding:18px 12px 60px}.search{min-width:0;width:100%}
+  .grid{grid-template-columns:1fr}.steps{grid-template-columns:1fr}
+  .tbtn.k{display:none}
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="brand"><span class="mk">L</span>Panel de Larry <small>· Artist OS</small></div>
+  <div class="sp"></div>
+  <div class="stat" id="stat"><i></i><span>Conectado</span></div>
+  <button class="tbtn k" id="bSalir" title="Sacar la llave de este navegador" hidden>Salir</button>
+  <button class="tbtn pri" id="bNuevo" hidden>＋ Nuevo artista</button>
+</header>
+
+<main class="wrap" id="app"></main>
+<div class="scrim" id="scrim"></div>
+<aside class="sheet" id="sheet" role="dialog" aria-modal="true"></aside>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+(function () {
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz2cB4X2HBLzrGztUKyjp5yrcAblvN2K0I8_36XjRLgE4F60WCrgR9cX3k_IuN22N72UA/exec';
+  const DEMO = /[?&]demo=1/.test(location.search);
+  const $ = s => document.querySelector(s);
+  const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const MESES = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+  let KEY = ''; try { KEY = localStorage.getItem('aos:admin') || ''; } catch (e) {}
+  let C = [], filtro = 'todos', q = '';
+
+  /* ── servidor ── */
+  async function api(body) {
+    if (DEMO) return demoApi(body);
+    const r = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(Object.assign({ admin: KEY }, body)) });
+    const j = await r.json(); if (!j || j.ok === false) throw new Error((j && j.error) || 'No se pudo');
+    return j;
+  }
+  const stat = (t, c) => { const s = $('#stat'); s.className = 'stat ' + (c || ''); s.querySelector('span').textContent = t; };
+  const toast = t => { const el = $('#toast'); el.textContent = t; el.classList.add('on'); clearTimeout(toast.t); toast.t = setTimeout(() => el.classList.remove('on'), 2400); };
+
+  /* ── textos ── */
+  const fecha = s => { if (!s) return ''; const d = new Date(s); return d.getDate() + ' ' + MESES[d.getMonth()]; };
+  function hace(s) { if (!s) return 'Todavía no entró'; const m = (Date.now() - new Date(s)) / 60000; if (m < 60) return 'Entró hace ' + Math.max(1, Math.round(m)) + ' min'; if (m < 1440) return 'Entró hace ' + Math.round(m / 60) + ' h'; const d = Math.round(m / 1440); return 'Entró hace ' + d + ' día' + (d === 1 ? '' : 's'); }
+  function etapa(c) { if (!c.activo) return ['off', 'Sin acceso']; return c.parte2 ? ['p2', 'Parte 2 · Lanzamiento'] : ['', 'Parte 1 · Marca']; }
+  function sigue(c) {
+    if (!c.activo) return 'No puede entrar. Si renueva, activá <b>Acceso</b>.';
+    if (!c.accesos) return 'Todavía no abrió su link. <b>Mandáselo por WhatsApp.</b>';
+    if (!c.manual && !c.parte2) return 'Está con el <b>Manual de Marca</b>. Cuando lo envíe, se le habilita la llamada solo.';
+    if (!c.parte2) return 'Manual listo: puede agendar la llamada. Cuando la canción esté lista, activá <b>Parte 2</b>.';
+    if (c.sello) return 'Tiene todo abierto. Cargale <b>Estrategia</b> y cada mes <b>Multicuentas</b>.';
+    return 'Tiene el lanzamiento abierto. Si compra el pack, activá <b>Pack SELLO</b>.';
+  }
+  const bienvenida = link => 'Hola! Acá tenés tu espacio de artista 🚀\nArrancá por el video de bienvenida y el Manual de Marca. Cuando tu canción esté lista te habilito la Parte 2 con el plan de lanzamiento.\nTip: abrilo en el celu y tocá "Agregar a pantalla de inicio" para tenerlo como app.\n\n' + link;
+  const waUrl = c => 'https://wa.me/?text=' + encodeURIComponent(bienvenida(c.link));
+
+  /* ── pantallas ── */
+  function gate(err) {
+    $('#bNuevo').hidden = true; $('#bSalir').hidden = true; stat('Sin llave', 'err');
+    $('#app').innerHTML = '<div class="card gate"><h1>Panel de Larry</h1><p>Pegá tu llave de Larry. Se guarda en este navegador y no te la vuelvo a pedir.</p>'
+      + '<input class="in" id="kIn" type="password" autocomplete="off" placeholder="larry-…" aria-label="Llave de Larry"><button class="btn" id="kOk" style="margin-top:10px;width:100%;justify-content:center;min-height:46px">Entrar</button>'
+      + '<div class="err" id="kErr">' + esc(err || '') + '</div><p class="note">La llave está en <b>ESTRATEGIA LANZAMIENTO\\portal\\LLAVE-LARRY.txt</b> en tu compu.</p></div>';
+    const go = () => { const k = $('#kIn').value.trim(); if (!k) return; KEY = k; try { localStorage.setItem('aos:admin', k); } catch (e) {} cargar(); };
+    $('#kOk').onclick = go; $('#kIn').addEventListener('keydown', e => { if (e.key === 'Enter') go(); }); $('#kIn').focus();
+  }
+  async function cargar() {
+    $('#app').innerHTML = '<div class="empty">Cargando tus artistas…</div>'; stat('Cargando…', 'busy');
+    try { const j = await api({ action: 'panel_list' }); C = j.clientes || []; $('#bNuevo').hidden = false; $('#bSalir').hidden = DEMO; stat(DEMO ? 'Ejemplo' : 'Conectado'); render(); }
+    catch (e) { if (/llave/i.test(e.message)) { try { localStorage.removeItem('aos:admin'); } catch (x) {} KEY = ''; gate('Esa llave no es la correcta.'); } else { stat('Sin conexión', 'err'); $('#app').innerHTML = '<div class="empty">No pude conectar con la planilla: ' + esc(e.message) + '<br><br><button class="btn" onclick="location.reload()">Reintentar</button></div>'; } }
+  }
+  function lista() {
+    const t = q.toLowerCase();
+    return C.filter(c => (!t || (c.nombre + ' ' + c.email).toLowerCase().includes(t))
+      && (filtro === 'todos' || (filtro === 'p1' && c.activo && !c.parte2) || (filtro === 'p2' && c.activo && c.parte2) || (filtro === 'sello' && c.sello) || (filtro === 'off' && !c.activo)))
+      .sort((a, b) => (b.activo - a.activo) || ((b.inicio || '') > (a.inicio || '') ? 1 : -1));
+  }
+  function render() {
+    const n = { todos: C.length, p1: C.filter(c => c.activo && !c.parte2).length, p2: C.filter(c => c.activo && c.parte2).length, sello: C.filter(c => c.sello).length, off: C.filter(c => !c.activo).length };
+    const F = [['todos', 'Todos'], ['p1', 'Parte 1'], ['p2', 'Parte 2'], ['sello', 'Pack SELLO'], ['off', 'Sin acceso']];
+    const L = lista();
+    $('#app').innerHTML = '<section class="hero"><div><h1>Tus artistas, <em>en un lugar.</em></h1><p>Creá un artista, mandale su link y abrile cada parte cuando corresponda. Todo se guarda en tu planilla.</p></div>'
+      + '<label class="search"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="q" placeholder="Buscar artista o mail" value="' + esc(q) + '" aria-label="Buscar"></label></section>'
+      + '<nav class="filters">' + F.map(f => '<button data-f="' + f[0] + '" class="' + (filtro === f[0] ? 'on' : '') + '">' + f[1] + ' <b>' + n[f[0]] + '</b></button>').join('') + '</nav>'
+      + (L.length ? '<section class="grid">' + L.map(card).join('') + '</section>'
+        : '<div class="card empty">' + (C.length ? 'No hay artistas con ese filtro.' : 'Todavía no hay artistas. Tocá <b>＋ Nuevo artista</b> para crear el primero.') + '</div>')
+      + '<section class="card help"><h2>Cómo es el recorrido de un artista</h2><div class="steps">'
+      + '<div><b>1</b><h4>Lo creás</h4><p>«＋ Nuevo artista» con su nombre y su mail. Te da su link.</p></div>'
+      + '<div><b>2</b><h4>Le mandás el link</h4><p>Botón WhatsApp: el mensaje ya va armado. Es el único link que necesita.</p></div>'
+      + '<div><b>3</b><h4>Parte 1 · Marca</h4><p>Hace el Manual de Marca. Al enviarlo se le habilita la llamada (o marcá «Manual listo»).</p></div>'
+      + '<div><b>4</b><h4>Parte 2 · Lanzamiento</h4><p>Cuando la canción esté lista, activá «Parte 2».</p></div>'
+      + '<div><b>5</b><h4>Pack SELLO</h4><p>Si lo compra, activá «Pack SELLO» y cargale Estrategia y Multicuentas desde su portal.</p></div>'
+      + '</div></section>';
+    const qi = $('#q'); qi.oninput = () => { q = qi.value; const pos = qi.selectionStart; render(); const n2 = $('#q'); n2.focus(); n2.setSelectionRange(pos, pos); };
+  }
+  function sw(c, campo, lab, sub, cls) {
+    return '<button class="sw ' + (c[campo] ? 'on ' : '') + (cls || '') + '" data-sw="' + campo + '" data-t="' + esc(c.token) + '" aria-pressed="' + !!c[campo] + '"><span>' + lab + '<small>' + sub + '</small></span><i></i></button>';
+  }
+  function card(c) {
+    const e = etapa(c);
+    return '<article class="card cl' + (c.activo ? '' : ' off') + (c.sello ? ' sello' : '') + '" data-c="' + esc(c.token) + '">'
+      + '<div class="hd"><span class="av">' + esc((c.nombre || '?').charAt(0).toUpperCase()) + '</span><div style="min-width:0"><h3>' + esc(c.nombre) + '</h3>'
+      + '<div class="meta">' + (c.email ? esc(c.email) + ' · ' : '') + (c.inicio ? 'desde el ' + fecha(c.inicio) + ' · ' : '') + hace(c.ultimo) + (c.accesos ? ' · ' + c.accesos + ' visitas' : '') + '</div>'
+      + '<span class="stage ' + e[0] + '">' + e[1] + (c.sello ? ' · 💎 SELLO' : '') + '</span></div></div>'
+      + '<div class="next">' + sigue(c) + '</div>'
+      + '<div class="tg">' + sw(c, 'manual', 'Manual listo', 'habilita la llamada') + sw(c, 'parte2', 'Parte 2', 'lanzamiento', 'blue') + sw(c, 'sello', 'Pack SELLO', 'profesionalización', 'gold') + sw(c, 'activo', 'Acceso', c.activo ? 'puede entrar' : 'bloqueado') + '</div>'
+      + '<div class="acts"><button class="btn ghost" data-copy="' + esc(c.token) + '">Copiar link</button><a class="btn wa" href="' + waUrl(c) + '" target="_blank" rel="noopener">WhatsApp</a>'
+      + '<a class="btn ghost" href="' + esc(c.link) + '" target="_blank" rel="noopener">Ver su portal ↗</a>' + (c.carpeta ? '<a class="btn ghost" href="' + esc(c.carpeta) + '" target="_blank" rel="noopener">Drive ↗</a>' : '')
+      + '<button class="btn ghost" data-edit="' + esc(c.token) + '">Editar</button></div></article>';
+  }
+
+  /* ── hoja: nuevo / editar ── */
+  function abrirSheet(html) { $('#sheet').innerHTML = html; $('#scrim').classList.add('on'); $('#sheet').classList.add('on'); setTimeout(() => { const f = $('#sheet input'); if (f) f.focus(); }, 320); }
+  function cerrarSheet() { $('#scrim').classList.remove('on'); $('#sheet').classList.remove('on'); }
+  function nuevo() {
+    abrirSheet('<header><h2>Nuevo artista</h2><button class="x" data-close aria-label="Cerrar">✕</button></header><div class="bd">'
+      + '<label class="fl" for="nN">Nombre del artista</label><input class="in" id="nN" placeholder="Ej.: Lía Mar">'
+      + '<label class="fl" for="nE">Mail <small>· con este mail el portal encuentra la llamada que reserve en zcal</small></label><input class="in" id="nE" type="email" placeholder="artista@gmail.com">'
+      + '<label class="fl" for="nD">Carpeta de Drive <small>· opcional</small></label><input class="in" id="nD" placeholder="https://drive.google.com/…">'
+      + '<div style="margin-top:14px">' + '<button class="sw" id="nS" type="button"><span>Pack SELLO<small>si ya lo compró</small></span><i></i></button></div>'
+      + '<p class="note">Arranca en la Parte 1 (marca). La Parte 2 la activás vos cuando la canción esté lista.</p>'
+      + '</div><footer><span class="sp"></span><button class="btn ghost" data-close>Cancelar</button><button class="btn" id="nOk">Crear artista</button></footer>');
+    $('#nS').onclick = () => $('#nS').classList.toggle('on');
+    $('#nOk').onclick = async () => {
+      const nombre = $('#nN').value.trim(); if (!nombre) { $('#nN').focus(); $('#nN').style.borderColor = 'var(--bad)'; return; }
+      $('#nOk').disabled = true; $('#nOk').textContent = 'Creando…'; stat('Guardando…', 'busy');
+      try {
+        const j = await api({ action: 'panel_new', nombre, email: $('#nE').value.trim(), carpeta: $('#nD').value.trim(), sello: $('#nS').classList.contains('on') });
+        C.push(j.cliente); stat('Guardado ✓'); render(); listo(j.cliente);
+      } catch (e) { stat('Error', 'err'); $('#nOk').disabled = false; $('#nOk').textContent = 'Crear artista'; alert('No se pudo crear: ' + e.message); }
+    };
+  }
+  function listo(c) {
+    abrirSheet('<header><h2>¡Listo!</h2><button class="x" data-close aria-label="Cerrar">✕</button></header><div class="bd">'
+      + '<div class="ok-box"><b>' + esc(c.nombre) + ' ya tiene su espacio.</b>Ahora mandale su link.</div>'
+      + '<label class="fl">Su link</label><div class="linkbox"><input class="in" readonly value="' + esc(c.link) + '" onclick="this.select()"><button class="btn ghost" data-copy="' + esc(c.token) + '">Copiar</button></div>'
+      + '<a class="btn wa" style="margin-top:12px;width:100%;justify-content:center;min-height:48px" href="' + waUrl(c) + '" target="_blank" rel="noopener">Mandar por WhatsApp</a>'
+      + '<p class="note">El mensaje ya va armado con la bienvenida. Elegís el contacto en WhatsApp.</p></div>');
+  }
+  function editar(c) {
+    abrirSheet('<header><h2>Editar artista</h2><button class="x" data-close aria-label="Cerrar">✕</button></header><div class="bd">'
+      + '<label class="fl" for="eN">Nombre</label><input class="in" id="eN" value="' + esc(c.nombre) + '">'
+      + '<label class="fl" for="eE">Mail</label><input class="in" id="eE" type="email" value="' + esc(c.email) + '">'
+      + '<label class="fl" for="eD">Carpeta de Drive</label><input class="in" id="eD" value="' + esc(c.carpeta) + '">'
+      + '<label class="fl">Su link</label><div class="linkbox"><input class="in" readonly value="' + esc(c.link) + '" onclick="this.select()"><button class="btn ghost" data-copy="' + esc(c.token) + '">Copiar</button></div>'
+      + '<div class="danger-zone"><label class="fl">¿Compartió su link con otra gente?</label><button class="btn danger" id="eR">Cambiar su link</button><p class="note">Le genero uno nuevo y el viejo deja de funcionar. Después mandale el nuevo.</p></div>'
+      + '</div><footer><span class="sp"></span><button class="btn ghost" data-close>Cancelar</button><button class="btn" id="eOk">Guardar</button></footer>');
+    $('#eOk').onclick = async () => {
+      const cambios = [['nombre', $('#eN').value.trim()], ['email', $('#eE').value.trim()], ['carpeta', $('#eD').value.trim()]].filter(x => x[1] !== (c[x[0]] || ''));
+      if (!cambios.length) return cerrarSheet();
+      $('#eOk').disabled = true; stat('Guardando…', 'busy');
+      try { let r = c; for (const [campo, valor] of cambios) r = (await api({ action: 'panel_set', token: c.token, campo, valor })).cliente; Object.assign(c, r); stat('Guardado ✓'); cerrarSheet(); render(); toast('Datos guardados'); }
+      catch (e) { stat('Error', 'err'); $('#eOk').disabled = false; alert('No se pudo guardar: ' + e.message); }
+    };
+    $('#eR').onclick = async () => {
+      if (!confirm('¿Cambiar el link de ' + c.nombre + '? El link viejo deja de funcionar.')) return;
+      stat('Guardando…', 'busy');
+      try { const j = await api({ action: 'panel_relink', token: c.token }); Object.assign(c, j.cliente); stat('Guardado ✓'); render(); editar(c); toast('Link nuevo listo: mandáselo'); }
+      catch (e) { stat('Error', 'err'); alert('No se pudo: ' + e.message); }
+    };
+  }
+
+  /* ── eventos ── */
+  document.addEventListener('click', async e => {
+    const f = e.target.closest('[data-f]'); if (f) { filtro = f.dataset.f; render(); return; }
+    if (e.target.closest('[data-close]') || e.target.id === 'scrim') return cerrarSheet();
+    const cp = e.target.closest('[data-copy]'); if (cp) {
+      const c = C.find(x => x.token === cp.dataset.copy); if (!c) return;
+      try { await navigator.clipboard.writeText(c.link); } catch (er) { prompt('Copiá el link:', c.link); }
+      const t = cp.textContent; cp.textContent = 'Copiado ✓'; cp.classList.add('done'); setTimeout(() => { cp.textContent = t; cp.classList.remove('done'); }, 1500); return;
+    }
+    const ed = e.target.closest('[data-edit]'); if (ed) return editar(C.find(x => x.token === ed.dataset.edit));
+    const s = e.target.closest('[data-sw]'); if (s) {
+      const c = C.find(x => x.token === s.dataset.t), campo = s.dataset.sw, valor = !c[campo];
+      if (campo === 'activo' && !valor && !confirm('¿Quitarle el acceso a ' + c.nombre + '? No va a poder entrar hasta que lo actives de nuevo.')) return;
+      s.classList.add('saving'); stat('Guardando…', 'busy');
+      try { const j = await api({ action: 'panel_set', token: c.token, campo, valor }); Object.assign(c, j.cliente); stat('Guardado ✓'); render();
+        toast({ manual: valor ? 'Llamada habilitada' : 'Manual desmarcado', parte2: valor ? 'Parte 2 abierta para ' + c.nombre : 'Parte 2 cerrada', sello: valor ? 'Pack SELLO activado' : 'Pack SELLO desactivado', activo: valor ? 'Acceso activado' : 'Acceso quitado' }[campo]); }
+      catch (er) { s.classList.remove('saving'); stat('Error', 'err'); alert('No se pudo guardar: ' + er.message); }
+    }
+  });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') cerrarSheet(); });
+  $('#bNuevo').onclick = nuevo;
+  $('#bSalir').onclick = () => { if (!confirm('¿Sacar la llave de este navegador?')) return; try { localStorage.removeItem('aos:admin'); } catch (er) {} KEY = ''; gate(); };
+
+  /* ── ejemplo (?demo=1) ── */
+  function demoApi(b) {
+    const W = window.__demo || (window.__demo = [
+      { nombre: 'Lía Mar', token: 'demo1', link: 'https://larryprog.github.io/estrategia/?demo=2', inicio: new Date(Date.now() - 40 * 864e5).toISOString(), activo: true, parte2: true, manual: true, sello: true, email: 'liamar@gmail.com', carpeta: 'https://drive.google.com/', ultimo: new Date(Date.now() - 3 * 36e5).toISOString(), accesos: 42 },
+      { nombre: 'Santy Ríos', token: 'demo2', link: 'https://larryprog.github.io/estrategia/?demo=1', inicio: new Date(Date.now() - 9 * 864e5).toISOString(), activo: true, parte2: false, manual: true, sello: false, email: 'santy@gmail.com', carpeta: '', ultimo: new Date(Date.now() - 2 * 864e5).toISOString(), accesos: 7 },
+      { nombre: 'Coral', token: 'demo3', link: 'https://larryprog.github.io/estrategia/?demo=1', inicio: new Date(Date.now() - 1 * 864e5).toISOString(), activo: true, parte2: false, manual: false, sello: false, email: '', carpeta: '', ultimo: '', accesos: 0 },
+      { nombre: 'Tato', token: 'demo4', link: 'https://larryprog.github.io/estrategia/?demo=1', inicio: new Date(Date.now() - 120 * 864e5).toISOString(), activo: false, parte2: true, manual: true, sello: false, email: 'tato@gmail.com', carpeta: '', ultimo: new Date(Date.now() - 60 * 864e5).toISOString(), accesos: 31 }]);
+    return new Promise(res => setTimeout(() => {
+      if (b.action === 'panel_list') return res({ ok: true, clientes: W.map(x => Object.assign({}, x)) });
+      if (b.action === 'panel_new') { const c = { nombre: b.nombre, token: 'demo' + Date.now(), link: 'https://larryprog.github.io/estrategia/?demo=1', inicio: new Date().toISOString(), activo: true, parte2: false, manual: false, sello: !!b.sello, email: b.email, carpeta: b.carpeta, ultimo: '', accesos: 0 }; W.push(c); return res({ ok: true, cliente: Object.assign({}, c) }); }
+      const c = W.find(x => x.token === b.token);
+      if (b.action === 'panel_set') c[b.campo] = b.valor; if (b.action === 'panel_relink') c.token = 'demo' + Date.now();
+      res({ ok: true, cliente: Object.assign({}, c) });
+    }, 250));
+  }
+
+  if (DEMO || KEY) cargar(); else gate();
+})();
+</script>
+</body>
+</html>

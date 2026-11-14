@@ -77,6 +77,8 @@ button{cursor:pointer}
 .btn{min-height:40px;padding:0 13px;border-radius:10px;border:1px solid var(--ink);background:var(--ink);color:#fff;font-weight:600;font-size:13.5px;display:inline-flex;align-items:center;gap:6px;text-decoration:none;white-space:nowrap}
 .btn.ghost{background:transparent;color:var(--ink);border-color:var(--line2)}
 .btn.wa{background:#1fa855;border-color:#1fa855}
+.btn.sky{background:#5ec8f2;border-color:#5ec8f2;color:#062a3a}
+.btn.sky:hover{background:#3fb8e8;border-color:#3fb8e8}
 .btn.done{background:var(--ok);border-color:var(--ok);color:#fff}
 .btn.danger{background:transparent;color:var(--bad);border-color:#f1c7c2}
 .empty{padding:40px 20px;text-align:center;color:var(--mut)}
@@ -168,6 +170,7 @@ button{cursor:pointer}
   function hace(s) { if (!s) return 'Todavía no entró'; const m = (Date.now() - new Date(s)) / 60000; if (m < 60) return 'Entró hace ' + Math.max(1, Math.round(m)) + ' min'; if (m < 1440) return 'Entró hace ' + Math.round(m / 60) + ' h'; const d = Math.round(m / 1440); return 'Entró hace ' + d + ' día' + (d === 1 ? '' : 's'); }
   function etapa(c) { if (!c.activo) return ['off', 'Sin acceso']; return c.parte2 ? ['p2', 'Parte 2 · Lanzamiento'] : ['', 'Parte 1 · Marca']; }
   function sigue(c) {
+    if (c.activo && !c.carpeta) return '<b>Falta su carpeta de Drive.</b> Tocá «Editar» y pegala: así la ve en su portal.';
     if (!c.activo) return 'No puede entrar. Si renueva, activá <b>Acceso</b>.';
     if (!c.accesos) return 'Todavía no abrió su link. <b>Mandáselo por WhatsApp.</b>';
     if (!c.manual && !c.parte2) return 'Está con el <b>Manual de Marca</b>. Cuando lo envíe, se le habilita la llamada solo.';
@@ -175,8 +178,11 @@ button{cursor:pointer}
     if (c.sello) return 'Tiene todo abierto. Cargale <b>Estrategia</b> y cada mes <b>Multicuentas</b>.';
     return 'Tiene el lanzamiento abierto. Si compra el pack, activá <b>Pack SELLO</b>.';
   }
+  const driveOk = u => String(u || '').trim().indexOf('https://drive.google.com/') === 0 || String(u || '').trim().indexOf('https://docs.google.com/') === 0;
   const bienvenida = link => 'Hola! Acá tenés tu espacio de artista 🚀\nArrancá por el video de bienvenida y el Manual de Marca. Cuando tu canción esté lista te habilito la Parte 2 con el plan de lanzamiento.\nTip: abrilo en el celu y tocá "Agregar a pantalla de inicio" para tenerlo como app.\n\n' + link;
-  const waUrl = c => 'https://wa.me/?text=' + encodeURIComponent(bienvenida(c.link));
+  // con teléfono, el WhatsApp va directo a su chat; sin teléfono, elegís el contacto
+const telNum = c => { const d = String(c.telefono || '').replace(/[^0-9]/g, ''); return d.length >= 8 ? d : ''; };
+  const waUrl = c => 'https://wa.me/' + telNum(c) + '?text=' + encodeURIComponent(bienvenida(c.link));
 
   /* ── pantallas ── */
   function gate(err) {
@@ -194,7 +200,7 @@ button{cursor:pointer}
   }
   function lista() {
     const t = q.toLowerCase();
-    return C.filter(c => (!t || (c.nombre + ' ' + c.email).toLowerCase().includes(t))
+    return C.filter(c => (!t || (c.nombre + ' ' + c.email + ' ' + (c.telefono || '')).toLowerCase().includes(t))
       && (filtro === 'todos' || (filtro === 'p1' && c.activo && !c.parte2) || (filtro === 'p2' && c.activo && c.parte2) || (filtro === 'sello' && c.sello) || (filtro === 'off' && !c.activo)))
       .sort((a, b) => (b.activo - a.activo) || ((b.inicio || '') > (a.inicio || '') ? 1 : -1));
   }
@@ -203,7 +209,7 @@ button{cursor:pointer}
     const F = [['todos', 'Todos'], ['p1', 'Parte 1'], ['p2', 'Parte 2'], ['sello', 'Pack SELLO'], ['off', 'Sin acceso']];
     const L = lista();
     $('#app').innerHTML = '<section class="hero"><div><h1>Tus artistas, <em>en un lugar.</em></h1><p>Creá un artista, mandale su link y abrile cada parte cuando corresponda. Todo se guarda en tu planilla.</p></div>'
-      + '<label class="search"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="q" placeholder="Buscar artista o mail" value="' + esc(q) + '" aria-label="Buscar"></label></section>'
+      + '<label class="search"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="q" placeholder="Buscar artista, mail o teléfono" value="' + esc(q) + '" aria-label="Buscar"></label></section>'
       + '<nav class="filters">' + F.map(f => '<button data-f="' + f[0] + '" class="' + (filtro === f[0] ? 'on' : '') + '">' + f[1] + ' <b>' + n[f[0]] + '</b></button>').join('') + '</nav>'
       + (L.length ? '<section class="grid">' + L.map(card).join('') + '</section>'
         : '<div class="card empty">' + (C.length ? 'No hay artistas con ese filtro.' : 'Todavía no hay artistas. Tocá <b>＋ Nuevo artista</b> para crear el primero.') + '</div>')
@@ -223,11 +229,11 @@ button{cursor:pointer}
     const e = etapa(c);
     return '<article class="card cl' + (c.activo ? '' : ' off') + (c.sello ? ' sello' : '') + '" data-c="' + esc(c.token) + '">'
       + '<div class="hd"><span class="av">' + esc((c.nombre || '?').charAt(0).toUpperCase()) + '</span><div style="min-width:0"><h3>' + esc(c.nombre) + '</h3>'
-      + '<div class="meta">' + (c.email ? esc(c.email) + ' · ' : '') + (c.inicio ? 'desde el ' + fecha(c.inicio) + ' · ' : '') + hace(c.ultimo) + (c.accesos ? ' · ' + c.accesos + ' visitas' : '') + '</div>'
+      + '<div class="meta">' + (c.telefono ? esc(c.telefono) + ' · ' : '') + (c.email ? esc(c.email) + ' · ' : '') + (c.inicio ? 'desde el ' + fecha(c.inicio) + ' · ' : '') + hace(c.ultimo) + (c.accesos ? ' · ' + c.accesos + ' visitas' : '') + '</div>'
       + '<span class="stage ' + e[0] + '">' + e[1] + (c.sello ? ' · 💎 SELLO' : '') + '</span></div></div>'
       + '<div class="next">' + sigue(c) + '</div>'
       + '<div class="tg">' + sw(c, 'manual', 'Manual listo', 'habilita la llamada') + sw(c, 'parte2', 'Parte 2', 'lanzamiento', 'blue') + sw(c, 'sello', 'Pack SELLO', 'profesionalización', 'gold') + sw(c, 'activo', 'Acceso', c.activo ? 'puede entrar' : 'bloqueado') + '</div>'
-      + '<div class="acts"><button class="btn ghost" data-copy="' + esc(c.token) + '">Copiar link</button><a class="btn wa" href="' + waUrl(c) + '" target="_blank" rel="noopener">WhatsApp</a>'
+      + '<div class="acts"><button class="btn sky" data-copy="' + esc(c.token) + '">Copiar link</button><a class="btn wa" href="' + waUrl(c) + '" target="_blank" rel="noopener">WhatsApp</a>'
       + '<a class="btn ghost" href="' + esc(c.link) + '" target="_blank" rel="noopener">Ver su portal ↗</a>' + (c.carpeta ? '<a class="btn ghost" href="' + esc(c.carpeta) + '" target="_blank" rel="noopener">Drive ↗</a>' : '')
       + '<button class="btn ghost" data-edit="' + esc(c.token) + '">Editar</button></div></article>';
   }
@@ -239,16 +245,18 @@ button{cursor:pointer}
     abrirSheet('<header><h2>Nuevo artista</h2><button class="x" data-close aria-label="Cerrar">✕</button></header><div class="bd">'
       + '<label class="fl" for="nN">Nombre del artista</label><input class="in" id="nN" placeholder="Ej.: Lía Mar">'
       + '<label class="fl" for="nE">Mail <small>· con este mail el portal encuentra la llamada que reserve en zcal</small></label><input class="in" id="nE" type="email" placeholder="artista@gmail.com">'
-      + '<label class="fl" for="nD">Carpeta de Drive <small>· opcional</small></label><input class="in" id="nD" placeholder="https://drive.google.com/…">'
+      + '<label class="fl" for="nT">Teléfono <small>· con código de país, ej. +34 600 000 000. Así el WhatsApp va directo a su chat</small></label><input class="in" id="nT" type="tel" inputmode="tel" placeholder="+34 600 000 000">'
+      + '<label class="fl" for="nD">Carpeta de Drive <small>· obligatoria: le aparece en su portal</small></label><input class="in" id="nD" placeholder="https://drive.google.com/…"><div class="note" id="nDerr" style="color:var(--bad)"></div>'
       + '<div style="margin-top:14px">' + '<button class="sw" id="nS" type="button"><span>Pack SELLO<small>si ya lo compró</small></span><i></i></button></div>'
       + '<p class="note">Arranca en la Parte 1 (marca). La Parte 2 la activás vos cuando la canción esté lista.</p>'
       + '</div><footer><span class="sp"></span><button class="btn ghost" data-close>Cancelar</button><button class="btn" id="nOk">Crear artista</button></footer>');
     $('#nS').onclick = () => $('#nS').classList.toggle('on');
     $('#nOk').onclick = async () => {
       const nombre = $('#nN').value.trim(); if (!nombre) { $('#nN').focus(); $('#nN').style.borderColor = 'var(--bad)'; return; }
+      if (!driveOk($('#nD').value)) { const d = $('#nD'); d.focus(); d.style.borderColor = 'var(--bad)'; $('#nDerr').textContent = 'Pegá el link de su carpeta de Drive (empieza con https://drive.google.com/).'; return; }
       $('#nOk').disabled = true; $('#nOk').textContent = 'Creando…'; stat('Guardando…', 'busy');
       try {
-        const j = await api({ action: 'panel_new', nombre, email: $('#nE').value.trim(), carpeta: $('#nD').value.trim(), sello: $('#nS').classList.contains('on') });
+        const j = await api({ action: 'panel_new', nombre, email: $('#nE').value.trim(), telefono: $('#nT').value.trim(), carpeta: $('#nD').value.trim(), sello: $('#nS').classList.contains('on') });
         C.push(j.cliente); stat('Guardado ✓'); render(); listo(j.cliente);
       } catch (e) { stat('Error', 'err'); $('#nOk').disabled = false; $('#nOk').textContent = 'Crear artista'; alert('No se pudo crear: ' + e.message); }
     };
@@ -256,20 +264,22 @@ button{cursor:pointer}
   function listo(c) {
     abrirSheet('<header><h2>¡Listo!</h2><button class="x" data-close aria-label="Cerrar">✕</button></header><div class="bd">'
       + '<div class="ok-box"><b>' + esc(c.nombre) + ' ya tiene su espacio.</b>Ahora mandale su link.</div>'
-      + '<label class="fl">Su link</label><div class="linkbox"><input class="in" readonly value="' + esc(c.link) + '" onclick="this.select()"><button class="btn ghost" data-copy="' + esc(c.token) + '">Copiar</button></div>'
+      + '<label class="fl">Su link</label><div class="linkbox"><input class="in" readonly value="' + esc(c.link) + '" onclick="this.select()"><button class="btn sky" data-copy="' + esc(c.token) + '">Copiar</button></div>'
       + '<a class="btn wa" style="margin-top:12px;width:100%;justify-content:center;min-height:48px" href="' + waUrl(c) + '" target="_blank" rel="noopener">Mandar por WhatsApp</a>'
-      + '<p class="note">El mensaje ya va armado con la bienvenida. Elegís el contacto en WhatsApp.</p></div>');
+      + '<p class="note">El mensaje ya va armado con la bienvenida.' + (telNum(c) ? ' Se abre directo en su chat.' : ' Elegís el contacto en WhatsApp.') + '</p></div>');
   }
   function editar(c) {
     abrirSheet('<header><h2>Editar artista</h2><button class="x" data-close aria-label="Cerrar">✕</button></header><div class="bd">'
       + '<label class="fl" for="eN">Nombre</label><input class="in" id="eN" value="' + esc(c.nombre) + '">'
       + '<label class="fl" for="eE">Mail</label><input class="in" id="eE" type="email" value="' + esc(c.email) + '">'
-      + '<label class="fl" for="eD">Carpeta de Drive</label><input class="in" id="eD" value="' + esc(c.carpeta) + '">'
-      + '<label class="fl">Su link</label><div class="linkbox"><input class="in" readonly value="' + esc(c.link) + '" onclick="this.select()"><button class="btn ghost" data-copy="' + esc(c.token) + '">Copiar</button></div>'
+      + '<label class="fl" for="eT">Teléfono <small>· con código de país</small></label><input class="in" id="eT" type="tel" inputmode="tel" value="' + esc(c.telefono) + '" placeholder="+34 600 000 000">'
+      + '<label class="fl" for="eD">Carpeta de Drive <small>· obligatoria</small></label><input class="in" id="eD" value="' + esc(c.carpeta) + '">'
+      + '<label class="fl">Su link</label><div class="linkbox"><input class="in" readonly value="' + esc(c.link) + '" onclick="this.select()"><button class="btn sky" data-copy="' + esc(c.token) + '">Copiar</button></div>'
       + '<div class="danger-zone"><label class="fl">¿Compartió su link con otra gente?</label><button class="btn danger" id="eR">Cambiar su link</button><p class="note">Le genero uno nuevo y el viejo deja de funcionar. Después mandale el nuevo.</p></div>'
       + '</div><footer><span class="sp"></span><button class="btn ghost" data-close>Cancelar</button><button class="btn" id="eOk">Guardar</button></footer>');
     $('#eOk').onclick = async () => {
-      const cambios = [['nombre', $('#eN').value.trim()], ['email', $('#eE').value.trim()], ['carpeta', $('#eD').value.trim()]].filter(x => x[1] !== (c[x[0]] || ''));
+      const cambios = [['nombre', $('#eN').value.trim()], ['email', $('#eE').value.trim()], ['telefono', $('#eT').value.trim()], ['carpeta', $('#eD').value.trim()]].filter(x => x[1] !== (c[x[0]] || ''));
+      if (!driveOk($('#eD').value)) { $('#eD').focus(); $('#eD').style.borderColor = 'var(--bad)'; alert('La carpeta de Drive es obligatoria: pegá el link de su carpeta.'); return; }
       if (!cambios.length) return cerrarSheet();
       $('#eOk').disabled = true; stat('Guardando…', 'busy');
       try { let r = c; for (const [campo, valor] of cambios) r = (await api({ action: 'panel_set', token: c.token, campo, valor })).cliente; Object.assign(c, r); stat('Guardado ✓'); cerrarSheet(); render(); toast('Datos guardados'); }
@@ -309,13 +319,13 @@ button{cursor:pointer}
   /* ── ejemplo (?demo=1) ── */
   function demoApi(b) {
     const W = window.__demo || (window.__demo = [
-      { nombre: 'Lía Mar', token: 'demo1', link: 'https://larryprog.github.io/estrategia/?demo=2', inicio: new Date(Date.now() - 40 * 864e5).toISOString(), activo: true, parte2: true, manual: true, sello: true, email: 'liamar@gmail.com', carpeta: 'https://drive.google.com/', ultimo: new Date(Date.now() - 3 * 36e5).toISOString(), accesos: 42 },
-      { nombre: 'Santy Ríos', token: 'demo2', link: 'https://larryprog.github.io/estrategia/?demo=1', inicio: new Date(Date.now() - 9 * 864e5).toISOString(), activo: true, parte2: false, manual: true, sello: false, email: 'santy@gmail.com', carpeta: '', ultimo: new Date(Date.now() - 2 * 864e5).toISOString(), accesos: 7 },
+      { nombre: 'Lía Mar', token: 'demo1', link: 'https://larryprog.github.io/estrategia/?demo=2', inicio: new Date(Date.now() - 40 * 864e5).toISOString(), activo: true, parte2: true, manual: true, sello: true, email: 'liamar@gmail.com', telefono: '+34 611 222 333', carpeta: 'https://drive.google.com/', ultimo: new Date(Date.now() - 3 * 36e5).toISOString(), accesos: 42 },
+      { nombre: 'Santy Ríos', token: 'demo2', link: 'https://larryprog.github.io/estrategia/?demo=1', inicio: new Date(Date.now() - 9 * 864e5).toISOString(), activo: true, parte2: false, manual: true, sello: false, email: 'santy@gmail.com', telefono: '+54 9 11 5555 4444', carpeta: '', ultimo: new Date(Date.now() - 2 * 864e5).toISOString(), accesos: 7 },
       { nombre: 'Coral', token: 'demo3', link: 'https://larryprog.github.io/estrategia/?demo=1', inicio: new Date(Date.now() - 1 * 864e5).toISOString(), activo: true, parte2: false, manual: false, sello: false, email: '', carpeta: '', ultimo: '', accesos: 0 },
       { nombre: 'Tato', token: 'demo4', link: 'https://larryprog.github.io/estrategia/?demo=1', inicio: new Date(Date.now() - 120 * 864e5).toISOString(), activo: false, parte2: true, manual: true, sello: false, email: 'tato@gmail.com', carpeta: '', ultimo: new Date(Date.now() - 60 * 864e5).toISOString(), accesos: 31 }]);
     return new Promise(res => setTimeout(() => {
       if (b.action === 'panel_list') return res({ ok: true, clientes: W.map(x => Object.assign({}, x)) });
-      if (b.action === 'panel_new') { const c = { nombre: b.nombre, token: 'demo' + Date.now(), link: 'https://larryprog.github.io/estrategia/?demo=1', inicio: new Date().toISOString(), activo: true, parte2: false, manual: false, sello: !!b.sello, email: b.email, carpeta: b.carpeta, ultimo: '', accesos: 0 }; W.push(c); return res({ ok: true, cliente: Object.assign({}, c) }); }
+      if (b.action === 'panel_new') { const c = { nombre: b.nombre, token: 'demo' + Date.now(), link: 'https://larryprog.github.io/estrategia/?demo=1', inicio: new Date().toISOString(), activo: true, parte2: false, manual: false, sello: !!b.sello, email: b.email, telefono: b.telefono, carpeta: b.carpeta, ultimo: '', accesos: 0 }; W.push(c); return res({ ok: true, cliente: Object.assign({}, c) }); }
       const c = W.find(x => x.token === b.token);
       if (b.action === 'panel_set') c[b.campo] = b.valor; if (b.action === 'panel_relink') c.token = 'demo' + Date.now();
       res({ ok: true, cliente: Object.assign({}, c) });

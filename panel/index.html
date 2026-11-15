@@ -275,7 +275,8 @@ const telNum = c => { const d = String(c.telefono || '').replace(/[^0-9]/g, '');
       + '<label class="fl" for="eT">Teléfono <small>· con código de país</small></label><input class="in" id="eT" type="tel" inputmode="tel" value="' + esc(c.telefono) + '" placeholder="+34 600 000 000">'
       + '<label class="fl" for="eD">Carpeta de Drive <small>· obligatoria</small></label><input class="in" id="eD" value="' + esc(c.carpeta) + '">'
       + '<label class="fl">Su link</label><div class="linkbox"><input class="in" readonly value="' + esc(c.link) + '" onclick="this.select()"><button class="btn sky" data-copy="' + esc(c.token) + '">Copiar</button></div>'
-      + '<div class="danger-zone"><label class="fl">¿Compartió su link con otra gente?</label><button class="btn danger" id="eR">Cambiar su link</button><p class="note">Le genero uno nuevo y el viejo deja de funcionar. Después mandale el nuevo.</p></div>'
+      + '<div class="danger-zone"><label class="fl">¿Compartió su link con otra gente?</label><button class="btn danger" id="eR">Cambiar su link</button><p class="note">Le genero uno nuevo y el viejo deja de funcionar. Después mandale el nuevo.</p>'
+      + '<label class="fl" style="margin-top:22px">Eliminar artista</label><button class="btn danger" id="eDel">Eliminar a ' + esc(c.nombre) + '</button><p class="note">Se borra de tu planilla y su link deja de funcionar. No se puede deshacer. Si solo querés que no entre, apagá <b>Acceso</b>.</p></div>'
       + '</div><footer><span class="sp"></span><button class="btn ghost" data-close>Cancelar</button><button class="btn" id="eOk">Guardar</button></footer>');
     $('#eOk').onclick = async () => {
       const cambios = [['nombre', $('#eN').value.trim()], ['email', $('#eE').value.trim()], ['telefono', $('#eT').value.trim()], ['carpeta', $('#eD').value.trim()]].filter(x => x[1] !== (c[x[0]] || ''));
@@ -284,6 +285,14 @@ const telNum = c => { const d = String(c.telefono || '').replace(/[^0-9]/g, '');
       $('#eOk').disabled = true; stat('Guardando…', 'busy');
       try { let r = c; for (const [campo, valor] of cambios) r = (await api({ action: 'panel_set', token: c.token, campo, valor })).cliente; Object.assign(c, r); stat('Guardado ✓'); cerrarSheet(); render(); toast('Datos guardados'); }
       catch (e) { stat('Error', 'err'); $('#eOk').disabled = false; alert('No se pudo guardar: ' + e.message); }
+    };
+    $('#eDel').onclick = async () => {
+      const escrito = prompt('Para eliminar a ' + c.nombre + ', escribí su nombre tal cual:');
+      if (escrito == null) return;
+      if (escrito.trim().toLowerCase() !== String(c.nombre).trim().toLowerCase()) { alert('El nombre no coincide. No se eliminó nada.'); return; }
+      stat('Guardando…', 'busy');
+      try { await api({ action: 'panel_delete', token: c.token }); C = C.filter(x => x.token !== c.token); stat('Guardado ✓'); cerrarSheet(); render(); toast(c.nombre + ' eliminado'); }
+      catch (e) { stat('Error', 'err'); alert('No se pudo eliminar: ' + e.message); }
     };
     $('#eR').onclick = async () => {
       if (!confirm('¿Cambiar el link de ' + c.nombre + '? El link viejo deja de funcionar.')) return;
@@ -327,6 +336,7 @@ const telNum = c => { const d = String(c.telefono || '').replace(/[^0-9]/g, '');
       if (b.action === 'panel_list') return res({ ok: true, clientes: W.map(x => Object.assign({}, x)) });
       if (b.action === 'panel_new') { const c = { nombre: b.nombre, token: 'demo' + Date.now(), link: 'https://larryprog.github.io/estrategia/?demo=1', inicio: new Date().toISOString(), activo: true, parte2: false, manual: false, sello: !!b.sello, email: b.email, telefono: b.telefono, carpeta: b.carpeta, ultimo: '', accesos: 0 }; W.push(c); return res({ ok: true, cliente: Object.assign({}, c) }); }
       const c = W.find(x => x.token === b.token);
+      if (b.action === 'panel_delete') { W.splice(W.indexOf(c), 1); return res({ ok: true, borrado: true }); }
       if (b.action === 'panel_set') c[b.campo] = b.valor; if (b.action === 'panel_relink') c.token = 'demo' + Date.now();
       res({ ok: true, cliente: Object.assign({}, c) });
     }, 250));

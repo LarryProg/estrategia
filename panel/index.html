@@ -58,6 +58,12 @@ button{cursor:pointer}
 .cl .hd{display:flex;gap:12px;align-items:flex-start}
 .av{flex:none;width:42px;height:42px;border-radius:12px;background:#0d0d0d;color:#fff;display:grid;place-items:center;font:italic 22px/1 var(--serif)}
 .cl.sello .av{background:linear-gradient(135deg,#d9b44a,#8a6a00)}
+.av{overflow:hidden;position:relative;border:0;padding:0;cursor:pointer}
+.av img{width:100%;height:100%;object-fit:cover;display:block}
+.av:hover::after{content:'📷';position:absolute;inset:0;display:grid;place-items:center;background:rgba(0,0,0,.45);font:normal 16px/1 system-ui}
+.av.busy{opacity:.5;pointer-events:none}
+.foto-row{display:flex;align-items:center;gap:14px}
+.foto-row .av{width:72px;height:72px;border-radius:18px;font-size:34px}
 .cl h3{margin:0;font-size:17px;letter-spacing:-.01em;line-height:1.25}
 .cl .meta{font-size:12.5px;color:var(--mut);margin-top:2px;overflow-wrap:anywhere}
 .stage{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:3px 9px;border-radius:99px;background:#f0f0ec;color:var(--ink2);margin-top:6px}
@@ -225,10 +231,46 @@ const telNum = c => { const d = String(c.telefono || '').replace(/[^0-9]/g, '');
   function sw(c, campo, lab, sub, cls) {
     return '<button class="sw ' + (c[campo] ? 'on ' : '') + (cls || '') + '" data-sw="' + campo + '" data-t="' + esc(c.token) + '" aria-pressed="' + !!c[campo] + '"><span>' + lab + '<small>' + sub + '</small></span><i></i></button>';
   }
+  // foto de perfil (o la inicial); tocarla abre el selector de foto
+  const avatar = c => '<button class="av" type="button" data-foto="' + esc(c.token) + '" title="' + (c.foto ? 'Cambiar foto' : 'Poner foto de perfil') + '" aria-label="Foto de ' + esc(c.nombre) + '">'
+    + (c.foto ? '<img src="' + esc(c.foto) + '" alt="" loading="lazy">' : esc((c.nombre || '?').charAt(0).toUpperCase())) + '</button>';
+  // recorta al centro en cuadrado de 400 px y la pasa a JPEG
+  function recortar(file) {
+    return new Promise((ok, mal) => {
+      const img = new Image(), url = URL.createObjectURL(file);
+      img.onload = () => {
+        const L = Math.min(img.naturalWidth, img.naturalHeight), T = 400, cv = document.createElement('canvas');
+        cv.width = cv.height = T;
+        cv.getContext('2d').drawImage(img, (img.naturalWidth - L) / 2, (img.naturalHeight - L) / 2, L, L, 0, 0, T, T);
+        URL.revokeObjectURL(url); ok(cv.toDataURL('image/jpeg', 0.86));
+      };
+      img.onerror = () => { URL.revokeObjectURL(url); mal(new Error('Esa imagen no se puede abrir')); };
+      img.src = url;
+    });
+  }
+  function elegirFoto(c, despues) {
+    const inp = document.createElement('input'); inp.type = 'file'; inp.accept = 'image/*';
+    inp.onchange = async () => {
+      const file = inp.files && inp.files[0]; if (!file) return;
+      document.querySelectorAll('[data-foto="' + c.token + '"]').forEach(b => b.classList.add('busy')); stat('Subiendo foto…', 'busy');
+      try {
+        const dataUrl = await recortar(file);
+        const j = await api({ action: 'panel_foto', token: c.token, b64: dataUrl.split(',')[1], demoUrl: DEMO ? dataUrl : undefined });
+        Object.assign(c, j.cliente); stat('Guardado ✓'); render(); if (despues) despues(); toast('Foto de ' + c.nombre + ' lista');
+      } catch (e) { stat('Error', 'err'); render(); alert('No se pudo subir la foto: ' + e.message); }
+    };
+    inp.click();
+  }
+  async function quitarFoto(c) {
+    if (!confirm('¿Quitar la foto de ' + c.nombre + '?')) return;
+    stat('Guardando…', 'busy');
+    try { const j = await api({ action: 'panel_foto', token: c.token, quitar: true }); Object.assign(c, j.cliente); stat('Guardado ✓'); render(); editar(c); }
+    catch (e) { stat('Error', 'err'); alert('No se pudo: ' + e.message); }
+  }
   function card(c) {
     const e = etapa(c);
     return '<article class="card cl' + (c.activo ? '' : ' off') + (c.sello ? ' sello' : '') + '" data-c="' + esc(c.token) + '">'
-      + '<div class="hd"><span class="av">' + esc((c.nombre || '?').charAt(0).toUpperCase()) + '</span><div style="min-width:0"><h3>' + esc(c.nombre) + '</h3>'
+      + '<div class="hd">' + avatar(c) + '<div style="min-width:0"><h3>' + esc(c.nombre) + '</h3>'
       + '<div class="meta">' + (c.telefono ? esc(c.telefono) + ' · ' : '') + (c.email ? esc(c.email) + ' · ' : '') + (c.inicio ? 'desde el ' + fecha(c.inicio) + ' · ' : '') + hace(c.ultimo) + (c.accesos ? ' · ' + c.accesos + ' visitas' : '') + '</div>'
       + '<span class="stage ' + e[0] + '">' + e[1] + (c.sello ? ' · 💎 SELLO' : '') + '</span></div></div>'
       + '<div class="next">' + sigue(c) + '</div>'
@@ -270,6 +312,8 @@ const telNum = c => { const d = String(c.telefono || '').replace(/[^0-9]/g, '');
   }
   function editar(c) {
     abrirSheet('<header><h2>Editar artista</h2><button class="x" data-close aria-label="Cerrar">✕</button></header><div class="bd">'
+      + '<label class="fl">Foto de perfil</label><div class="foto-row">' + avatar(c) + '<div><button class="btn ghost" type="button" id="eF">' + (c.foto ? 'Cambiar foto' : 'Subir foto') + '</button>'
+      + (c.foto ? ' <button class="btn ghost" type="button" id="eFq">Quitar</button>' : '') + '<p class="note" style="margin-top:6px">Se recorta en cuadrado y se guarda en su carpeta de archivos de Drive.</p></div></div>'
       + '<label class="fl" for="eN">Nombre</label><input class="in" id="eN" value="' + esc(c.nombre) + '">'
       + '<label class="fl" for="eE">Mail</label><input class="in" id="eE" type="email" value="' + esc(c.email) + '">'
       + '<label class="fl" for="eT">Teléfono <small>· con código de país</small></label><input class="in" id="eT" type="tel" inputmode="tel" value="' + esc(c.telefono) + '" placeholder="+34 600 000 000">'
@@ -286,6 +330,8 @@ const telNum = c => { const d = String(c.telefono || '').replace(/[^0-9]/g, '');
       try { let r = c; for (const [campo, valor] of cambios) r = (await api({ action: 'panel_set', token: c.token, campo, valor })).cliente; Object.assign(c, r); stat('Guardado ✓'); cerrarSheet(); render(); toast('Datos guardados'); }
       catch (e) { stat('Error', 'err'); $('#eOk').disabled = false; alert('No se pudo guardar: ' + e.message); }
     };
+    $('#eF').onclick = () => elegirFoto(c, () => editar(c));
+    if ($('#eFq')) $('#eFq').onclick = () => quitarFoto(c);
     $('#eDel').onclick = async () => {
       const escrito = prompt('Para eliminar a ' + c.nombre + ', escribí su nombre tal cual:');
       if (escrito == null) return;
@@ -312,6 +358,9 @@ const telNum = c => { const d = String(c.telefono || '').replace(/[^0-9]/g, '');
       const t = cp.textContent; cp.textContent = 'Copiado ✓'; cp.classList.add('done'); setTimeout(() => { cp.textContent = t; cp.classList.remove('done'); }, 1500); return;
     }
     const ed = e.target.closest('[data-edit]'); if (ed) return editar(C.find(x => x.token === ed.dataset.edit));
+    // la foto de la tarjeta (en la hoja de Editar la maneja su propio botón)
+    const fo = e.target.closest('[data-foto]'); if (fo && !fo.closest('#sheet')) { const c = C.find(x => x.token === fo.dataset.foto); if (c) elegirFoto(c); return; }
+    if (fo) { const c = C.find(x => x.token === fo.dataset.foto); if (c) elegirFoto(c, () => editar(c)); return; }
     const s = e.target.closest('[data-sw]'); if (s) {
       const c = C.find(x => x.token === s.dataset.t), campo = s.dataset.sw, valor = !c[campo];
       if (campo === 'activo' && !valor && !confirm('¿Quitarle el acceso a ' + c.nombre + '? No va a poder entrar hasta que lo actives de nuevo.')) return;
@@ -337,6 +386,7 @@ const telNum = c => { const d = String(c.telefono || '').replace(/[^0-9]/g, '');
       if (b.action === 'panel_new') { const c = { nombre: b.nombre, token: 'demo' + Date.now(), link: 'https://larryprog.github.io/estrategia/?demo=1', inicio: new Date().toISOString(), activo: true, parte2: false, manual: false, sello: !!b.sello, email: b.email, telefono: b.telefono, carpeta: b.carpeta, ultimo: '', accesos: 0 }; W.push(c); return res({ ok: true, cliente: Object.assign({}, c) }); }
       const c = W.find(x => x.token === b.token);
       if (b.action === 'panel_delete') { W.splice(W.indexOf(c), 1); return res({ ok: true, borrado: true }); }
+      if (b.action === 'panel_foto') c.foto = b.quitar ? '' : b.demoUrl;
       if (b.action === 'panel_set') c[b.campo] = b.valor; if (b.action === 'panel_relink') c.token = 'demo' + Date.now();
       res({ ok: true, cliente: Object.assign({}, c) });
     }, 250));

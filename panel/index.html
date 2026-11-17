@@ -5,7 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
 <title>Panel de Larry · Artist OS</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎛️</text></svg>">
+<link rel="icon" type="image/png" href="favicon-64.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#0d0d0d">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap">
@@ -185,10 +187,12 @@ button{cursor:pointer}
     return 'Tiene el lanzamiento abierto. Si compra el pack, activá <b>Pack SELLO</b>.';
   }
   const driveOk = u => String(u || '').trim().indexOf('https://drive.google.com/') === 0 || String(u || '').trim().indexOf('https://docs.google.com/') === 0;
-  const bienvenida = link => 'Hola! Acá tenés tu espacio de artista 🚀\nArrancá por el video de bienvenida y el Manual de Marca. Cuando tu canción esté lista te habilito la Parte 2 con el plan de lanzamiento.\nTip: abrilo en el celu y tocá "Agregar a pantalla de inicio" para tenerlo como app.\n\n' + link;
+  // saludo con su nombre artístico (si es «Nombre Apellido», solo el nombre)
+  const saludo = c => { const n = String(c.nombre || '').trim(); const p = n.split(/\s+/)[0] || ''; return n ? (n.split(/\s+/).length > 2 ? p : n) : ''; };
+  const bienvenida = c => 'Hola ' + saludo(c) + '! 👋\nAcá tenés tu Artist OS: tu espacio de artista, armado para vos 🚀\nArrancá por el video de bienvenida y el Manual de Marca. Cuando tu canción esté lista te habilito la Parte 2 con el plan de lanzamiento.\nTip: abrilo en el celu y tocá "Agregar a pantalla de inicio" para tenerlo como app.\n\nTu link, ' + saludo(c) + ':\n' + c.link;
   // con teléfono, el WhatsApp va directo a su chat; sin teléfono, elegís el contacto
 const telNum = c => { const d = String(c.telefono || '').replace(/[^0-9]/g, ''); return d.length >= 8 ? d : ''; };
-  const waUrl = c => 'https://wa.me/' + telNum(c) + '?text=' + encodeURIComponent(bienvenida(c.link));
+  const waUrl = c => 'https://wa.me/' + telNum(c) + '?text=' + encodeURIComponent(bienvenida(c));
 
   /* ── pantallas ── */
   function gate(err) {

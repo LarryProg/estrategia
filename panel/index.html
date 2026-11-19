@@ -189,7 +189,7 @@ button{cursor:pointer}
   const driveOk = u => String(u || '').trim().indexOf('https://drive.google.com/') === 0 || String(u || '').trim().indexOf('https://docs.google.com/') === 0;
   // saludo con su nombre artístico (si es «Nombre Apellido», solo el nombre)
   const saludo = c => { const n = String(c.nombre || '').trim(); const p = n.split(/\s+/)[0] || ''; return n ? (n.split(/\s+/).length > 2 ? p : n) : ''; };
-  const bienvenida = c => 'Hola ' + saludo(c) + '! 👋\nAcá tenés tu Artist OS: tu espacio de artista, armado para vos 🚀\nArrancá por el video de bienvenida y el Manual de Marca. Cuando tu canción esté lista te habilito la Parte 2 con el plan de lanzamiento.\nTip: abrilo en el celu y tocá "Agregar a pantalla de inicio" para tenerlo como app.\n\nTu link, ' + saludo(c) + ':\n' + c.link;
+  const bienvenida = c => 'Hola ' + saludo(c) + '! 👋\nAcá tenés tu Artist OS: tu espacio de artista, armado para vos 🚀\nArrancá por el video de bienvenida y el Manual de Marca. Cuando tu canción esté lista te habilito la Parte 2 con el plan de lanzamiento.\nTip: abrilo en el celu y tocá "Agregar a pantalla de inicio" para tenerlo como app.\n\nTu link, ' + saludo(c) + ':\n' + c.link + (driveOk(c.carpeta) ? '\n\n📁 Tu carpeta en la nube (ahí vas a tener todos tus archivos):\n' + String(c.carpeta).trim() : '');
   // con teléfono, el WhatsApp va directo a su chat; sin teléfono, elegís el contacto
 const telNum = c => { const d = String(c.telefono || '').replace(/[^0-9]/g, ''); return d.length >= 8 ? d : ''; };
   const waUrl = c => 'https://wa.me/' + telNum(c) + '?text=' + encodeURIComponent(bienvenida(c));
